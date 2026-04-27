@@ -31,6 +31,9 @@
   );
   mobOverlay && mobOverlay.addEventListener('click', closeMenu);
 
+  const mobClose = document.getElementById('mob-close');
+  mobClose && mobClose.addEventListener('click', closeMenu);
+
   /* close menu on nav link click (mobile) */
   mobNav && mobNav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
 
@@ -62,7 +65,7 @@
   const backTop = document.getElementById('back-top');
   if (backTop) {
     window.addEventListener('scroll', () =>
-      backTop.classList.toggle('show', window.scrollY > 400), { passive: true }
+      backTop.classList.toggle('visible', window.scrollY > 400), { passive: true }
     );
     backTop.addEventListener('click', () =>
       window.scrollTo({ top: 0, behavior: 'smooth' })

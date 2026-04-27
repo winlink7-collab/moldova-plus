@@ -40,7 +40,7 @@ $results = array_values(array_filter($PACKAGES, fn($p) => in_array($p['type'], $
 <!-- Why Chisinau for bachelor -->
 <section class="section" style="padding-bottom:0">
   <div class="container">
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:48px">
+    <div class="perks-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:48px">
       <?php
       $perks = [
         ['icon'=>'✈️','he'=>'טיסה ישירה 3 שעות','en'=>'3h direct flight'],
