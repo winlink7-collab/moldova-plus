@@ -227,13 +227,13 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
 </section>
 
 <!-- ══ PROMO STRIP ════════════════════════════════════════════ -->
-<section class="section" style="padding-top:0">
-  <div class="container reveal">
+<section class="section" style="padding-top:0;padding-bottom:32px">
+  <div class="container">
     <div class="promo-strip">
       <div class="promo-bg"></div>
       <div class="promo-orb" style="width:300px;height:300px;top:-80px;right:-80px"></div>
       <div class="promo-orb" style="width:200px;height:200px;bottom:-60px;left:30%"></div>
-      <div>
+      <div style="position:relative;z-index:1">
         <h3>
           <span class="he">מועדון Moldova Plus — הצטרפו חינם</span>
           <span class="en">Moldova Plus Club — join free</span>
@@ -243,9 +243,9 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
           <span class="en">5% off every booking, early access to new packages and a birthday perk. No membership fee.</span>
         </p>
       </div>
-      <a href="#" class="btn">
-        <span class="he">הצטרפו עכשיו</span>
-        <span class="en">Join now</span>
+      <a href="#" class="btn btn-cta" style="position:relative;z-index:1">
+        <span class="he">הצטרפו עכשיו ←</span>
+        <span class="en">Join now →</span>
       </a>
     </div>
   </div>
