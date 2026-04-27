@@ -41,7 +41,7 @@ $T = [
 
 // ─── Quick categories ────────────────────────────────────────────────────────
 $QUICK_CATS = [
-  ['id'=>'couples','he'=>'חבילות זוגיות','en'=>'Couples',   'ic'=>'sparkles'],
+  ['id'=>'couples','he'=>'זוגי & ירח דבש','en'=>'Couples & Honeymoon','ic'=>'sparkles'],
   ['id'=>'bach',   'he'=>'מסיבות רווקים','en'=>'Bachelor',  'ic'=>'glass'],
   ['id'=>'lux',    'he'=>'יוקרה',        'en'=>'Luxury',    'ic'=>'badge'],
   ['id'=>'wine',   'he'=>'יקבים',        'en'=>'Wineries',  'ic'=>'wine'],
@@ -108,6 +108,13 @@ $PACKAGES = [
     'loc_he'=>'קישינב + סביבה','loc_en'=>'Chișinău area',
     'desc_he'=>'3 ימים של אדרנלין מטורף — קארטינג מקצועי, רכבי שטח בשטח פתוח, אימון ירי ופעילויות לבחירה.',
     'desc_en'=>'3 days of pure adrenaline — professional karting, ATV off-road, shooting range and activities of your choice.',
+  ],
+  [
+    'id'=>9,'type'=>'couples','price'=>1090,'discount'=>18,'nights'=>6,'people_he'=>'2 אורחים','people_en'=>'2 guests','rating'=>'9.9','tag_he'=>'ירח דבש','tag_en'=>'Honeymoon','status'=>'now','scene'=>'honey',
+    'title_he'=>'חבילת ירח דבש — חוויה בלתי נשכחת','title_en'=>'Honeymoon Package — Unforgettable Experience',
+    'loc_he'=>'קישינב — סוויטה רומנטית + יקב','loc_en'=>'Chișinău — Romantic suite + Winery',
+    'desc_he'=>'6 לילות קסומים — סוויטת ירח דבש עם ג׳קוזי פרטי, ארוחות רומנטיות לאור נרות, עיסוי זוגי ספא וטיול יין ביקב Castel Mimi. כולל שמפניה, עיטור חדר ופרחים בהגעה.',
+    'desc_en'=>'6 magical nights — honeymoon suite with private jacuzzi, candlelit dinners, couples spa massage and a wine tour at Castel Mimi. Includes champagne, room decoration and flowers on arrival.',
   ],
 ];
 

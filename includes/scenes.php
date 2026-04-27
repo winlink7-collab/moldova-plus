@@ -1,12 +1,24 @@
 <?php
-// SVG scene illustrations — called as scene_img($kind)
-// Each scene uses CSS gradient on container + SVG overlay for silhouettes.
-// No <defs> gradient IDs used inside SVG to avoid document-scope conflicts.
+// Scene images — real Unsplash photos for cards, SVG for hero sections.
+
+// Photo map per scene type
+function scene_photos(): array {
+    return [
+        'warm'  => 'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&w=700&h=460&q=80',
+        'gold'  => 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=700&h=460&q=80',
+        'green' => 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=700&h=460&q=80',
+        'dark'  => 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=700&h=460&q=80',
+        'blue'  => 'https://images.unsplash.com/photo-1551882547-ff40c4a49587?auto=format&fit=crop&w=700&h=460&q=80',
+        'light' => 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=700&h=460&q=80',
+        'honey' => 'https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=700&h=460&q=80',
+        'city'  => 'https://images.unsplash.com/photo-1499678329028-101435549a4e?auto=format&fit=crop&w=700&h=460&q=80',
+    ];
+}
 
 function scene_img(string $kind, string $cls = ''): string {
-    $fn = 'scene_' . $kind;
-    if (!function_exists($fn)) $fn = 'scene_dark';
-    return "<div class=\"scene-img {$kind} {$cls}\">" . $fn() . '</div>';
+    $photos = scene_photos();
+    $url = $photos[$kind] ?? $photos['dark'];
+    return "<div class=\"scene-img {$kind} {$cls}\"><img src=\"" . htmlspecialchars($url) . "\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover;display:block;\"></div>";
 }
 
 // ── WARM — Sunset vineyard ───────────────────────────────────────────────────
