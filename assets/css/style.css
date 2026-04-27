@@ -880,6 +880,7 @@ body.en .card-nights { right: auto; left: 12px; }
   margin: 0 auto;
   overflow: hidden;
   color: #fff;
+  background: linear-gradient(100deg, #002870 0%, #0046ae 38%, rgba(0,0,0,.55) 62%, #9a0a1c 100%);
 }
 .promo-bg {
   position: absolute;
@@ -888,12 +889,14 @@ body.en .card-nights { right: auto; left: 12px; }
   z-index: 0;
 }
 .promo-orb {
-  position: absolute;
   border-radius: 50%;
   background: rgba(255,255,255,.08);
   pointer-events: none;
 }
+/* Re-override absolute positioning for bg/orb after the generic rule */
 .promo-strip > * { position: relative; z-index: 1; }
+.promo-strip > .promo-bg { position: absolute; inset: 0; z-index: 0; }
+.promo-strip > .promo-orb { position: absolute; z-index: 0; }
 .promo-strip h3 { font-size: 28px; font-weight: 800; margin: 0 0 10px; letter-spacing: -.01em; }
 .promo-strip p  { font-size: 15px; margin: 0; opacity: .92; max-width: 52ch; line-height: 1.55; }
 .promo-strip .btn {
