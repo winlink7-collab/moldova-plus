@@ -1,7 +1,44 @@
 <?php
 require_once __DIR__ . '/includes/auth.php';
 mp_admin_check();
-require_once __DIR__ . '/../includes/data.php';
+
+$msg = ''; $error = '';
+
+$reviews = mp_read_json('reviews.json');
+
+// --- DELETE ---
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delete' && mp_csrf_verify()) {
+    $id = (int)($_POST['id'] ?? 0);
+    $reviews = array_values(array_filter($reviews, fn($r) => (int)$r['id'] !== $id));
+    mp_write_json('reviews.json', $reviews) ? $msg = 'הביקורת נמחקה.' : $error = 'שגיאה במחיקה.';
+    $reviews = mp_read_json('reviews.json');
+}
+
+// --- SAVE (add or edit) ---
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'save' && mp_csrf_verify()) {
+    $id      = (int)($_POST['id'] ?? 0);
+    $entry = [
+        'id'       => $id ?: (count($reviews) ? max(array_column($reviews,'id')) + 1 : 1),
+        'name_he'  => trim($_POST['name_he'] ?? ''),
+        'place_he' => trim($_POST['place_he'] ?? ''),
+        'body_he'  => trim($_POST['body_he'] ?? ''),
+        'stars'    => max(1, min(5, (int)($_POST['stars'] ?? 5))),
+        'when'     => trim($_POST['when'] ?? date('d.m.Y')),
+        'initials' => mb_substr(trim($_POST['name_he'] ?? ''), 0, 1),
+        'color'    => trim($_POST['color'] ?? '#0046ae'),
+    ];
+    if ($id) {
+        foreach ($reviews as &$r) { if ((int)$r['id'] === $id) { $r = $entry; break; } }
+        unset($r);
+    } else {
+        $reviews[] = $entry;
+    }
+    mp_write_json('reviews.json', array_values($reviews)) ? $msg = 'נשמר בהצלחה!' : $error = 'שגיאה בשמירה.';
+    $reviews = mp_read_json('reviews.json');
+}
+
+$edit_id = (int)($_GET['edit'] ?? 0);
+$edit = $edit_id ? (array_values(array_filter($reviews, fn($r) => (int)$r['id'] === $edit_id))[0] ?? null) : null;
 ?>
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
@@ -16,49 +53,107 @@ require_once __DIR__ . '/../includes/data.php';
 <div class="admin-layout">
   <?php include __DIR__ . '/includes/sidebar.php'; ?>
   <main class="admin-main">
-    <div class="admin-topbar"><div><h1>ביקורות</h1><p>ביקורות הלקוחות שמוצגות בעמוד הבית</p></div></div>
+    <div class="admin-topbar">
+      <div><h1>ביקורות</h1><p>ניהול ביקורות המוצגות בעמוד הבית</p></div>
+      <a href="reviews.php?edit=new" class="btn-admin primary">+ הוסף ביקורת</a>
+    </div>
     <div class="admin-content">
-      <div class="stats-row" style="grid-template-columns:repeat(3,1fr)">
-        <div class="stat-box">
-          <div class="stat-ic yel"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-          <div><div class="stat-val">4.9</div><div class="stat-label">דירוג ממוצע</div></div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-ic blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-          <div><div class="stat-val">4,247</div><div class="stat-label">סך ביקורות</div></div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-ic green"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
-          <div><div class="stat-val"><?= count($REVIEWS) ?></div><div class="stat-label">מוצגות באתר</div></div>
+
+      <?php if ($msg): ?><div class="alert success"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg><?= htmlspecialchars($msg) ?></div><?php endif; ?>
+      <?php if ($error): ?><div class="alert error"><?= htmlspecialchars($error) ?></div><?php endif; ?>
+
+      <!-- Add / Edit form -->
+      <?php if (isset($_GET['edit'])): ?>
+      <div class="admin-card" style="margin-bottom:20px">
+        <div class="card-head"><h2><?= $edit ? 'עריכת ביקורת' : 'הוסף ביקורת חדשה' ?></h2></div>
+        <div class="card-body" style="padding:20px">
+          <form method="POST">
+            <input type="hidden" name="csrf" value="<?= htmlspecialchars(mp_csrf()) ?>">
+            <input type="hidden" name="action" value="save">
+            <input type="hidden" name="id" value="<?= $edit ? $edit['id'] : 0 ?>">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+              <div class="form-group">
+                <label>שם הלקוח</label>
+                <input type="text" name="name_he" value="<?= htmlspecialchars($edit['name_he'] ?? '') ?>" placeholder="דניאל ב׳" required>
+              </div>
+              <div class="form-group">
+                <label>שם החבילה / חוויה</label>
+                <input type="text" name="place_he" value="<?= htmlspecialchars($edit['place_he'] ?? '') ?>" placeholder="מסיבת רווקים אולטימטיבית" required>
+              </div>
+              <div class="form-group">
+                <label>דירוג (כוכבים)</label>
+                <select name="stars">
+                  <?php for($s=5;$s>=1;$s--): ?>
+                  <option value="<?= $s ?>" <?= ($edit['stars'] ?? 5)==$s?'selected':'' ?>><?= str_repeat('★',$s) ?> (<?= $s ?>)</option>
+                  <?php endfor; ?>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>תאריך</label>
+                <input type="text" name="when" value="<?= htmlspecialchars($edit['when'] ?? date('d.m.Y')) ?>" placeholder="18.04.2026">
+              </div>
+              <div class="form-group">
+                <label>צבע אווטאר</label>
+                <input type="color" name="color" value="<?= htmlspecialchars($edit['color'] ?? '#0046ae') ?>" style="height:42px;padding:4px 8px;cursor:pointer">
+              </div>
+            </div>
+            <div class="form-group" style="margin-top:4px">
+              <label>תוכן הביקורת</label>
+              <textarea name="body_he" rows="3" placeholder="כתבו את הביקורת כאן..." required><?= htmlspecialchars($edit['body_he'] ?? '') ?></textarea>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:4px">
+              <button type="submit" class="btn-admin primary">שמור</button>
+              <a href="reviews.php" class="btn-admin ghost">ביטול</a>
+            </div>
+          </form>
         </div>
       </div>
+      <?php endif; ?>
 
+      <!-- Reviews table -->
       <div class="admin-card">
-        <div class="card-head"><div><h2>ביקורות מוצגות</h2></div></div>
+        <div class="card-head">
+          <div><h2>כל הביקורות</h2><p><?= count($reviews) ?> ביקורות מוצגות באתר</p></div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="stat-ic yel" style="width:32px;height:32px;border-radius:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+            <span style="font-weight:700;font-size:15px">4.9 ממוצע</span>
+          </div>
+        </div>
         <table class="admin-table">
-          <thead><tr><th>שם</th><th>מקום</th><th>דירוג</th><th>ביקורת</th></tr></thead>
+          <thead><tr><th>לקוח</th><th>חבילה</th><th>דירוג</th><th>ביקורת</th><th>תאריך</th><th></th></tr></thead>
           <tbody>
-            <?php foreach ($REVIEWS as $r): ?>
+            <?php foreach ($reviews as $r): ?>
             <tr>
               <td>
                 <div style="display:flex;align-items:center;gap:10px">
-                  <span style="width:32px;height:32px;border-radius:50%;background:<?= $r['color'] ?>;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0"><?= $r['initials'] ?></span>
+                  <span style="width:32px;height:32px;border-radius:50%;background:<?= htmlspecialchars($r['color']) ?>;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0"><?= htmlspecialchars($r['initials']) ?></span>
                   <b><?= htmlspecialchars($r['name_he']) ?></b>
                 </div>
               </td>
               <td><?= htmlspecialchars($r['place_he']) ?></td>
-              <td><?= str_repeat('★', $r['stars']) ?></td>
-              <td style="font-size:13px;max-width:300px"><?= htmlspecialchars(mb_strimwidth($r['body_he'], 0, 80, '...')) ?></td>
+              <td><?= str_repeat('★', (int)$r['stars']) ?></td>
+              <td style="font-size:13px;max-width:260px;color:var(--ink-soft)"><?= htmlspecialchars(mb_strimwidth($r['body_he'], 0, 70, '...')) ?></td>
+              <td style="white-space:nowrap;color:var(--ink-mute);font-size:12px"><?= htmlspecialchars($r['when']) ?></td>
+              <td>
+                <div style="display:flex;gap:6px">
+                  <a href="reviews.php?edit=<?= $r['id'] ?>" class="btn-admin ghost sm">ערוך</a>
+                  <form method="POST" style="display:inline" onsubmit="return confirm('למחוק ביקורת זו?')">
+                    <input type="hidden" name="csrf" value="<?= htmlspecialchars(mp_csrf()) ?>">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="id" value="<?= $r['id'] ?>">
+                    <button type="submit" class="btn-admin ghost sm" style="color:var(--red)">מחק</button>
+                  </form>
+                </div>
+              </td>
             </tr>
             <?php endforeach; ?>
+            <?php if (!$reviews): ?>
+            <tr><td colspan="6" style="text-align:center;color:var(--ink-mute);padding:32px">אין ביקורות. הוסף ביקורת ראשונה.</td></tr>
+            <?php endif; ?>
           </tbody>
         </table>
       </div>
-      <div class="admin-card" style="margin-top:16px">
-        <div class="card-body" style="padding:16px 20px">
-          <p style="font-size:13px;color:var(--ink-mute);margin:0">לעריכת ביקורות — יש לערוך את הקובץ <code>includes/data.php</code> ישירות.</p>
-        </div>
-      </div>
+
     </div>
   </main>
 </div>

@@ -2,5 +2,13 @@
   "whatsapp": "972355501880",
   "phone": "035550188",
   "email": "hello@moldovaplus.com",
-  "site_name": "Moldova Plus"
+  "site_name": "Moldova Plus",
+  "address_he": "רחוב הברזל 3, תל אביב–יפו, קומה 4",
+  "address_en": "3 HaBarzel St, Tel Aviv–Yafo, Floor 4",
+  "hours_sun_thu": "09:00 – 20:00",
+  "hours_fri": "09:00 – 14:00",
+  "stat_years": "8+",
+  "stat_packages": "1,200+",
+  "stat_customers": "15,000+",
+  "stat_rating": "4.9"
 }

@@ -4,6 +4,13 @@ require_once 'includes/data.php';
 require_once 'includes/scenes.php';
 
 [$lang, $t] = page_init('about');
+
+$_sf = __DIR__ . '/data/settings.json';
+$_S  = file_exists($_sf) ? (json_decode(file_get_contents($_sf), true) ?? []) : [];
+$_stat_years     = $_S['stat_years']     ?? '8+';
+$_stat_packages  = $_S['stat_packages']  ?? '1,200+';
+$_stat_customers = $_S['stat_customers'] ?? '15,000+';
+$_stat_rating    = $_S['stat_rating']    ?? '4.9';
 $page = 'about';
 
 page_head(
@@ -37,19 +44,19 @@ page_head(
   <div class="container">
     <div class="stats-grid">
       <div class="stat-card reveal">
-        <div class="stat-num">8+</div>
+        <div class="stat-num"><?= htmlspecialchars($_stat_years) ?></div>
         <div class="stat-label"><span class="he">שנות פעילות</span><span class="en">Years active</span></div>
       </div>
       <div class="stat-card reveal d1">
-        <div class="stat-num">1,200+</div>
+        <div class="stat-num"><?= htmlspecialchars($_stat_packages) ?></div>
         <div class="stat-label"><span class="he">חבילות נמכרו</span><span class="en">Packages sold</span></div>
       </div>
       <div class="stat-card reveal d2">
-        <div class="stat-num">15,000+</div>
+        <div class="stat-num"><?= htmlspecialchars($_stat_customers) ?></div>
         <div class="stat-label"><span class="he">לקוחות מרוצים</span><span class="en">Happy customers</span></div>
       </div>
       <div class="stat-card reveal d3">
-        <div class="stat-num">4.9</div>
+        <div class="stat-num"><?= htmlspecialchars($_stat_rating) ?></div>
         <div class="stat-label"><span class="he">דירוג ממוצע</span><span class="en">Average rating</span></div>
       </div>
     </div>

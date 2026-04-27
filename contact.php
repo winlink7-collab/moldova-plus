@@ -3,6 +3,16 @@ require_once 'includes/functions.php';
 require_once 'includes/data.php';
 
 [$lang, $t] = page_init('contact');
+
+$_sf = __DIR__ . '/data/settings.json';
+$_S  = file_exists($_sf) ? (json_decode(file_get_contents($_sf), true) ?? []) : [];
+$_wa      = $_S['whatsapp']    ?? '972355501880';
+$_phone   = $_S['phone']       ?? '035550188';
+$_email   = $_S['email']       ?? 'hello@moldovaplus.com';
+$_addr_he = $_S['address_he']  ?? 'רחוב הברזל 3, תל אביב–יפו, קומה 4';
+$_addr_en = $_S['address_en']  ?? '3 HaBarzel St, Tel Aviv–Yafo, Floor 4';
+$_h_sun   = $_S['hours_sun_thu'] ?? '09:00 – 20:00';
+$_h_fri   = $_S['hours_fri']   ?? '09:00 – 14:00';
 $page = 'contact';
 
 page_head(
@@ -39,33 +49,33 @@ page_head(
       <!-- Info cards -->
       <div class="contact-info-cards">
 
-        <a href="https://wa.me/972355501880" target="_blank" rel="noopener" class="ci-card reveal">
+        <a href="https://wa.me/<?= htmlspecialchars($_wa) ?>" target="_blank" rel="noopener" class="ci-card reveal">
           <div class="ci-ic" style="background:#dcfce7;color:#16a34a">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.554 4.124 1.525 5.858L.057 23.5l5.797-1.516A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.663-.49-5.207-1.348l-.374-.218-3.44.9.924-3.35-.239-.386A9.955 9.955 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
           </div>
           <div>
             <b><span class="he">וואטסאפ</span><span class="en">WhatsApp</span></b>
-            <span><span class="he">הדרך המהירה ביותר — +972 35-550-1880</span><span class="en">Fastest way to reach us — +972 35-550-1880</span></span>
+            <span><span class="he">הדרך המהירה ביותר — +<?= htmlspecialchars($_wa) ?></span><span class="en">Fastest way to reach us — +<?= htmlspecialchars($_wa) ?></span></span>
           </div>
         </a>
 
-        <a href="tel:+97235550188" class="ci-card reveal d1">
+        <a href="tel:+<?= htmlspecialchars($_phone) ?>" class="ci-card reveal d1">
           <div class="ci-ic" style="background:var(--flag-blue-pale);color:var(--flag-blue)">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7l.8 4a2 2 0 0 1-.6 1.9L7.6 11.4a16 16 0 0 0 6 6l1.8-1.7a2 2 0 0 1 1.9-.6l4 .8a2 2 0 0 1 1.7 2z"/></svg>
           </div>
           <div>
             <b><span class="he">טלפון</span><span class="en">Phone</span></b>
-            <span><span class="he">03-555-0188 | א'–ה' 09:00–20:00</span><span class="en">03-555-0188 | Sun–Thu 09:00–20:00</span></span>
+            <span><?= htmlspecialchars($_phone) ?> | <span class="he">א'–ה' <?= htmlspecialchars($_h_sun) ?></span><span class="en">Sun–Thu <?= htmlspecialchars($_h_sun) ?></span></span>
           </div>
         </a>
 
-        <a href="mailto:hello@moldovaplus.com" class="ci-card reveal d2">
+        <a href="mailto:<?= htmlspecialchars($_email) ?>" class="ci-card reveal d2">
           <div class="ci-ic" style="background:#fefce8;color:#b45309">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
           </div>
           <div>
             <b><span class="he">אימייל</span><span class="en">Email</span></b>
-            <span>hello@moldovaplus.com</span>
+            <span><?= htmlspecialchars($_email) ?></span>
           </div>
         </a>
 
@@ -75,7 +85,7 @@ page_head(
           </div>
           <div>
             <b><span class="he">כתובת</span><span class="en">Address</span></b>
-            <span><span class="he">רחוב הברזל 3, תל אביב–יפו, קומה 4</span><span class="en">3 HaBarzel St, Tel Aviv–Yafo, Floor 4</span></span>
+            <span><span class="he"><?= htmlspecialchars($_addr_he) ?></span><span class="en"><?= htmlspecialchars($_addr_en) ?></span></span>
           </div>
         </div>
 
@@ -87,11 +97,11 @@ page_head(
           </h4>
           <div class="hours-row">
             <span><span class="he">ראשון–חמישי</span><span class="en">Sun–Thu</span></span>
-            <b>09:00 – 20:00</b>
+            <b><?= htmlspecialchars($_h_sun) ?></b>
           </div>
           <div class="hours-row">
             <span><span class="he">שישי</span><span class="en">Friday</span></span>
-            <b>09:00 – 14:00</b>
+            <b><?= htmlspecialchars($_h_fri) ?></b>
           </div>
           <div class="hours-row">
             <span><span class="he">שבת</span><span class="en">Saturday</span></span>

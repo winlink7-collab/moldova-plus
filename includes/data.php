@@ -129,24 +129,8 @@ $REGIONS = [
 ];
 
 // ─── Reviews ─────────────────────────────────────────────────────────────────
-$REVIEWS = [
-  ['place_he'=>'מסיבת רווקים אולטימטיבית','place_en'=>'Bachelor Party',
-   'body_he'=>'יצאנו לחגיגה של החבר הכי טוב — הכל אורגן בצורה מושלמת. הוילה הייתה מטורפת, השף מעולה והליווי בלילה היה מקצועי. ממליץ בחום.',
-   'body_en'=>'Organized to perfection. Wild villa, top chef, and a pro local fixer all night. Highly recommended.',
-   'name_he'=>'דניאל ב׳','name_en'=>'Daniel B.','stars'=>5,'when'=>'18.04.2026','initials'=>'ד','color'=>'#cc1126'],
-  ['place_he'=>'מסע יקבים','place_en'=>'Wine Trail',
-   'body_he'=>'Mileștii Mici היה חוויה מטריפה — 200 ק"מ של מנהרות יין מתחת לאדמה. הסיור באנגלית, ארוחת ערב היין הייתה ברמה של מישלן.',
-   'body_en'=>'Mileștii Mici is mind-blowing — 200km of underground tunnels. Wine pairing dinner was Michelin-level.',
-   'name_he'=>'מיכל ל׳','name_en'=>'Michal L.','stars'=>5,'when'=>'12.04.2026','initials'=>'מ','color'=>'#0046ae'],
-  ['place_he'=>'יוקרה — Radisson Blu','place_en'=>'Luxury — Radisson Blu',
-   'body_he'=>'הסוויטה הייתה ענקית, השירות בלתי רגיל. מולדובה הפתיעה אותנו לטובה — נחזור בטוח.',
-   'body_en'=>'Massive suite, exceptional service. Moldova was a wonderful surprise — definitely returning.',
-   'name_he'=>'אורן ש׳','name_en'=>'Oren S.','stars'=>5,'when'=>'09.04.2026','initials'=>'א','color'=>'#2e9b5e'],
-  ['place_he'=>'חבילת רומנטיקה','place_en'=>'Romance Package',
-   'body_he'=>'יום הולדת לאשתי, רצינו משהו שונה — קיבלנו חוויה אינטימית עם כל הפינוקים. שווה כל אגורה.',
-   'body_en'=>"My wife's birthday — wanted something different. Intimate experience with every detail handled. Worth every euro.",
-   'name_he'=>'יואב ק׳','name_en'=>'Yoav K.','stars'=>5,'when'=>'05.04.2026','initials'=>'י','color'=>'#ffd400'],
-];
+$_reviews_file = __DIR__ . '/../data/reviews.json';
+$REVIEWS = file_exists($_reviews_file) ? (json_decode(file_get_contents($_reviews_file), true) ?? []) : [];
 
 // ─── Articles ────────────────────────────────────────────────────────────────
 $ARTICLES = [

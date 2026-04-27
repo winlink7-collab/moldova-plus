@@ -57,9 +57,24 @@ page_head(
       </button>
     </div>
 
+    <?php
+    $_faq_file = __DIR__ . '/data/faq.json';
+    $_FAQS = file_exists($_faq_file) ? (json_decode(file_get_contents($_faq_file), true) ?? []) : [];
+    ?>
     <div class="faq-list">
 
-      <!-- BOOKING -->
+      <?php if ($_FAQS): foreach ($_FAQS as $_fi => $_fq): ?>
+      <div class="faq-item reveal <?= $_fi>0?'d'.min($_fi%3,2):'' ?>" data-cat="<?= htmlspecialchars($_fq['cat']) ?>">
+        <button class="faq-q">
+          <span class="he"><?= htmlspecialchars($_fq['q_he']) ?></span>
+          <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          <p><?= nl2br(htmlspecialchars($_fq['a_he'])) ?></p>
+        </div>
+      </div>
+      <?php endforeach; else: ?>
+      <!-- BOOKING (fallback static) -->
       <div class="faq-item reveal" data-cat="booking">
         <button class="faq-q">
           <span class="he">איך מזמינים חבילה?</span>
@@ -262,6 +277,7 @@ page_head(
         </div>
       </div>
 
+      <?php endif; ?>
     </div><!-- /faq-list -->
   </div>
 </section>
@@ -276,7 +292,8 @@ page_head(
         <h3><span class="he">לא מצאתם תשובה?</span><span class="en">Didn't find an answer?</span></h3>
         <p><span class="he">הצוות שלנו זמין בוואטסאפ ומשיב תוך דקות.</span><span class="en">Our team is available on WhatsApp and responds within minutes.</span></p>
       </div>
-      <a href="https://wa.me/972355501880" target="_blank" rel="noopener" class="btn btn-cta" style="position:relative;z-index:1">
+      <?php $_faq_sf=__DIR__.'/data/settings.json'; $_faq_wa=(file_exists($_faq_sf)?json_decode(file_get_contents($_faq_sf),true):[])['whatsapp']??'972355501880'; ?>
+      <a href="https://wa.me/<?= htmlspecialchars($_faq_wa) ?>" target="_blank" rel="noopener" class="btn btn-cta" style="position:relative;z-index:1">
         <span class="he">שלחו הודעה ←</span><span class="en">Send a message →</span>
       </a>
     </div>

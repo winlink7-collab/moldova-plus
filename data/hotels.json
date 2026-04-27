@@ -1,0 +1,8 @@
+[
+  { "id": 1, "name": "Nobil Luxury Boutique", "stars": 5, "price": 89, "rating": "9.8", "status": "פעיל" },
+  { "id": 2, "name": "Leogrand Hotel & Convention", "stars": 5, "price": 75, "rating": "9.6", "status": "פעיל" },
+  { "id": 3, "name": "Radisson Blu", "stars": 5, "price": 110, "rating": "9.7", "status": "פעיל" },
+  { "id": 4, "name": "Jolly Alon", "stars": 4, "price": 55, "rating": "9.2", "status": "פעיל" },
+  { "id": 5, "name": "Griff Hotel", "stars": 4, "price": 48, "rating": "9.0", "status": "פעיל" },
+  { "id": 6, "name": "Hotel Dacia", "stars": 3, "price": 32, "rating": "8.7", "status": "פעיל" }
+]
