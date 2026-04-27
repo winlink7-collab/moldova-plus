@@ -609,6 +609,15 @@ body.en .search-cell:first-child { border-right: 0; }
   inset: 0;
   overflow: hidden;
 }
+.scene-img img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .6s ease;
+}
 .scene-img svg {
   position: absolute;
   inset: 0;
@@ -639,15 +648,22 @@ body.en .search-cell:first-child { border-right: 0; }
   flex-direction: column;
   text-decoration: none;
   color: inherit;
+  /* flag stripe top border */
+  border-top: 3px solid var(--flag-blue);
 }
-.card:hover { transform: translateY(-5px); box-shadow: var(--sh-md); border-color: var(--flag-blue-soft); }
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 40px rgba(0,70,174,.15);
+  border-color: var(--flag-blue);
+  border-top-color: var(--flag-yel);
+}
 .card-img {
   position: relative;
   aspect-ratio: 4/3;
   overflow: hidden;
   background: var(--bg-2);
 }
-.card:hover .scene-img svg { transform: scale(1.04); transition: transform .6s ease; }
+.card:hover .scene-img img { transform: scale(1.06); transition: transform .6s ease; }
 .card-rating {
   position: absolute;
   top: 12px;
@@ -724,9 +740,12 @@ body.en .card-nights { right: auto; left: 12px; }
   padding-top: 14px;
   margin-top: auto;
   border-top: 1px solid var(--line-soft);
+  background: linear-gradient(to bottom, transparent, var(--flag-blue-pale));
+  margin: auto -18px -18px;
+  padding: 14px 18px 18px;
 }
 .card-price small { display: block; font-size: 11px; color: var(--ink-mute); font-weight: 500; }
-.card-price b { font-size: 22px; color: var(--ink); font-weight: 800; letter-spacing: -.01em; line-height: 1; }
+.card-price b { font-size: 22px; color: var(--flag-blue); font-weight: 800; letter-spacing: -.01em; line-height: 1; }
 .card-price b sub { font-size: 11px; color: var(--ink-mute); font-weight: 500; vertical-align: baseline; }
 .card-price .old { font-size: 12px; color: var(--ink-mute); text-decoration: line-through; display: block; margin-bottom: 2px; }
 .card-status {
@@ -738,8 +757,8 @@ body.en .card-nights { right: auto; left: 12px; }
   align-items: center;
   gap: 5px;
 }
-.card-status.now { background: #e8f6ed; color: var(--green); }
-.card-status.day { background: #fff5e6; color: #a86b00; }
+.card-status.now { background: var(--flag-blue-soft); color: var(--flag-blue); }
+.card-status.day { background: #fff9d6; color: #7a6000; }
 
 /* ── Promo strip ─────────────────────────────────────── */
 .promo-strip {
