@@ -181,6 +181,36 @@
     });
   });
 
+  /* ── FAQ accordion ───────────────────────────────────── */
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.closest('.faq-item');
+      const ans  = item.querySelector('.faq-a');
+      const open = q.classList.contains('open');
+      // close all
+      document.querySelectorAll('.faq-q.open').forEach(oq => {
+        oq.classList.remove('open');
+        oq.closest('.faq-item').querySelector('.faq-a').classList.remove('open');
+      });
+      if (!open) { q.classList.add('open'); ans.classList.add('open'); }
+    });
+  });
+
+  /* ── Contact form ─────────────────────────────────────── */
+  const contactForm = document.getElementById('contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const btn = contactForm.querySelector('button[type="submit"]');
+      const name  = contactForm.querySelector('[name="name"]')?.value || '';
+      const phone = contactForm.querySelector('[name="phone"]')?.value || '';
+      const msg   = contactForm.querySelector('[name="message"]')?.value || '';
+      const text  = encodeURIComponent(`שלום, שמי ${name} (${phone}).\n${msg}`);
+      window.open(`https://wa.me/972355501880?text=${text}`, '_blank');
+      if (btn) { btn.textContent = '✓ נשלח!'; btn.disabled = true; }
+    });
+  }
+
   /* ── Smooth anchor scroll ─────────────────────────────── */
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {

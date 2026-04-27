@@ -62,11 +62,11 @@
       <div>
         <h5><span class="he">מידע</span><span class="en">Info</span></h5>
         <ul>
-          <li><a href="#"><span class="he">אודות</span><span class="en">About</span></a></li>
-          <li><a href="#"><span class="he">שאלות נפוצות</span><span class="en">FAQ</span></a></li>
-          <li><a href="#"><span class="he">תקנון</span><span class="en">Terms</span></a></li>
-          <li><a href="#"><span class="he">מדיניות פרטיות</span><span class="en">Privacy</span></a></li>
-          <li><a href="#"><span class="he">צור קשר</span><span class="en">Contact</span></a></li>
+          <li><a href="about.php<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">אודות</span><span class="en">About</span></a></li>
+          <li><a href="faq.php<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">שאלות נפוצות</span><span class="en">FAQ</span></a></li>
+          <li><a href="terms.php<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">תקנון</span><span class="en">Terms</span></a></li>
+          <li><a href="privacy.php<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">מדיניות פרטיות</span><span class="en">Privacy</span></a></li>
+          <li><a href="contact.php<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">צור קשר</span><span class="en">Contact</span></a></li>
         </ul>
       </div>
 
