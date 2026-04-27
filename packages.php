@@ -1,0 +1,100 @@
+<?php
+require_once 'includes/functions.php';
+require_once 'includes/data.php';
+
+[$lang, $t] = page_init('packages');
+$page = 'packages';
+
+// Active type filter from URL
+$type = isset($_GET['type']) && in_array($_GET['type'], ['couples','bach','wine','lux','group','food','spa','adv'])
+    ? $_GET['type'] : 'all';
+
+page_head(
+    $lang==='he' ? 'חבילות נופש — Moldova Plus' : 'Travel Packages — Moldova Plus',
+    $lang==='he' ? 'כל החבילות שלנו במולדובה — מבוקרות, שקופות, באישור מיידי.' : 'All our Moldova packages — vetted, transparent, instant booking.',
+    $lang
+);
+?>
+<?php include 'includes/header.php'; ?>
+
+<!-- Banner -->
+<section class="page-banner">
+  <div class="container">
+    <div class="crumbs">
+      <a href="index.php<?= $lang==='en'?'?lang=en':'' ?>">
+        <span class="he">בית</span><span class="en">Home</span>
+      </a> /
+      <span class="cur he">חבילות נופש</span>
+      <span class="cur en">Travel Packages</span>
+    </div>
+    <h1>
+      <span class="he">חבילות <span>נופש</span></span>
+      <span class="en">Travel <span>Packages</span></span>
+    </h1>
+    <p>
+      <span class="he">כל החבילות שלנו במולדובה — מבוקרות, שקופות, באישור מיידי.</span>
+      <span class="en">All our Moldova packages — vetted, transparent, instant booking.</span>
+    </p>
+  </div>
+</section>
+
+<!-- Packages -->
+<section class="page-pad">
+  <div class="container">
+    <!-- Filter bar -->
+    <div class="filter-bar">
+      <?php
+      $filter_types = [
+        'all'     => ['he'=>'הכל',      'en'=>'All'],
+        'couples' => ['he'=>'זוגיות',   'en'=>'Couples'],
+        'bach'    => ['he'=>'רווקים',   'en'=>'Bachelor'],
+        'wine'    => ['he'=>'יקבים',    'en'=>'Wineries'],
+        'lux'     => ['he'=>'יוקרה',    'en'=>'Luxury'],
+        'group'   => ['he'=>'קבוצות',   'en'=>'Groups'],
+        'food'    => ['he'=>'גסטרו',    'en'=>'Gastro'],
+        'spa'     => ['he'=>'ספא',      'en'=>'Spa'],
+        'adv'     => ['he'=>'אדרנלין',  'en'=>'Adventure'],
+      ];
+      foreach ($filter_types as $fid => $fl): ?>
+      <a href="packages.php?type=<?= $fid ?><?= $lang==='en'?'&lang=en':'' ?>" class="filter-pill <?= $type===$fid?'active':'' ?>">
+        <span class="he"><?= $fl['he'] ?></span>
+        <span class="en"><?= htmlspecialchars($fl['en']) ?></span>
+      </a>
+      <?php endforeach; ?>
+
+      <!-- Sort -->
+      <select class="filter-sort" id="sort-select" onchange="sortCards(this.value)">
+        <option value="pop"><span class="he">מיון: פופולריות</span><span>Sort: Popular</span></option>
+        <option value="priceL">
+          <?= $lang==='he'?'מחיר: נמוך לגבוה':'Price: low to high' ?>
+        </option>
+        <option value="priceH">
+          <?= $lang==='he'?'מחיר: גבוה לנמוך':'Price: high to low' ?>
+        </option>
+        <option value="rating">
+          <?= $lang==='he'?'דירוג':'Rating' ?>
+        </option>
+      </select>
+
+      <?php
+      $filtered = $type === 'all' ? $PACKAGES : array_filter($PACKAGES, fn($p) => $p['type'] === $type);
+      $filtered = array_values($filtered);
+      ?>
+      <span class="filter-results">
+        <?= count($filtered) ?> <span class="he">תוצאות</span><span class="en">results</span>
+      </span>
+    </div>
+
+    <!-- Cards -->
+    <div class="card-grid" id="pkg-grid">
+      <?php foreach ($filtered as $p): ?>
+      <div class="card-wrap" data-type="<?= $p['type'] ?>" data-price="<?= $p['price'] ?>" data-rating="<?= $p['rating'] ?>">
+        <?= render_card($p, $lang, $t['nights'], $t['from']) ?>
+      </div>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</section>
+
+<?php include 'includes/footer.php'; ?>
+<?php page_foot(); ?>
