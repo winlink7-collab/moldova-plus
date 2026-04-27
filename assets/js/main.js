@@ -181,6 +181,25 @@
     });
   });
 
+  /* ── Deal countdown timer ────────────────────────────── */
+  const dealEl = document.getElementById('deal-countdown');
+  if (dealEl) {
+    // End of next Sunday 23:59:59
+    const now   = new Date();
+    const end   = new Date(now);
+    end.setDate(now.getDate() + (7 - now.getDay()));
+    end.setHours(23, 59, 59, 0);
+    function tickDeal() {
+      const diff = Math.max(0, end - new Date());
+      const h = String(Math.floor(diff / 3600000)).padStart(2, '0');
+      const m = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+      const s = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+      dealEl.textContent = `${h}:${m}:${s}`;
+    }
+    tickDeal();
+    setInterval(tickDeal, 1000);
+  }
+
   /* ── FAQ accordion ───────────────────────────────────── */
   document.querySelectorAll('.faq-q').forEach(q => {
     q.addEventListener('click', () => {
