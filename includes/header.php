@@ -62,10 +62,10 @@
         <span class="he"><?= $t['nav']['attractions'] ?></span>
         <span class="en"><?= htmlspecialchars($t['nav']['attractions']) ?></span>
       </a>
-      <a href="#" class="he">שוברי מתנה</a>
-      <a href="#" class="en">Gift cards</a>
-      <a href="#" class="he">בלוג</a>
-      <a href="#" class="en">Blog</a>
+      <a href="hotels.php<?= $lang==='en'?'?lang=en':'' ?>" class="<?= $page==='hotels'?'active':'' ?>">
+        <span class="he">מלונות בקישינב</span>
+        <span class="en">Hotels in Chișinău</span>
+      </a>
     </nav>
 
     <!-- Header tools -->
@@ -110,13 +110,9 @@
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
       <span class="he">אטרקציות</span><span class="en">Attractions</span>
     </a>
-    <a href="#">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
-      <span class="he">שוברי מתנה</span><span class="en">Gift cards</span>
-    </a>
-    <a href="#">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-      <span class="he">בלוג</span><span class="en">Blog</span>
+    <a href="hotels.php<?= $lang==='en'?'?lang=en':'' ?>" class="<?= $page==='hotels'?'active':'' ?>">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22V8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14"/><path d="M2 22h20"/><path d="M9 22v-6h6v6"/><rect x="9" y="8" width="2" height="3"/><rect x="13" y="8" width="2" height="3"/></svg>
+      <span class="he">מלונות בקישינב</span><span class="en">Hotels in Chișinău</span>
     </a>
   </nav>
   <div class="mob-nav-footer">
