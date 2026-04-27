@@ -101,7 +101,11 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
     <div class="search-bar">
       <div class="search-cell" onclick="location.href='packages.php<?= $lang==='en'?'?lang=en':'' ?>'">
         <span class="sc-ic">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-7 7-12a7 7 0 1 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="var(--flag-blue)" opacity=".18"/>
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="var(--flag-blue)" stroke-width="1.8" fill="none"/>
+            <circle cx="12" cy="9" r="2.5" fill="var(--flag-blue)"/>
+          </svg>
         </span>
         <div class="sc-col">
           <label><?= htmlspecialchars($t['search']['where']) ?></label>
@@ -110,7 +114,15 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
       </div>
       <div class="search-cell">
         <span class="sc-ic">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="5" width="18" height="16" rx="3" fill="var(--flag-blue)" opacity=".12"/>
+            <rect x="3" y="5" width="18" height="16" rx="3" stroke="var(--flag-blue)" stroke-width="1.8" fill="none"/>
+            <path d="M3 10h18" stroke="var(--flag-blue)" stroke-width="1.8"/>
+            <path d="M8 3v4M16 3v4" stroke="var(--flag-blue)" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="8" cy="15" r="1.2" fill="var(--flag-blue)"/>
+            <circle cx="12" cy="15" r="1.2" fill="var(--flag-blue)"/>
+            <circle cx="16" cy="15" r="1.2" fill="var(--flag-blue)"/>
+          </svg>
         </span>
         <div class="sc-col">
           <label><?= htmlspecialchars($t['search']['when']) ?></label>
@@ -119,7 +131,13 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
       </div>
       <div class="search-cell">
         <span class="sc-ic">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15 20a5 5 0 0 1 6.5-4.7"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="8" cy="8" r="3.5" fill="var(--flag-blue)" opacity=".2"/>
+            <circle cx="8" cy="8" r="3.5" stroke="var(--flag-blue)" stroke-width="1.8" fill="none"/>
+            <path d="M2 20c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="var(--flag-blue)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+            <circle cx="17" cy="9" r="2.5" stroke="var(--flag-blue)" stroke-width="1.6" fill="none"/>
+            <path d="M14.5 19.5c0-2.5 2-4.5 4.5-4.5" stroke="var(--flag-blue)" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+          </svg>
         </span>
         <div class="sc-col">
           <label><?= htmlspecialchars($t['search']['who']) ?></label>
@@ -128,7 +146,10 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
       </div>
       <div class="search-cell">
         <span class="sc-ic">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6L12 2z" fill="var(--flag-yel)" opacity=".6"/>
+            <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6L12 2z" stroke="var(--flag-blue)" stroke-width="1.6" fill="none" stroke-linejoin="round"/>
+          </svg>
         </span>
         <div class="sc-col">
           <label><?= htmlspecialchars($t['search']['type']) ?></label>
@@ -136,7 +157,7 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
         </div>
       </div>
       <a href="packages.php<?= $lang==='en'?'?lang=en':'' ?>" class="search-go">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></svg>
         <?= htmlspecialchars($t['search']['go']) ?>
       </a>
     </div>
@@ -335,14 +356,63 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
 // Helper for quick-category icons
 function qc_icon(string $name): string {
     $icons = [
-        'sparkles' => '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/></svg>',
-        'glass'    => '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14l-2 9a5 5 0 0 1-10 0L5 3z"/><path d="M12 17v4M8 21h8"/></svg>',
-        'badge'    => '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M9 14l-2 7 5-3 5 3-2-7"/></svg>',
-        'wine'     => '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8v4a4 4 0 0 1-8 0V3z"/><path d="M12 11v8M9 21h6"/></svg>',
-        'spa'      => '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c2 4 6 5 6 9 0 4-3 6-6 6s-6-2-6-6c0-4 4-5 6-9z"/></svg>',
-        'plane'    => '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16l-8-3.5V5a2 2 0 1 0-4 0v7.5L2 16v2l8-2v5l-2 1.5V24l4-1 4 1v-1.5L14 21v-5l8 2v-2z"/></svg>',
-        'people'   => '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15 20a5 5 0 0 1 6.5-4.7"/></svg>',
-        'mountain' => '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20l6-10 4 6 4-7 4 11H3z"/></svg>',
+        'sparkles' => '<svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 4l2.5 7.5L26 14l-7.5 2.5L16 24l-2.5-7.5L6 14l7.5-2.5L16 4z" fill="#ffd400" stroke="#0046ae" stroke-width="1.5" stroke-linejoin="round"/>
+          <circle cx="7" cy="7" r="2" fill="#cc1126" opacity=".7"/>
+          <circle cx="25" cy="25" r="1.5" fill="#0046ae" opacity=".6"/>
+        </svg>',
+
+        'glass' => '<svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 4h16l-2.5 11A5.5 5.5 0 0 1 10.5 15L8 4z" fill="#cc1126" opacity=".18"/>
+          <path d="M8 4h16l-2.5 11A5.5 5.5 0 0 1 10.5 15L8 4z" stroke="#cc1126" stroke-width="1.8" stroke-linejoin="round" fill="none"/>
+          <line x1="16" y1="15" x2="16" y2="24" stroke="#cc1126" stroke-width="2" stroke-linecap="round"/>
+          <rect x="11" y="24" width="10" height="2.5" rx="1.25" fill="#cc1126" opacity=".5"/>
+          <ellipse cx="16" cy="10" rx="4" ry="1.5" fill="#cc1126" opacity=".25"/>
+        </svg>',
+
+        'badge' => '<svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 3l3 5 6 1-4.5 4 1 6L16 16l-5.5 3 1-6L7 9l6-1 3-5z" fill="#ffd400" stroke="#0046ae" stroke-width="1.5" stroke-linejoin="round"/>
+          <circle cx="16" cy="10" r="3" fill="#0046ae" opacity=".3"/>
+          <path d="M12 20l-2 8 6-3.5 6 3.5-2-8" stroke="#0046ae" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>',
+
+        'wine' => '<svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11 4h10v5a5 5 0 0 1-10 0V4z" fill="#5a1a6b" opacity=".2"/>
+          <path d="M11 4h10v5a5 5 0 0 1-10 0V4z" stroke="#5a1a6b" stroke-width="1.8" stroke-linejoin="round" fill="none"/>
+          <ellipse cx="16" cy="11" rx="3.5" ry="1.2" fill="#5a1a6b" opacity=".3"/>
+          <line x1="16" y1="14" x2="16" y2="24" stroke="#5a1a6b" stroke-width="2" stroke-linecap="round"/>
+          <rect x="11" y="24" width="10" height="2.5" rx="1.25" fill="#5a1a6b" opacity=".5"/>
+          <path d="M11 7.5 Q14 9 17 7.5" stroke="#fff" stroke-width="1" opacity=".5" fill="none"/>
+        </svg>',
+
+        'spa' => '<svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 4c2 5 7 7 7 12 0 4.5-3.1 7-7 7s-7-2.5-7-7c0-5 5-7 7-12z" fill="#2e9b5e" opacity=".2"/>
+          <path d="M16 4c2 5 7 7 7 12 0 4.5-3.1 7-7 7s-7-2.5-7-7c0-5 5-7 7-12z" stroke="#2e9b5e" stroke-width="1.8" stroke-linejoin="round" fill="none"/>
+          <path d="M12 19c1.5-2 4-2.5 4-2.5s2.5.5 4 2.5" stroke="#2e9b5e" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+          <ellipse cx="16" cy="27" rx="5" ry="1.2" fill="#2e9b5e" opacity=".2"/>
+        </svg>',
+
+        'plane' => '<svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M27 10l-5 2-7-7-3 1 4 8-5 2-2-2-2 1 2 4 4 2 1-2 2-2 8 4 1-3-7-7 5-2 4 2 1-1z" fill="#0046ae" opacity=".2"/>
+          <path d="M27 10l-5 2-7-7-3 1 4 8-5 2-2-2-2 1 2 4 4 2 1-2 2-2 8 4 1-3-7-7 5-2 4 2 1-1z" stroke="#0046ae" stroke-width="1.6" stroke-linejoin="round" fill="none"/>
+          <line x1="6" y1="26" x2="14" y2="26" stroke="#0046ae" stroke-width="1.8" stroke-linecap="round" opacity=".5"/>
+        </svg>',
+
+        'people' => '<svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="11" cy="10" r="4" fill="#0046ae" opacity=".2"/>
+          <circle cx="11" cy="10" r="4" stroke="#0046ae" stroke-width="1.8" fill="none"/>
+          <path d="M3 26c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="#0046ae" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+          <circle cx="22" cy="11" r="3" stroke="#ffd400" stroke-width="1.8" fill="#ffd400" opacity=".35"/>
+          <path d="M19 26c0-3.3 2.7-6 6-6" stroke="#ffd400" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+        </svg>',
+
+        'mountain' => '<svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 26l7-13 5 7 5-9 7 15H4z" fill="#cc1126" opacity=".15"/>
+          <path d="M4 26l7-13 5 7 5-9 7 15H4z" stroke="#cc1126" stroke-width="1.8" stroke-linejoin="round" fill="none"/>
+          <path d="M11 13l1.5-1 1.5 1" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity=".7"/>
+          <circle cx="23" cy="8" r="2.5" fill="#ffd400" opacity=".7"/>
+          <path d="M21.5 8.5 Q23 7 24.5 8.5" stroke="#fff" stroke-width=".8" opacity=".6" fill="none"/>
+        </svg>',
     ];
     return $icons[$name] ?? '';
 }
