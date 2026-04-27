@@ -356,62 +356,66 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
 // Helper for quick-category icons
 function qc_icon(string $name): string {
     $icons = [
-        'sparkles' => '<svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16 4l2.5 7.5L26 14l-7.5 2.5L16 24l-2.5-7.5L6 14l7.5-2.5L16 4z" fill="#ffd400" stroke="#0046ae" stroke-width="1.5" stroke-linejoin="round"/>
-          <circle cx="7" cy="7" r="2" fill="#cc1126" opacity=".7"/>
-          <circle cx="25" cy="25" r="1.5" fill="#0046ae" opacity=".6"/>
+        'sparkles' => '<svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+          <path d="M12 20.5S3 15 3 9.5A5 5 0 0 1 12 6a5 5 0 0 1 9 3.5C21 15 12 20.5 12 20.5z" fill="#cc1126" opacity=".18" stroke="#cc1126" stroke-width="1.7" stroke-linejoin="round"/>
+          <circle cx="19.5" cy="4" r="3" fill="#ffd400"/>
+          <path d="M18 4a3.8 3.8 0 0 0 2.5 7A4.8 4.8 0 0 1 18 4z" fill="#e6be00"/>
         </svg>',
 
-        'glass' => '<svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M8 4h16l-2.5 11A5.5 5.5 0 0 1 10.5 15L8 4z" fill="#cc1126" opacity=".18"/>
-          <path d="M8 4h16l-2.5 11A5.5 5.5 0 0 1 10.5 15L8 4z" stroke="#cc1126" stroke-width="1.8" stroke-linejoin="round" fill="none"/>
-          <line x1="16" y1="15" x2="16" y2="24" stroke="#cc1126" stroke-width="2" stroke-linecap="round"/>
-          <rect x="11" y="24" width="10" height="2.5" rx="1.25" fill="#cc1126" opacity=".5"/>
-          <ellipse cx="16" cy="10" rx="4" ry="1.5" fill="#cc1126" opacity=".25"/>
+        'glass' => '<svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+          <path d="M7 3h10l-2 9a4 4 0 0 1-6 0L7 3z" fill="#ffd400" opacity=".22" stroke="#ffd400" stroke-width="1.7" stroke-linejoin="round"/>
+          <path d="M7.5 7.5C9 9.5 11.5 10 14 9" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity=".55"/>
+          <line x1="12" y1="15" x2="12" y2="20" stroke="#ffd400" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="9" y1="20" x2="15" y2="20" stroke="#ffd400" stroke-width="1.9" stroke-linecap="round"/>
+          <circle cx="17" cy="5"  r="1.1" fill="#0046ae" opacity=".75"/>
+          <circle cx="19" cy="9"  r=".85" fill="#0046ae" opacity=".6"/>
+          <circle cx="16.5" cy="8" r=".7"  fill="#0046ae" opacity=".5"/>
         </svg>',
 
-        'badge' => '<svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16 3l3 5 6 1-4.5 4 1 6L16 16l-5.5 3 1-6L7 9l6-1 3-5z" fill="#ffd400" stroke="#0046ae" stroke-width="1.5" stroke-linejoin="round"/>
-          <circle cx="16" cy="10" r="3" fill="#0046ae" opacity=".3"/>
-          <path d="M12 20l-2 8 6-3.5 6 3.5-2-8" stroke="#0046ae" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        'badge' => '<svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+          <path d="M3 17h18l-2.5-9-3.5 4L12 5l-3 7-3.5-4L3 17z" fill="#ffd400" opacity=".25" stroke="#0046ae" stroke-width="1.7" stroke-linejoin="round"/>
+          <rect x="3" y="17" width="18" height="3.5" rx="1.75" fill="#0046ae" opacity=".2" stroke="#0046ae" stroke-width="1.5"/>
+          <circle cx="12" cy="10"  r="1.5" fill="#ffd400"/>
+          <circle cx="5.5" cy="14" r="1.1" fill="#ffd400" opacity=".85"/>
+          <circle cx="18.5" cy="14" r="1.1" fill="#ffd400" opacity=".85"/>
         </svg>',
 
-        'wine' => '<svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M11 4h10v5a5 5 0 0 1-10 0V4z" fill="#5a1a6b" opacity=".2"/>
-          <path d="M11 4h10v5a5 5 0 0 1-10 0V4z" stroke="#5a1a6b" stroke-width="1.8" stroke-linejoin="round" fill="none"/>
-          <ellipse cx="16" cy="11" rx="3.5" ry="1.2" fill="#5a1a6b" opacity=".3"/>
-          <line x1="16" y1="14" x2="16" y2="24" stroke="#5a1a6b" stroke-width="2" stroke-linecap="round"/>
-          <rect x="11" y="24" width="10" height="2.5" rx="1.25" fill="#5a1a6b" opacity=".5"/>
-          <path d="M11 7.5 Q14 9 17 7.5" stroke="#fff" stroke-width="1" opacity=".5" fill="none"/>
+        'wine' => '<svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+          <path d="M8 3h8a7 7 0 0 1-7 7A7 7 0 0 1 8 3z" fill="#8b1a2e" opacity=".18" stroke="#8b1a2e" stroke-width="1.7" stroke-linejoin="round"/>
+          <path d="M9 7c1 2 3 3 5.5 2.5" stroke="#8b1a2e" stroke-width="1" stroke-linecap="round" opacity=".45" fill="none"/>
+          <path d="M8 6.5c0 .5 .5 2 1.5 2.5" stroke="#fff" stroke-width=".9" stroke-linecap="round" opacity=".4" fill="none"/>
+          <line x1="12" y1="10" x2="12" y2="18" stroke="#8b1a2e" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="8.5" y1="18" x2="15.5" y2="18" stroke="#8b1a2e" stroke-width="2" stroke-linecap="round"/>
         </svg>',
 
-        'spa' => '<svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16 4c2 5 7 7 7 12 0 4.5-3.1 7-7 7s-7-2.5-7-7c0-5 5-7 7-12z" fill="#2e9b5e" opacity=".2"/>
-          <path d="M16 4c2 5 7 7 7 12 0 4.5-3.1 7-7 7s-7-2.5-7-7c0-5 5-7 7-12z" stroke="#2e9b5e" stroke-width="1.8" stroke-linejoin="round" fill="none"/>
-          <path d="M12 19c1.5-2 4-2.5 4-2.5s2.5.5 4 2.5" stroke="#2e9b5e" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-          <ellipse cx="16" cy="27" rx="5" ry="1.2" fill="#2e9b5e" opacity=".2"/>
+        'spa' => '<svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+          <path d="M12 18c-1-3-5-5-6-8a5 5 0 0 1 6-3" fill="#2e9b5e" opacity=".12" stroke="#2e9b5e" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 18c1-3 5-5 6-8a5 5 0 0 0-6-3" fill="#2e9b5e" opacity=".12" stroke="#2e9b5e" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 18c0-3-1-7 0-11" stroke="#2e9b5e" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+          <line x1="9" y1="21" x2="15" y2="21" stroke="#2e9b5e" stroke-width="1.7" stroke-linecap="round" opacity=".5"/>
+          <path d="M12 21v-3" stroke="#2e9b5e" stroke-width="1.7" stroke-linecap="round"/>
         </svg>',
 
-        'plane' => '<svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M27 10l-5 2-7-7-3 1 4 8-5 2-2-2-2 1 2 4 4 2 1-2 2-2 8 4 1-3-7-7 5-2 4 2 1-1z" fill="#0046ae" opacity=".2"/>
-          <path d="M27 10l-5 2-7-7-3 1 4 8-5 2-2-2-2 1 2 4 4 2 1-2 2-2 8 4 1-3-7-7 5-2 4 2 1-1z" stroke="#0046ae" stroke-width="1.6" stroke-linejoin="round" fill="none"/>
-          <line x1="6" y1="26" x2="14" y2="26" stroke="#0046ae" stroke-width="1.8" stroke-linecap="round" opacity=".5"/>
+        'plane' => '<svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+          <line x1="8.5" y1="3" x2="8.5" y2="21" stroke="#e07b00" stroke-width="1.9" stroke-linecap="round"/>
+          <path d="M6.5 3v6a2 2 0 0 0 4 0V3" stroke="#e07b00" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <line x1="15.5" y1="3" x2="15.5" y2="21" stroke="#0046ae" stroke-width="1.9" stroke-linecap="round"/>
+          <path d="M13 5.5c0-1.4.7-2.5 2.5-2.5s2.5 1.1 2.5 2.5-.8 2.5-2.5 2.5" stroke="#0046ae" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+          <line x1="5" y1="12" x2="19" y2="12" stroke="#e07b00" stroke-width="1" stroke-linecap="round" opacity=".25"/>
         </svg>',
 
-        'people' => '<svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="11" cy="10" r="4" fill="#0046ae" opacity=".2"/>
-          <circle cx="11" cy="10" r="4" stroke="#0046ae" stroke-width="1.8" fill="none"/>
-          <path d="M3 26c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="#0046ae" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-          <circle cx="22" cy="11" r="3" stroke="#ffd400" stroke-width="1.8" fill="#ffd400" opacity=".35"/>
-          <path d="M19 26c0-3.3 2.7-6 6-6" stroke="#ffd400" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+        'people' => '<svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="6"  r="3"   fill="#0046ae" opacity=".2" stroke="#0046ae" stroke-width="1.6"/>
+          <path d="M6 20a6 6 0 0 1 12 0" stroke="#0046ae" stroke-width="1.7" stroke-linecap="round" fill="none"/>
+          <circle cx="4.5"  cy="8.5" r="2.2" fill="#ffd400" opacity=".35" stroke="#e6be00" stroke-width="1.4"/>
+          <path d="M1.5 19a4 4 0 0 1 5-3.6" stroke="#e6be00" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+          <circle cx="19.5" cy="8.5" r="2.2" fill="#ffd400" opacity=".35" stroke="#e6be00" stroke-width="1.4"/>
+          <path d="M22.5 19a4 4 0 0 0-5-3.6" stroke="#e6be00" stroke-width="1.4" stroke-linecap="round" fill="none"/>
         </svg>',
 
-        'mountain' => '<svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M4 26l7-13 5 7 5-9 7 15H4z" fill="#cc1126" opacity=".15"/>
-          <path d="M4 26l7-13 5 7 5-9 7 15H4z" stroke="#cc1126" stroke-width="1.8" stroke-linejoin="round" fill="none"/>
-          <path d="M11 13l1.5-1 1.5 1" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity=".7"/>
-          <circle cx="23" cy="8" r="2.5" fill="#ffd400" opacity=".7"/>
-          <path d="M21.5 8.5 Q23 7 24.5 8.5" stroke="#fff" stroke-width=".8" opacity=".6" fill="none"/>
+        'mountain' => '<svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+          <path d="M13 2L4 14h7l-1 8 9-12h-7l2-8z" fill="#cc1126" opacity=".2" stroke="#cc1126" stroke-width="1.7" stroke-linejoin="round"/>
+          <path d="M13 2l2 8h-7" fill="#ffd400" opacity=".15"/>
         </svg>',
     ];
     return $icons[$name] ?? '';
