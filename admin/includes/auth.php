@@ -12,8 +12,7 @@ function mp_admin_check(): void {
 
 function mp_admin_url(string $page = ''): string {
     $base = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
-    // Walk up if we're inside a subpage
-    if (!str_ends_with($base, '/admin')) {
+    if (substr($base, -6) !== '/admin') {
         $base = dirname($base);
     }
     return $base . ($page ? '/' . $page : '');
