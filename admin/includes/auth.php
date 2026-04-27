@@ -39,7 +39,7 @@ function mp_get_pass(): string {
         return is_string($p) ? $p : '';
     }
     // Default: admin123
-    return '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';
+    return '$2y$10$.IAFajs8RnDSoGpRBiNJauxqsmjsk6iqD7TXYFTyKYO/jrYNA2fvq';
 }
 
 function mp_csrf(): string {
