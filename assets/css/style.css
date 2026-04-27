@@ -430,7 +430,10 @@ body.en .mob-nav { transform: translateX(-100%); }
   gap: 56px;
   align-items: center;
   padding-bottom: 60px;
+  direction: ltr;
 }
+.hero-band .hero-text { direction: rtl; }
+body.en .hero-band .hero-text { direction: ltr; }
 .hero-eyebrow {
   display: inline-flex;
   align-items: center;
