@@ -1,0 +1,4 @@
+# Deny direct access to includes
+<FilesMatch "^(auth|sidebar)\.php$">
+  Deny from all
+</FilesMatch>

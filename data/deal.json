@@ -1,0 +1,14 @@
+{
+  "enabled": false,
+  "title_he": "חופשת יין וספא קישינב — 4 לילות",
+  "title_en": "Wine & Spa Chișinău — 4 nights",
+  "desc_he": "חבילה זוגית פרמיום: מלון 5 כוכבים, סיור יקב פרטי עם טעימות, ספא יום מלא, ארוחות בוקר וליווי מקומי אישי דובר עברית.",
+  "desc_en": "Premium couples package: 5-star hotel, private winery tour with tastings, full-day spa, breakfasts and personal Hebrew-speaking local guide.",
+  "price": 299,
+  "was_price": 470,
+  "discount": 35,
+  "spots_total": 12,
+  "spots_left": 4,
+  "includes_he": ["מלון Leogrand 5★ — 4 לילות", "סיור יקב מילשטיין עם טעימות", "ספא יום מלא לזוג", "ארוחות בוקר + ליווי עברית"],
+  "includes_en": ["Leogrand Hotel 5★ — 4 nights", "Milshtein Winery tour with tastings", "Full-day couples spa", "Breakfasts + Hebrew guide"]
+}

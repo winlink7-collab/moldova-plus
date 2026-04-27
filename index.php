@@ -6,6 +6,11 @@ require_once 'includes/scenes.php';
 [$lang, $t] = page_init('home');
 $page = 'home';
 
+// Load deal-of-week from admin JSON
+$_deal_file = __DIR__ . '/data/deal.json';
+$DEAL = file_exists($_deal_file) ? (json_decode(file_get_contents($_deal_file), true) ?? []) : [];
+$DEAL_ON = !empty($DEAL['enabled']);
+
 $title_he = 'Moldova Plus — חבילות נופש בקישינב, מולדובה';
 $title_en = 'Moldova Plus — Travel packages in Chișinău, Moldova';
 $desc_he  = 'פורטל ההזמנות הגדול בישראל לחבילות נופש בקישינב — מסיבות רווקים, חוויות יוקרה ויקבים מובילים. מחירים שקופים, אישור מיידי.';
@@ -233,6 +238,76 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
     </div>
   </div>
 </section>
+
+<?php if ($DEAL_ON): ?>
+<!-- ══ DEAL OF THE WEEK (admin-controlled) ════════════════════ -->
+<section class="section" style="padding-bottom:0">
+  <div class="container">
+    <div class="deal-banner reveal">
+      <div class="deal-visual">
+        <div class="deal-scene"><?= scene_img('warm','deal-img') ?></div>
+        <div class="deal-badge-float">
+          <span class="deal-pct"><?= (int)$DEAL['discount'] ?>%</span>
+          <span class="deal-off he">הנחה</span><span class="deal-off en">OFF</span>
+        </div>
+      </div>
+      <div class="deal-info">
+        <div class="deal-eyebrow">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="var(--flag-red)" stroke="none"><path d="M13 2l-8 11h7l-1 9 9-11h-7l2-9z"/></svg>
+          <span class="he">מבצע השבוע — מוגבל ל-<?= (int)$DEAL['spots_total'] ?> מקומות</span>
+          <span class="en">Deal of the week — limited to <?= (int)$DEAL['spots_total'] ?> spots</span>
+        </div>
+        <h2 class="deal-title">
+          <span class="he"><?= htmlspecialchars($DEAL['title_he'] ?? '') ?></span>
+          <span class="en"><?= htmlspecialchars($DEAL['title_en'] ?? '') ?></span>
+        </h2>
+        <p class="deal-desc">
+          <span class="he"><?= htmlspecialchars($DEAL['desc_he'] ?? '') ?></span>
+          <span class="en"><?= htmlspecialchars($DEAL['desc_en'] ?? '') ?></span>
+        </p>
+        <ul class="deal-includes">
+          <?php foreach (($DEAL['includes_he'] ?? []) as $i => $inc): ?>
+          <li>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
+            <span class="he"><?= htmlspecialchars($inc) ?></span>
+            <span class="en"><?= htmlspecialchars($DEAL['includes_en'][$i] ?? $inc) ?></span>
+          </li>
+          <?php endforeach; ?>
+        </ul>
+        <div class="deal-price-row">
+          <div class="deal-price">
+            <span class="deal-price-was"><span class="he">במקום</span><span class="en">Was</span> €<?= (int)$DEAL['was_price'] ?></span>
+            <div class="deal-price-now">
+              <span class="deal-from he">מ-</span><span class="deal-from en">from </span>
+              <b>€<?= (int)$DEAL['price'] ?></b>
+              <span class="deal-pp">/<span class="he">אדם</span><span class="en">pp</span></span>
+            </div>
+          </div>
+          <div class="deal-spots">
+            <?php $fill = $DEAL['spots_total'] > 0 ? round((1-$DEAL['spots_left']/$DEAL['spots_total'])*100) : 65; ?>
+            <div class="deal-spots-bar"><div class="deal-spots-fill" style="width:<?= $fill ?>%"></div></div>
+            <span class="he">נותרו <?= (int)$DEAL['spots_left'] ?> מקומות</span>
+            <span class="en"><?= (int)$DEAL['spots_left'] ?> spots left</span>
+          </div>
+        </div>
+        <div class="deal-actions">
+          <a href="https://wa.me/<?= htmlspecialchars(json_decode(file_get_contents(__DIR__.'/data/settings.json'),true)['whatsapp']??'972355501880') ?>?text=<?= urlencode($lang==='he' ? 'היי, אני מעוניין במבצע השבוע: '.$DEAL['title_he'] : 'Hi, interested in deal: '.($DEAL['title_en']??'')) ?>" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
+            <span class="he">הזמינו עכשיו</span><span class="en">Book now</span>
+          </a>
+          <a href="packages.php<?= $lang==='en'?'?lang=en':'' ?>" class="btn btn-ghost">
+            <span class="he">ראו פרטים</span><span class="en">View details</span>
+          </a>
+        </div>
+        <p class="deal-timer">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <span class="he">המבצע מסתיים בעוד:</span><span class="en">Deal ends in:</span>
+          <b id="deal-countdown"></b>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<?php endif; ?>
 
 <!-- ══ RECOMMENDED PACKAGES ══════════════════════════════════ -->
 <section class="section">
