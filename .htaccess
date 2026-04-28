@@ -15,7 +15,10 @@ RewriteRule ^ / [R=301,L]
 RewriteCond %{THE_REQUEST} \s/+(?!admin/)([a-zA-Z0-9_-]+)\.php[?\ ] [NC]
 RewriteRule ^ /%1 [R=301,NE,QSA,L]
 
-# 3. Internally route clean URLs → .php files
+# 3. Route /package/slug → package-detail.php
+RewriteRule ^package/([a-zA-Z0-9_-]+)$ package-detail.php?slug=$1 [L,QSA]
+
+# 4. Internally route clean URLs → .php files
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} !^/admin/

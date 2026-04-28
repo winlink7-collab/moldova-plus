@@ -7,10 +7,22 @@ require_once 'includes/mp_settings.php';
 [$lang, $t] = page_init('detail');
 $page = 'detail';
 
-$id = isset($_GET['id']) ? (int)$_GET['id'] : 1;
-$p  = null;
-foreach ($PACKAGES as $pkg) { if ($pkg['id'] === $id) { $p = $pkg; break; } }
-if (!$p) { $p = $PACKAGES[0]; }
+$slug = $_GET['slug'] ?? '';
+$id   = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$p    = null;
+if ($slug) {
+    foreach ($PACKAGES as $pkg) { if (($pkg['slug'] ?? '') === $slug) { $p = $pkg; break; } }
+} elseif ($id) {
+    foreach ($PACKAGES as $pkg) { if ($pkg['id'] === $id) { $p = $pkg; break; } }
+}
+if (!$p) $p = $PACKAGES[0];
+
+// 301-redirect legacy ?id= URLs to clean slug URL
+if (!$slug && !empty($p['slug'])) {
+    $dest = '/package/' . $p['slug'] . ($lang === 'en' ? '?lang=en' : '');
+    header('Location: ' . $dest, true, 301);
+    exit;
+}
 
 $title  = raw($p, 'title', $lang);
 $loc    = raw($p, 'loc', $lang);
@@ -33,10 +45,12 @@ $_gal_custom = $_pov['gallery_images'] ?? [];
 $scenes_gallery = [$p['scene'] ?? 'warm', 'gold', 'green', 'dark', 'honey', 'light'];
 $use_custom_gallery = count($_gal_custom) > 0;
 
+$_canonical = !empty($p['slug']) ? '/package/' . $p['slug'] . ($lang==='en'?'?lang=en':'') : '';
 page_head(
     ($lang==='he' ? $title : htmlspecialchars($title)) . ' — Moldova Plus',
     ($lang==='he' ? $desc  : htmlspecialchars($desc)),
-    $lang
+    $lang,
+    $_canonical
 );
 ?>
 <?php include 'includes/header.php'; ?>
