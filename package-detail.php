@@ -21,7 +21,17 @@ $wa_msg = urlencode($lang==='he'
     : "Hi, I'm interested in: {$title} — {$p['nights']} nights, " . eur($p['price'])
 );
 
+// Load overrides from admin
+$_pkg_overrides = [];
+$_pkg_data_path = __DIR__ . '/data/packages.json';
+if (file_exists($_pkg_data_path)) {
+    $_pkg_overrides = json_decode(file_get_contents($_pkg_data_path), true) ?? [];
+}
+$_pov = $_pkg_overrides[$p['id']] ?? [];
+$_gal_custom = $_pov['gallery_images'] ?? [];
+
 $scenes_gallery = [$p['scene'] ?? 'warm', 'gold', 'green', 'dark', 'honey', 'light'];
+$use_custom_gallery = count($_gal_custom) > 0;
 
 page_head(
     ($lang==='he' ? $title : htmlspecialchars($title)) . ' — Moldova Plus',
@@ -63,7 +73,30 @@ page_head(
 
     <!-- Gallery: 6 images -->
     <div class="detail-gal" id="detail-gal">
-      <?php foreach ($scenes_gallery as $i => $sc): ?>
+      <?php if ($use_custom_gallery):
+        $gal_show = array_slice($_gal_custom, 0, 6);
+        while (count($gal_show) < 6) {
+          $gal_show[] = null; // fill with scenes below
+        }
+        foreach ($gal_show as $i => $gurl):
+          $is_last = $i === 5;
+      ?>
+      <div class="gm<?= $is_last?' gm-last':'' ?>">
+        <?php if ($gurl): ?>
+        <img src="<?= htmlspecialchars($gurl) ?>" alt="" style="width:100%;height:100%;object-fit:cover">
+        <?php else: ?>
+        <?= scene_img($scenes_gallery[$i] ?? 'warm') ?>
+        <?php endif; ?>
+        <?php if ($is_last): ?>
+        <button class="gal-all-btn" type="button">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          <span class="he">כל התמונות</span><span class="en">All photos</span>
+        </button>
+        <?php endif; ?>
+      </div>
+      <?php endforeach;
+      else:
+        foreach ($scenes_gallery as $i => $sc): ?>
       <div class="gm<?= $i===5?' gm-last':'' ?>">
         <?= scene_img($sc) ?>
         <?php if ($i===5): ?>
@@ -73,7 +106,8 @@ page_head(
         </button>
         <?php endif; ?>
       </div>
-      <?php endforeach; ?>
+      <?php endforeach;
+      endif; ?>
     </div>
 
     <!-- Content grid -->
