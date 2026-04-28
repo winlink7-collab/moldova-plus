@@ -1902,7 +1902,102 @@ body.en .policy-table th { text-align: left; }
 
   /* Contact page mobile */
   .contact-grid { grid-template-columns: 1fr; gap: 28px; }
+  .contact-form-card { padding: 24px 20px; }
+  .ci-card { padding: 16px 18px; gap: 12px; }
+  .ci-card:hover { transform: none; }
+  .ci-ic { width: 42px; height: 42px; border-radius: 12px; }
+  .hours-card { padding: 18px 20px; margin-top: 0; }
+  .cf-row-2 { grid-template-columns: 1fr; gap: 0; }
+
+  /* FAQ page mobile */
+  .faq-cats {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    gap: 8px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 28px;
+  }
+  .faq-cats::-webkit-scrollbar { display: none; }
+  .faq-cat-btn { white-space: nowrap; flex-shrink: 0; padding: 8px 14px; min-height: 40px; }
+  .faq-q { font-size: 14.5px; padding: 16px 0; gap: 12px; }
+  .faq-a { font-size: 14px; }
 
   /* Policy pages mobile */
   .policy-intro { font-size: 14px; padding: 16px 18px; }
+  .policy-body h2 { font-size: 17px; }
+  .policy-body p, .policy-body li { font-size: 14px; }
+  .policy-table { font-size: 12px; }
+  .policy-table th, .policy-table td { padding: 9px 12px; }
+
+  /* Package detail mobile */
+  .booking { padding: 20px 18px !important; }
+  .booking-price-big { font-size: 32px !important; }
+  .incl { grid-template-columns: 1fr; gap: 8px; }
+  .detail-gal { grid-template-columns: 1fr 1fr; grid-auto-rows: 120px; }
+  .gm.main { grid-column: span 2; grid-row: auto; }
+  .detail-meta { flex-wrap: wrap; gap: 8px; }
+
+  /* Bachelor page mobile */
+  .perks-grid { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
+
+  /* Attractions/Hotels cards touch */
+  .card:hover { transform: none; box-shadow: var(--sh-sm); }
+  .value-card:hover { transform: none; }
+  .stat-card:hover { transform: none; }
+
+  /* Top bar — hide phone/email on mobile, keep promo */
+  .top-bar-l span:not(.top-promo) { display: none; }
+  .top-promo { font-size: 11px; }
+}
+
+@media (max-width: 480px) {
+  /* Single column layouts */
+  .values-grid { grid-template-columns: 1fr !important; }
+  .stat-card { padding: 18px 14px; }
+  .stat-num { font-size: 30px; }
+
+  /* Contact tighter */
+  .contact-form-card { padding: 18px 14px; }
+  .contact-form-card h3 { font-size: 18px; margin-bottom: 16px; }
+  .ci-card { padding: 12px 14px; gap: 10px; }
+  .ci-ic { width: 38px; height: 38px; }
+  .ci-card b { font-size: 13px; }
+  .ci-card span { font-size: 11.5px; }
+
+  /* Package detail gallery tighter */
+  .detail-gal { grid-auto-rows: 100px; }
+
+  /* Policy tighter */
+  .policy-body { padding: 0; }
+  .policy-table th, .policy-table td { padding: 8px 10px; font-size: 12px; }
+
+  /* Page banner smaller */
+  .page-banner { padding: 28px 0 20px; }
+  .page-banner h1 { font-size: clamp(20px, 6vw, 28px); }
+  .page-banner p { font-size: 13px; }
+  .crumbs { font-size: 11px; }
+
+  /* FAQ tighter */
+  .faq-q { font-size: 14px; padding: 14px 0; }
+  .faq-cat-btn { font-size: 12px; padding: 7px 12px; }
+
+  /* Cards tighter */
+  .card-body { padding: 10px 12px 12px; }
+  .card-foot { padding: 10px 12px 12px; }
+  .card-title { font-size: 14px; }
+
+  /* Steps single column */
+  .steps-grid { grid-template-columns: 1fr; gap: 12px; }
+  .step { padding: 22px 18px; }
+  .step-num { width: 44px; height: 44px; font-size: 18px; margin-bottom: 12px; }
+
+  /* Hours compact */
+  .hours-card { padding: 14px 16px; }
+  .hours-row { font-size: 13px; }
+
+  /* Section tighter on very small phones */
+  .section { padding: 32px 0; }
+  .quick-cats { padding: 48px 0 24px; }
 }
