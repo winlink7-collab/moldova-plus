@@ -48,7 +48,7 @@ page_head($title . ' — Moldova Plus', $desc, $lang, '/article/' . $id . ($lang
   <div class="art-hero-body container">
     <div class="crumbs crumbs-light">
       <a href="/<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">בית</span><span class="en">Home</span></a> /
-      <a href="articles<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">בלוג תיירות</span><span class="en">Travel blog</span></a> /
+      <a href="blog<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">בלוג תיירות</span><span class="en">Travel blog</span></a> /
       <span class="cur"><?= htmlspecialchars($tag) ?></span>
     </div>
     <span class="art-tag-pill"><?= htmlspecialchars($tag) ?></span>

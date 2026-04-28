@@ -501,7 +501,7 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
         <span class="he">כתבות <span>ומדריכים</span></span>
         <span class="en">From the <span>magazine</span></span>
       </h2>
-      <a href="articles<?= $lang==='en'?'?lang=en':'' ?>" class="btn-link">
+      <a href="blog<?= $lang==='en'?'?lang=en':'' ?>" class="btn-link">
         <span class="he">כל הכתבות</span><span class="en">View all</span>
       </a>
     </div>
