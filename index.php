@@ -487,67 +487,58 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
 <?php
 // Helper for quick-category icons
 function qc_icon(string $name): string {
+    $s = 'stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"';
     $icons = [
-        'sparkles' => '<svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-          <path d="M12 20.5S3 15 3 9.5A5 5 0 0 1 12 6a5 5 0 0 1 9 3.5C21 15 12 20.5 12 20.5z" fill="#cc1126" opacity=".18" stroke="#cc1126" stroke-width="1.7" stroke-linejoin="round"/>
-          <circle cx="19.5" cy="4" r="3" fill="#ffd400"/>
-          <path d="M18 4a3.8 3.8 0 0 0 2.5 7A4.8 4.8 0 0 1 18 4z" fill="#e6be00"/>
+        'sparkles' => '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" '.$s.' stroke-width="1.7">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="currentColor" opacity=".15"/>
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
         </svg>',
 
-        'glass' => '<svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-          <path d="M7 3h10l-2 9a4 4 0 0 1-6 0L7 3z" fill="#ffd400" opacity=".22" stroke="#ffd400" stroke-width="1.7" stroke-linejoin="round"/>
-          <path d="M7.5 7.5C9 9.5 11.5 10 14 9" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity=".55"/>
-          <line x1="12" y1="15" x2="12" y2="20" stroke="#ffd400" stroke-width="1.8" stroke-linecap="round"/>
-          <line x1="9" y1="20" x2="15" y2="20" stroke="#ffd400" stroke-width="1.9" stroke-linecap="round"/>
-          <circle cx="17" cy="5"  r="1.1" fill="#0046ae" opacity=".75"/>
-          <circle cx="19" cy="9"  r=".85" fill="#0046ae" opacity=".6"/>
-          <circle cx="16.5" cy="8" r=".7"  fill="#0046ae" opacity=".5"/>
+        'glass' => '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" '.$s.' stroke-width="1.7">
+          <path d="M8 3h8l-2 8a4 4 0 0 1-4 0L8 3z" fill="currentColor" opacity=".15"/>
+          <path d="M8 3h8l-2 8a4 4 0 0 1-4 0L8 3z"/>
+          <line x1="12" y1="15" x2="12" y2="20"/>
+          <line x1="9" y1="20" x2="15" y2="20"/>
         </svg>',
 
-        'badge' => '<svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-          <path d="M3 17h18l-2.5-9-3.5 4L12 5l-3 7-3.5-4L3 17z" fill="#ffd400" opacity=".25" stroke="#0046ae" stroke-width="1.7" stroke-linejoin="round"/>
-          <rect x="3" y="17" width="18" height="3.5" rx="1.75" fill="#0046ae" opacity=".2" stroke="#0046ae" stroke-width="1.5"/>
-          <circle cx="12" cy="10"  r="1.5" fill="#ffd400"/>
-          <circle cx="5.5" cy="14" r="1.1" fill="#ffd400" opacity=".85"/>
-          <circle cx="18.5" cy="14" r="1.1" fill="#ffd400" opacity=".85"/>
+        'badge' => '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" '.$s.' stroke-width="1.7">
+          <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" fill="currentColor" opacity=".15"/>
+          <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/>
         </svg>',
 
-        'wine' => '<svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-          <path d="M8 3h8a7 7 0 0 1-7 7A7 7 0 0 1 8 3z" fill="#8b1a2e" opacity=".18" stroke="#8b1a2e" stroke-width="1.7" stroke-linejoin="round"/>
-          <path d="M9 7c1 2 3 3 5.5 2.5" stroke="#8b1a2e" stroke-width="1" stroke-linecap="round" opacity=".45" fill="none"/>
-          <path d="M8 6.5c0 .5 .5 2 1.5 2.5" stroke="#fff" stroke-width=".9" stroke-linecap="round" opacity=".4" fill="none"/>
-          <line x1="12" y1="10" x2="12" y2="18" stroke="#8b1a2e" stroke-width="1.8" stroke-linecap="round"/>
-          <line x1="8.5" y1="18" x2="15.5" y2="18" stroke="#8b1a2e" stroke-width="2" stroke-linecap="round"/>
+        'wine' => '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" '.$s.' stroke-width="1.7">
+          <path d="M8 3h8a7 7 0 0 1-7 7A7 7 0 0 1 8 3z" fill="currentColor" opacity=".15"/>
+          <path d="M8 3h8a7 7 0 0 1-7 7A7 7 0 0 1 8 3z"/>
+          <line x1="12" y1="10" x2="12" y2="18"/>
+          <line x1="8.5" y1="18" x2="15.5" y2="18"/>
         </svg>',
 
-        'spa' => '<svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-          <path d="M12 18c-1-3-5-5-6-8a5 5 0 0 1 6-3" fill="#2e9b5e" opacity=".12" stroke="#2e9b5e" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M12 18c1-3 5-5 6-8a5 5 0 0 0-6-3" fill="#2e9b5e" opacity=".12" stroke="#2e9b5e" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M12 18c0-3-1-7 0-11" stroke="#2e9b5e" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-          <line x1="9" y1="21" x2="15" y2="21" stroke="#2e9b5e" stroke-width="1.7" stroke-linecap="round" opacity=".5"/>
-          <path d="M12 21v-3" stroke="#2e9b5e" stroke-width="1.7" stroke-linecap="round"/>
+        'spa' => '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" '.$s.' stroke-width="1.7">
+          <path d="M12 18c-1-3-5-5-6-8a5 5 0 0 1 6-3" fill="currentColor" opacity=".15"/>
+          <path d="M12 18c1-3 5-5 6-8a5 5 0 0 0-6-3" fill="currentColor" opacity=".15"/>
+          <path d="M12 18c-1-3-5-5-6-8a5 5 0 0 1 6-3"/>
+          <path d="M12 18c1-3 5-5 6-8a5 5 0 0 0-6-3"/>
+          <line x1="12" y1="18" x2="12" y2="21"/>
+          <line x1="9" y1="21" x2="15" y2="21"/>
         </svg>',
 
-        'plane' => '<svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-          <line x1="8.5" y1="3" x2="8.5" y2="21" stroke="#e07b00" stroke-width="1.9" stroke-linecap="round"/>
-          <path d="M6.5 3v6a2 2 0 0 0 4 0V3" stroke="#e07b00" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          <line x1="15.5" y1="3" x2="15.5" y2="21" stroke="#0046ae" stroke-width="1.9" stroke-linecap="round"/>
-          <path d="M13 5.5c0-1.4.7-2.5 2.5-2.5s2.5 1.1 2.5 2.5-.8 2.5-2.5 2.5" stroke="#0046ae" stroke-width="1.6" stroke-linecap="round" fill="none"/>
-          <line x1="5" y1="12" x2="19" y2="12" stroke="#e07b00" stroke-width="1" stroke-linecap="round" opacity=".25"/>
+        'plane' => '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" '.$s.' stroke-width="1.7">
+          <path d="M18 8h-5l-2-5H9l1 5H5L3 6H1l1 6 1 6h2l2-2h4l-1 5h2l2-5h5a3 3 0 0 0 0-6z" fill="currentColor" opacity=".15"/>
+          <path d="M18 8h-5l-2-5H9l1 5H5L3 6H1l1 6 1 6h2l2-2h4l-1 5h2l2-5h5a3 3 0 0 0 0-6z"/>
         </svg>',
 
-        'people' => '<svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-          <circle cx="12" cy="6"  r="3"   fill="#0046ae" opacity=".2" stroke="#0046ae" stroke-width="1.6"/>
-          <path d="M6 20a6 6 0 0 1 12 0" stroke="#0046ae" stroke-width="1.7" stroke-linecap="round" fill="none"/>
-          <circle cx="4.5"  cy="8.5" r="2.2" fill="#ffd400" opacity=".35" stroke="#e6be00" stroke-width="1.4"/>
-          <path d="M1.5 19a4 4 0 0 1 5-3.6" stroke="#e6be00" stroke-width="1.4" stroke-linecap="round" fill="none"/>
-          <circle cx="19.5" cy="8.5" r="2.2" fill="#ffd400" opacity=".35" stroke="#e6be00" stroke-width="1.4"/>
-          <path d="M22.5 19a4 4 0 0 0-5-3.6" stroke="#e6be00" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+        'people' => '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" '.$s.' stroke-width="1.7">
+          <circle cx="9" cy="7" r="3" fill="currentColor" opacity=".15"/>
+          <circle cx="9" cy="7" r="3"/>
+          <path d="M3 21v-2a6 6 0 0 1 6-6h0a6 6 0 0 1 6 6v2"/>
+          <circle cx="17" cy="7" r="2.5" fill="currentColor" opacity=".15"/>
+          <circle cx="17" cy="7" r="2.5"/>
+          <path d="M21 21v-2a5 5 0 0 0-3.5-4.7"/>
         </svg>',
 
-        'mountain' => '<svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-          <path d="M13 2L4 14h7l-1 8 9-12h-7l2-8z" fill="#cc1126" opacity=".2" stroke="#cc1126" stroke-width="1.7" stroke-linejoin="round"/>
-          <path d="M13 2l2 8h-7" fill="#ffd400" opacity=".15"/>
+        'mountain' => '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" '.$s.' stroke-width="1.7">
+          <path d="M14 2L5 14h7l-1 8 9-12h-7l2-8z" fill="currentColor" opacity=".15"/>
+          <path d="M14 2L5 14h7l-1 8 9-12h-7l2-8z"/>
         </svg>',
     ];
     return $icons[$name] ?? '';

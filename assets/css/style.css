@@ -733,18 +733,18 @@ body.en .search-cell:first-child { border-right: 0; }
 .qc:hover { border-color: var(--flag-blue); transform: translateY(-6px) scale(1.03); box-shadow: 0 12px 32px rgba(0,70,174,.15); }
 .qc:hover::after { transform: scaleX(1); }
 .qc-ic {
-  width: 54px; height: 54px;
-  border-radius: 16px;
-  background: linear-gradient(145deg, var(--flag-blue-soft), #fff);
+  width: 64px; height: 64px;
+  border-radius: 18px;
+  background: var(--flag-blue-soft);
   color: var(--flag-blue);
   display: grid;
   place-items: center;
-  transition: all .2s;
+  transition: all .22s;
 }
 .qc:hover .qc-ic {
   background: linear-gradient(135deg, var(--flag-blue), var(--flag-blue-2));
+  color: #fff;
   box-shadow: 0 4px 16px rgba(0,70,174,.3);
-  transform: scale(1.08);
 }
 .qc span { font-size: 12px; font-weight: 700; color: var(--ink-soft); line-height: 1.3; }
 
@@ -1481,7 +1481,7 @@ body.en .back-top { left: auto; right: 28px; }
   .hero-btns { flex-direction: column; }
   .hero-btns .btn { justify-content: center; }
   .qc { flex: 0 0 84px; min-width: 84px; }
-  .qc-ic { width: 44px; height: 44px; }
+  .qc-ic { width: 52px; height: 52px; border-radius: 15px; }
   .qc span { font-size: 11px; }
 }
 
