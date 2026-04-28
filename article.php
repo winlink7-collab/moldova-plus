@@ -68,7 +68,41 @@ page_head($title . ' — Moldova Plus', $desc, $lang);
   <div class="container">
     <div class="art-layout-v2">
 
-      <!-- Article prose -->
+      <!-- Sidebar — first in HTML = right column in RTL grid -->
+      <aside class="art-sidebar-v2">
+        <div class="art-sidebar-box">
+          <div class="art-sidebar-head">
+            <span class="he">חבילות מומלצות</span>
+            <span class="en">Recommended packages</span>
+          </div>
+          <?php foreach ($related_pkgs as $p): ?>
+          <a href="package-detail.php?id=<?= $p['id'] ?><?= $lang==='en'?'&lang=en':'' ?>" class="asb-pkg">
+            <div class="asb-img">
+              <?= scene_img($p['scene']) ?>
+              <?php if (!empty($p['tag_he'])): ?>
+              <span class="asb-badge"><?= $lang==='he' ? $p['tag_he'] : htmlspecialchars($p['tag_en'] ?? $p['tag_he']) ?></span>
+              <?php endif; ?>
+            </div>
+            <div class="asb-body">
+              <span class="asb-loc">
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 22s7-7 7-12a7 7 0 1 0-14 0c0 5 7 12 7 12z"/></svg>
+                <?= $lang==='he' ? $p['loc_he'] : htmlspecialchars($p['loc_en']) ?>
+              </span>
+              <b><?= $lang==='he' ? $p['title_he'] : htmlspecialchars($p['title_en']) ?></b>
+              <div class="asb-foot">
+                <span><?= $p['nights'] ?> <span class="he">לילות</span><span class="en">nights</span></span>
+                <span class="asb-price">₪<?= number_format($p['price']) ?></span>
+              </div>
+            </div>
+          </a>
+          <?php endforeach; ?>
+          <a href="packages.php<?= $lang==='en'?'?lang=en':'' ?>" class="asb-all">
+            <span class="he">לכל החבילות ←</span><span class="en">View all packages →</span>
+          </a>
+        </div>
+      </aside>
+
+      <!-- Article prose — second in HTML = left column (1fr wide) in RTL grid -->
       <article class="art-content">
         <div class="art-prose-v2">
           <?= $body ?>
@@ -107,40 +141,6 @@ page_head($title . ' — Moldova Plus', $desc, $lang);
           </div>
         </div>
       </article>
-
-      <!-- Sidebar -->
-      <aside class="art-sidebar-v2">
-        <div class="art-sidebar-box">
-          <div class="art-sidebar-head">
-            <span class="he">חבילות מומלצות</span>
-            <span class="en">Recommended packages</span>
-          </div>
-          <?php foreach ($related_pkgs as $p): ?>
-          <a href="package-detail.php?id=<?= $p['id'] ?><?= $lang==='en'?'&lang=en':'' ?>" class="asb-pkg">
-            <div class="asb-img">
-              <?= scene_img($p['scene']) ?>
-              <?php if (!empty($p['tag_he'])): ?>
-              <span class="asb-badge"><?= $lang==='he' ? $p['tag_he'] : htmlspecialchars($p['tag_en'] ?? $p['tag_he']) ?></span>
-              <?php endif; ?>
-            </div>
-            <div class="asb-body">
-              <span class="asb-loc">
-                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 22s7-7 7-12a7 7 0 1 0-14 0c0 5 7 12 7 12z"/></svg>
-                <?= $lang==='he' ? $p['loc_he'] : htmlspecialchars($p['loc_en']) ?>
-              </span>
-              <b><?= $lang==='he' ? $p['title_he'] : htmlspecialchars($p['title_en']) ?></b>
-              <div class="asb-foot">
-                <span><?= $p['nights'] ?> <span class="he">לילות</span><span class="en">nights</span></span>
-                <span class="asb-price">₪<?= number_format($p['price']) ?></span>
-              </div>
-            </div>
-          </a>
-          <?php endforeach; ?>
-          <a href="packages.php<?= $lang==='en'?'?lang=en':'' ?>" class="asb-all">
-            <span class="he">לכל החבילות ←</span><span class="en">View all packages →</span>
-          </a>
-        </div>
-      </aside>
 
     </div>
   </div>
