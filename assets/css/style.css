@@ -1425,6 +1425,7 @@ body.en .incl li::after {
 .foot-trust span { display: inline-flex; align-items: center; gap: 6px; }
 
 /* ── WhatsApp float ──────────────────────────────────── */
+/* Desktop floating WhatsApp pill */
 .wa-float {
   position: fixed;
   bottom: 28px;
@@ -1450,6 +1451,51 @@ body.en .wa-float { right: auto; left: 28px; }
   box-shadow: 0 8px 28px rgba(37,211,102,.5);
   animation: none;
 }
+
+/* Mobile 2-button CTA bar */
+.mob-cta-bar {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 200;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+  background: rgba(255,255,255,.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 -1px 0 rgba(0,0,0,.08), 0 -8px 24px rgba(0,0,0,.07);
+  gap: 10px;
+  animation: mob-bar-in .45s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes mob-bar-in {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+.mob-cta-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 16px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform .15s, box-shadow .15s;
+}
+.mob-cta-btn:active { transform: scale(.96); }
+.mob-cta-phone {
+  background: var(--flag-blue);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(0,70,174,.28);
+}
+.mob-cta-wa {
+  background: #25d366;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(37,211,102,.3);
+  animation: wa-pulse 3.5s ease-in-out 1s infinite;
+}
+.mob-cta-wa:active { animation: none; }
 
 /* ── Back to top ─────────────────────────────────────── */
 .back-top {
@@ -1539,9 +1585,10 @@ body.en .back-top { left: auto; right: 28px; }
   .promo-strip  { grid-template-columns: 1fr; padding: 28px 24px; }
   .container    { padding: 0 16px; }
   .top-bar-l span:not(.top-promo) { display: none; }
-  .wa-float span { display: none; }
-  .wa-float { padding: 14px; border-radius: 50%; bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
-  .back-top { bottom: calc(20px + env(safe-area-inset-bottom, 0px)); }
+  .wa-float { display: none; }
+  .mob-cta-bar { display: flex; }
+  .back-top { bottom: calc(82px + env(safe-area-inset-bottom, 0px)); }
+  body { padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)); }
   .booking { position: static; }
   .section { padding: 48px 0; }
   .quick-cats { padding: 56px 0 32px; }
