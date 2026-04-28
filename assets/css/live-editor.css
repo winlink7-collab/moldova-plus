@@ -37,22 +37,24 @@ body { padding-bottom: 44px; }
 #le-edit-btn {
   display: flex;
   align-items: center;
-  gap: 7px;
-  padding: 0 18px;
+  gap: 8px;
+  padding: 0 22px;
   height: 100%;
-  background: none;
+  background: #2563eb;
   border: none;
-  border-left: 1px solid rgba(255,255,255,.1);
-  color: #e2e8f0;
+  border-left: 1px solid rgba(255,255,255,.12);
+  color: #fff;
   cursor: pointer;
   font-family: 'Heebo', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  transition: background .15s, color .15s;
+  font-size: 14px;
+  font-weight: 800;
+  transition: background .15s;
   white-space: nowrap;
+  letter-spacing: .01em;
 }
-#le-edit-btn:hover { background: rgba(59,130,246,.25); color: #fff; }
-body.le-on #le-edit-btn { background: #3b82f6; color: #fff; }
+#le-edit-btn:hover { background: #1d4ed8; }
+body.le-on #le-edit-btn { background: #16a34a; }
+body.le-on #le-edit-btn:hover { background: #15803d; }
 
 #le-hint {
   flex: 1;
@@ -100,7 +102,8 @@ body.le-on #le-hint { display: flex; color: #94a3b8; }
 body.le-on #le-admin-link { display: flex; }
 
 #le-exit-btn {
-  display: none;
+  display: flex;
+  align-items: center;
   padding: 0 18px;
   height: 100%;
   background: none;
@@ -113,9 +116,9 @@ body.le-on #le-admin-link { display: flex; }
   font-weight: 600;
   transition: color .15s, background .15s;
   white-space: nowrap;
+  text-decoration: none;
 }
 #le-exit-btn:hover { color: #f87171; background: rgba(248,113,113,.08); }
-body.le-on #le-exit-btn { display: flex; align-items: center; }
 
 /* ── Editable text highlights ─────────────────────────────── */
 body.le-on [data-le] {
