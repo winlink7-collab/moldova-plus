@@ -64,6 +64,7 @@ $_FS = mp_site_settings();
       <div>
         <h5><span class="he">מידע</span><span class="en">Info</span></h5>
         <ul>
+          <li><a href="articles<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">בלוג תיירות</span><span class="en">Travel blog</span></a></li>
           <li><a href="about<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">אודות</span><span class="en">About</span></a></li>
           <li><a href="faq<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">שאלות נפוצות</span><span class="en">FAQ</span></a></li>
           <li><a href="terms<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">תקנון</span><span class="en">Terms</span></a></li>

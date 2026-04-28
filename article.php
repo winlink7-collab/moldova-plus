@@ -35,6 +35,7 @@ page_head($title . ' — Moldova Plus', $desc, $lang);
   <div class="container">
     <div class="crumbs">
       <a href="/<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">בית</span><span class="en">Home</span></a> /
+      <a href="articles<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">בלוג תיירות</span><span class="en">Travel blog</span></a> /
       <span class="cur"><?= htmlspecialchars($tag) ?></span>
     </div>
     <div class="art-banner-text">

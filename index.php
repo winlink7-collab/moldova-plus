@@ -501,9 +501,9 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
         <span class="he">כתבות <span>ומדריכים</span></span>
         <span class="en">From the <span>magazine</span></span>
       </h2>
-      <button class="btn-link">
+      <a href="articles<?= $lang==='en'?'?lang=en':'' ?>" class="btn-link">
         <span class="he">כל הכתבות</span><span class="en">View all</span>
-      </button>
+      </a>
     </div>
     <div class="article-grid">
       <?php foreach ($ARTICLES as $i => $a):
