@@ -1,5 +1,5 @@
 <?php
-// Helper functions
+require_once __DIR__ . '/live-editor.php';
 
 function get_lang(): string {
     if (isset($_GET['lang']) && in_array($_GET['lang'], ['he','en'], true)) {
@@ -65,7 +65,7 @@ function render_card(array $p, string $lang, string $t_nights, string $t_from, b
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-7 7-12a7 7 0 1 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
           <?= $loc ?>
         </span>
-        <h3 class="card-title"><?= $title ?></h3>
+        <h3 class="card-title"<?= le('packages:' . $p['id'] . ':title_he') ?>><?= $title ?></h3>
         <?php if ($show_desc && ($desc = raw($p, 'desc', $lang))): ?>
           <p style="font-size:13px;color:var(--ink-soft);margin:4px 0 0;line-height:1.5"><?= htmlspecialchars($desc) ?></p>
         <?php endif; ?>
@@ -87,7 +87,7 @@ function render_card(array $p, string $lang, string $t_nights, string $t_from, b
           <div class="card-price">
             <?php if ($old): ?><span class="old"><?= eur($old) ?></span><?php endif; ?>
             <small><?= htmlspecialchars($t_from) ?></small>
-            <b><?= eur($p['price']) ?><sub> /<?= $lang==='he'?'אדם':'pp' ?></sub></b>
+            <b<?= le('packages:' . $p['id'] . ':price') ?>><?= eur($p['price']) ?><sub> /<?= $lang==='he'?'אדם':'pp' ?></sub></b>
           </div>
           <span class="card-status <?= $p['status'] ?>">
             <?php if ($p['status']==='now'): ?>
@@ -123,7 +123,9 @@ function page_head(string $title, string $desc = '', string $lang = 'he'): void 
 <body class="<?= $lang ?>">
 <?php }
 
-function page_foot(): void { ?>
+function page_foot(): void {
+  le_footer();
+?>
   <script src="assets/js/main.js?v=<?= filemtime(__DIR__ . '/../assets/js/main.js') ?>"></script>
 </body>
 </html>

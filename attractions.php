@@ -66,11 +66,11 @@ $filtered = $cat_filter === 'all' ? $ATTRACTIONS : array_values(array_filter($AT
             <span class="he">מולדובה</span><span class="en">Moldova</span>
           </span>
           <h3 class="card-title">
-            <span class="he"><?= $a['he'] ?></span>
+            <span class="he"<?= le('attractions:' . ($a['id'] ?? '') . ':he') ?>><?= $a['he'] ?></span>
             <span class="en"><?= htmlspecialchars($a['en']) ?></span>
           </h3>
           <p style="font-size:13px;color:var(--ink-soft);margin:4px 0 0;line-height:1.55">
-            <span class="he"><?= $a['he2'] ?></span>
+            <span class="he"<?= le('attractions:' . ($a['id'] ?? '') . ':he2') ?>><?= $a['he2'] ?></span>
             <span class="en"><?= htmlspecialchars($a['en2']) ?></span>
           </p>
         </div>

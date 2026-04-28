@@ -20,7 +20,7 @@ $_FS = mp_site_settings();
           </span>
         </a>
         <p>
-          <span class="he"><?= mp_s('footer_about_he') ?></span>
+          <span class="he"<?= le('settings:footer_about_he') ?>><?= mp_s('footer_about_he') ?></span>
           <span class="en"><?= mp_s('footer_about_en') ?></span>
         </p>
         <div class="foot-social">
@@ -90,7 +90,7 @@ $_FS = mp_site_settings();
     </div>
 
     <div class="foot-base">
-      <span><?= mp_s('footer_copy') ?></span>
+      <span<?= le('settings:footer_copy') ?>><?= mp_s('footer_copy') ?></span>
       <div class="foot-trust">
         <span>
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.5 9.5-8 11-4.5-1.5-8-6-8-11V5l8-3z"/><path d="M9 12l2 2 4-4"/></svg>

@@ -43,19 +43,19 @@ page_head(
   <div class="container">
     <div class="stats-grid">
       <div class="stat-card reveal">
-        <div class="stat-num"><?= htmlspecialchars($_stat_years) ?></div>
+        <div class="stat-num"<?= le('settings:stat_years') ?>><?= htmlspecialchars($_stat_years) ?></div>
         <div class="stat-label"><span class="he">שנות פעילות</span><span class="en">Years active</span></div>
       </div>
       <div class="stat-card reveal d1">
-        <div class="stat-num"><?= htmlspecialchars($_stat_packages) ?></div>
+        <div class="stat-num"<?= le('settings:stat_packages') ?>><?= htmlspecialchars($_stat_packages) ?></div>
         <div class="stat-label"><span class="he">חבילות נמכרו</span><span class="en">Packages sold</span></div>
       </div>
       <div class="stat-card reveal d2">
-        <div class="stat-num"><?= htmlspecialchars($_stat_customers) ?></div>
+        <div class="stat-num"<?= le('settings:stat_customers') ?>><?= htmlspecialchars($_stat_customers) ?></div>
         <div class="stat-label"><span class="he">לקוחות מרוצים</span><span class="en">Happy customers</span></div>
       </div>
       <div class="stat-card reveal d3">
-        <div class="stat-num"><?= htmlspecialchars($_stat_rating) ?></div>
+        <div class="stat-num"<?= le('settings:stat_rating') ?>><?= htmlspecialchars($_stat_rating) ?></div>
         <div class="stat-label"><span class="he">דירוג ממוצע</span><span class="en">Average rating</span></div>
       </div>
     </div>

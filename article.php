@@ -39,8 +39,8 @@ page_head($title . ' — Moldova Plus', $desc, $lang);
     </div>
     <div class="art-banner-text">
       <span class="art-tag-pill"><?= htmlspecialchars($tag) ?></span>
-      <h1><?= htmlspecialchars($title) ?></h1>
-      <p class="art-lead"><?= htmlspecialchars($desc) ?></p>
+      <h1<?= le('articles:' . ($article['id'] ?? '') . ':title_he') ?>><?= htmlspecialchars($title) ?></h1>
+      <p class="art-lead"<?= le('articles:' . ($article['id'] ?? '') . ':desc_he') ?>><?= htmlspecialchars($desc) ?></p>
       <div class="art-meta">
         <span>
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>

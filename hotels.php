@@ -172,7 +172,7 @@ $hotels = !empty($_hotels_active) ? $_hotels_active : $hotels_default;
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-7 7-12a7 7 0 1 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
             <?= $lang==='he' ? $h['area_he'] : htmlspecialchars($h['area_en']) ?>
           </span>
-          <h3 class="card-title"><?= htmlspecialchars($h['name_he']) ?></h3>
+          <h3 class="card-title"<?= le('hotels:' . $h['id'] . ':name_he') ?>><?= htmlspecialchars($h['name_he']) ?></h3>
           <p style="font-size:13px;color:var(--ink-soft);margin:4px 0 6px;line-height:1.5">
             <?= $lang==='he' ? $h['desc_he'] : htmlspecialchars($h['desc_en']) ?>
           </p>
@@ -185,7 +185,7 @@ $hotels = !empty($_hotels_active) ? $_hotels_active : $hotels_default;
           <div class="card-foot">
             <div class="card-price">
               <small><?= $lang==='he'?'מחיר ללילה':'per night' ?></small>
-              <b>$<?= $h['price'] ?><sub> /<?= $lang==='he'?'לילה':'night' ?></sub></b>
+              <b<?= le('hotels:' . $h['id'] . ':price') ?>>$<?= $h['price'] ?><sub> /<?= $lang==='he'?'לילה':'night' ?></sub></b>
             </div>
             <a href="https://wa.me/<?= mp_sr('whatsapp','972355501880') ?>?text=<?= urlencode($lang==='he' ? 'היי, אני מעוניין להזמין חדר ב-' . $h['name_he'] : 'Hi, I\'d like to book a room at ' . $h['name_en']) ?>"
                target="_blank" rel="noopener"

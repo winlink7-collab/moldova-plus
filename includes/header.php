@@ -9,15 +9,15 @@ $_HS = mp_site_settings();
     <div class="top-bar-l">
       <span>
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7l.8 4a2 2 0 0 1-.6 1.9L7.6 11.4a16 16 0 0 0 6 6l1.8-1.7a2 2 0 0 1 1.9-.6l4 .8a2 2 0 0 1 1.7 2z"/></svg>
-        <?= mp_s('phone_display', '+972 3-555-0188') ?>
+        <span<?= le('settings:phone_display') ?>><?= mp_s('phone_display', '+972 3-555-0188') ?></span>
       </span>
       <span>
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
-        <?= mp_s('email', 'hello@moldovaplus.com') ?>
+        <span<?= le('settings:email') ?>><?= mp_s('email', 'hello@moldovaplus.com') ?></span>
       </span>
       <?php if (!empty($_HS['promo_active'])): ?>
       <span class="top-promo">
-        <span class="he"><?= mp_s('promo_he') ?></span>
+        <span class="he"<?= le('settings:promo_he') ?>><?= mp_s('promo_he') ?></span>
         <span class="en"><?= mp_s('promo_en') ?></span>
       </span>
       <?php endif; ?>

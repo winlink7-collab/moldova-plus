@@ -119,7 +119,7 @@ page_head(
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-7 7-12a7 7 0 1 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
           <?= htmlspecialchars($loc) ?>
         </span>
-        <h1><?= htmlspecialchars($title) ?></h1>
+        <h1<?= le('packages:' . $p['id'] . ':title_he') ?>><?= htmlspecialchars($title) ?></h1>
 
         <div class="detail-meta">
           <span class="badge">★ <?= $p['rating'] ?></span>
@@ -199,7 +199,7 @@ page_head(
         <div class="price">
           <small><?= htmlspecialchars($t['from']) ?></small>
           <?php if ($old): ?><span class="old"><?= eur($old) ?></span><?php endif; ?>
-          <b><?= eur($p['price']) ?><sub> /<?= $lang==='he'?'אדם':'person' ?></sub></b>
+          <b<?= le('packages:' . $p['id'] . ':price') ?>><?= eur($p['price']) ?><sub> /<?= $lang==='he'?'אדם':'person' ?></sub></b>
           <?php if ($p['discount']): ?>
             <span class="save">
               <span class="he">חיסכון של <?= $p['discount'] ?>%</span>

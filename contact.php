@@ -64,7 +64,7 @@ page_head(
           </div>
           <div>
             <b><span class="he">טלפון</span><span class="en">Phone</span></b>
-            <span><?= htmlspecialchars($_phone) ?> | <span class="he">א'–ה' <?= htmlspecialchars($_h_sun) ?></span><span class="en">Sun–Thu <?= htmlspecialchars($_h_sun) ?></span></span>
+            <span><span<?= le('settings:phone_display') ?>><?= htmlspecialchars($_phone) ?></span> | <span class="he">א'–ה' <span<?= le('settings:hours_sun_thu') ?>><?= htmlspecialchars($_h_sun) ?></span></span><span class="en">Sun–Thu <?= htmlspecialchars($_h_sun) ?></span></span>
           </div>
         </a>
 
@@ -74,7 +74,7 @@ page_head(
           </div>
           <div>
             <b><span class="he">אימייל</span><span class="en">Email</span></b>
-            <span><?= htmlspecialchars($_email) ?></span>
+            <span<?= le('settings:email') ?>><?= htmlspecialchars($_email) ?></span>
           </div>
         </a>
 
@@ -84,7 +84,7 @@ page_head(
           </div>
           <div>
             <b><span class="he">כתובת</span><span class="en">Address</span></b>
-            <span><span class="he"><?= htmlspecialchars($_addr_he) ?></span><span class="en"><?= htmlspecialchars($_addr_en) ?></span></span>
+            <span><span class="he"<?= le('settings:address_he') ?>><?= htmlspecialchars($_addr_he) ?></span><span class="en"><?= htmlspecialchars($_addr_en) ?></span></span>
           </div>
         </div>
 
@@ -96,11 +96,11 @@ page_head(
           </h4>
           <div class="hours-row">
             <span><span class="he">ראשון–חמישי</span><span class="en">Sun–Thu</span></span>
-            <b><?= htmlspecialchars($_h_sun) ?></b>
+            <b<?= le('settings:hours_sun_thu') ?>><?= htmlspecialchars($_h_sun) ?></b>
           </div>
           <div class="hours-row">
             <span><span class="he">שישי</span><span class="en">Friday</span></span>
-            <b><?= htmlspecialchars($_h_fri) ?></b>
+            <b<?= le('settings:hours_fri') ?>><?= htmlspecialchars($_h_fri) ?></b>
           </div>
           <div class="hours-row">
             <span><span class="he">שבת</span><span class="en">Saturday</span></span>
