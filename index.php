@@ -34,7 +34,7 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
              <span class="en"><?= htmlspecialchars($t['hero']['kicker']) ?></span>
         </span>
         <h1>
-          <span class="he"><?= $t['hero']['h1'][0] ?> <span><?= $t['hero']['h1'][1] ?></span></span>
+          <span class="he"><span<?= le('settings:hero_h1_he') ?>><?= $t['hero']['h1'][0] ?></span> <span><?= $t['hero']['h1'][1] ?></span></span>
           <span class="en"><?= htmlspecialchars($t['hero']['h1'][0]) ?> <span><?= htmlspecialchars($t['hero']['h1'][1]) ?></span></span>
         </h1>
         <p>
@@ -69,7 +69,7 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M9 14l-2 7 5-3 5 3-2-7"/></svg>
             </span>
             <div>
-              <b><span class="he"><?= $t['hero']['verified'] ?></span><span class="en"><?= htmlspecialchars($t['hero']['verified']) ?></span></b>
+              <b><span class="he"<?= le('settings:hero_trust2_he') ?>><?= $t['hero']['verified'] ?></span><span class="en"><?= htmlspecialchars($t['hero']['verified']) ?></span></b>
               <span>4,200+</span>
             </div>
           </div>
@@ -78,7 +78,7 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.5 9.5-8 11-4.5-1.5-8-6-8-11V5l8-3z"/></svg>
             </span>
             <div>
-              <b><span class="he"><?= $t['hero']['pkgs'] ?></span><span class="en"><?= htmlspecialchars($t['hero']['pkgs']) ?></span></b>
+              <b><span class="he"<?= le('settings:hero_trust3_he') ?>><?= $t['hero']['pkgs'] ?></span><span class="en"><?= htmlspecialchars($t['hero']['pkgs']) ?></span></b>
               <span class="he">מאומתות</span><span class="en">Vetted</span>
             </div>
           </div>
@@ -114,7 +114,7 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
               <div>
                 <p class="hero-pkg-loc">
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-7 7-12a7 7 0 1 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
-                  <?= htmlspecialchars($_hc_loc) ?>
+                  <span<?= le('settings:hc_loc_he') ?>><?= htmlspecialchars($_hc_loc) ?></span>
                 </p>
                 <h3 class="hero-pkg-title"<?= le('settings:hc_title_he') ?>><?= htmlspecialchars($_hc_title) ?></h3>
               </div>
@@ -151,7 +151,7 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
             <span class="av av3"></span>
           </div>
           <div class="fl-text">
-            <b><?= htmlspecialchars(mp_sr('stat_customers','15,000+')) ?></b>
+            <b<?= le('settings:stat_customers') ?>><?= htmlspecialchars(mp_sr('stat_customers','15,000+')) ?></b>
             <span class="he">אורחים מרוצים</span>
             <span class="en">happy guests</span>
           </div>
@@ -160,7 +160,7 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
         <!-- Floating review pill -->
         <div class="hero-review-pill">
           <span class="hero-review-stars">★★★★★</span>
-          <span class="he">״חוויה מדהימה, חוזרים!״</span>
+          <span class="he"<?= le('settings:hero_review_he') ?>><?= htmlspecialchars($_S['hero_review_he'] ?? '״חוויה מדהימה, חוזרים!״') ?></span>
           <span class="en">"Amazing, coming back!"</span>
         </div>
 

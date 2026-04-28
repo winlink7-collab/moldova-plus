@@ -49,6 +49,8 @@ if (file_exists($_stf)) {
     if (!empty($_st['hero_sub_en'])) $T['en']['hero']['sub'] = $_st['hero_sub_en'];
     if (!empty($_st['hero_h1_he'])) $T['he']['hero']['h1'] = [$_st['hero_h1_he'], ''];
     if (!empty($_st['hero_h1_en'])) $T['en']['hero']['h1'] = [$_st['hero_h1_en'], ''];
+    if (!empty($_st['hero_trust2_he'])) $T['he']['hero']['verified'] = $_st['hero_trust2_he'];
+    if (!empty($_st['hero_trust3_he'])) $T['he']['hero']['pkgs']     = $_st['hero_trust3_he'];
     if (!empty($_st['footer_about_he'])) $T['he']['foot']['about'] = $_st['footer_about_he'];
     if (!empty($_st['footer_about_en'])) $T['en']['foot']['about'] = $_st['footer_about_en'];
     if (!empty($_st['footer_copy'])) { $T['he']['foot']['copy'] = $_st['footer_copy']; $T['en']['foot']['copy'] = $_st['footer_copy']; }

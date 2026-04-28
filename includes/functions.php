@@ -45,14 +45,17 @@ function render_card(array $p, string $lang, string $t_nights, string $t_from, b
         ? ($lang==='he' ? 'אישור מיידי' : 'Instant booking')
         : ($lang==='he' ? 'יום עסקים' : '1 business day');
 
+    $card_img = !empty($p['image_url'])
+        ? '<div class="scene-img"><img src="' . htmlspecialchars($p['image_url']) . '" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"></div>'
+        : scene_img($p['scene'] ?? 'dark');
     ob_start(); ?>
     <a href="package-detail.php?id=<?= $p['id'] ?><?= $lang==='en'?'&lang=en':'' ?>" class="card">
-      <div class="card-img">
-        <?= scene_img($p['scene'] ?? 'dark') ?>
+      <div class="card-img"<?= le_img('packages:' . $p['id'] . ':image_url') ?>>
+        <?= $card_img ?>
         <span class="card-rating"><span class="star">★</span> <?= htmlspecialchars($p['rating']) ?></span>
         <?php if ($p['discount']): ?>
           <div class="card-discount">
-            <?= $p['discount'] ?>%<b><?= $lang==='he'?'הנחה':'OFF' ?></b>
+            <span<?= le('packages:' . $p['id'] . ':discount') ?>><?= $p['discount'] ?></span>%<b><?= $lang==='he'?'הנחה':'OFF' ?></b>
           </div>
         <?php endif; ?>
         <span class="card-nights"><?= $p['nights'] ?> <?= htmlspecialchars($t_nights) ?></span>
@@ -63,7 +66,7 @@ function render_card(array $p, string $lang, string $t_nights, string $t_from, b
       <div class="card-body">
         <span class="card-loc">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-7 7-12a7 7 0 1 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
-          <?= $loc ?>
+          <span<?= le('packages:' . $p['id'] . ':loc_he') ?>><?= $loc ?></span>
         </span>
         <h3 class="card-title"<?= le('packages:' . $p['id'] . ':title_he') ?>><?= $title ?></h3>
         <?php if ($show_desc && ($desc = raw($p, 'desc', $lang))): ?>
@@ -72,7 +75,7 @@ function render_card(array $p, string $lang, string $t_nights, string $t_from, b
         <div class="card-meta">
           <span>
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15 20a5 5 0 0 1 6.5-4.7"/></svg>
-            <?= htmlspecialchars($people) ?>
+            <span<?= le('packages:' . $p['id'] . ':people_he') ?>><?= htmlspecialchars($people) ?></span>
           </span>
           <span>·</span>
           <span>
@@ -80,7 +83,7 @@ function render_card(array $p, string $lang, string $t_nights, string $t_from, b
             <?= $p['nights'] ?> <?= htmlspecialchars($t_nights) ?>
           </span>
           <?php if ($tag): ?>
-            <span>·</span><span class="card-tag"><?= htmlspecialchars($tag) ?></span>
+            <span>·</span><span class="card-tag"<?= le('packages:' . $p['id'] . ':tag_he') ?>><?= htmlspecialchars($tag) ?></span>
           <?php endif; ?>
         </div>
         <div class="card-foot">
