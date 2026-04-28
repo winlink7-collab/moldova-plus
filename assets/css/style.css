@@ -2,11 +2,10 @@
    ─────────────────────────────────────────────────────── */
 
 /* ── Reset & Variables ──────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; }
-html { overflow-x: hidden; }
-html, body { margin: 0; padding: 0; scroll-behavior: smooth; }
-body { overflow-x: hidden; }
-img { max-width: 100%; display: block; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { overflow-x: clip; }
+html { scroll-behavior: smooth; }
+img, video, svg { max-width: 100%; display: block; }
 
 :root {
   /* Moldova flag colors — primary palette */
@@ -300,12 +299,14 @@ body.en .he { display: none !important; }
   transform: translateX(100%);
   transition: transform .32s cubic-bezier(.4,0,.2,1);
   overflow-y: auto;
+  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
   will-change: transform;
+  visibility: hidden;
 }
 body.en .mob-nav { transform: translateX(-100%); }
-.mob-nav.open { transform: translateX(0) !important; }
+.mob-nav.open { transform: translateX(0) !important; visibility: visible; }
 
 .mob-nav-top {
   display: flex;
@@ -1960,12 +1961,12 @@ body.en .back-top { left: auto; right: 28px; }
   .detail-meta { gap: 8px; font-size: 13px; }
 
   /* ── Booking card mobile ── */
-  .booking { padding: 20px 18px !important; }
-  .booking .price b { font-size: 28px; }
+  .booking { padding: 18px 16px !important; width: 100% !important; max-width: 100% !important; max-height: none !important; overflow-y: visible !important; }
+  .booking .price b { font-size: 26px; }
   .booking-row.split { grid-template-columns: 1fr 1fr; gap: 8px; }
-  .ctrl { min-height: 48px; padding: 12px 14px; }
-  .booking .btn { min-height: 52px; font-size: 15px; }
-  .booking-trust { flex-direction: row; flex-wrap: wrap; gap: 10px; font-size: 12px; }
+  .ctrl { min-height: 48px; padding: 10px 12px; }
+  .booking .btn { min-height: 52px; font-size: 15px; width: 100%; }
+  .booking-trust { flex-direction: column; gap: 8px; font-size: 12px; }
 
   /* ── Bachelor perks grid ── */
   .perks-grid { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
