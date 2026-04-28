@@ -1196,13 +1196,50 @@ body.en .region span { right: auto; left: 14px; }
 .art-tag-pill { display: inline-block; background: var(--flag-blue); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; margin-bottom: 16px; }
 .art-tag-sm { font-size: 10px; font-weight: 700; color: var(--flag-blue); text-transform: uppercase; letter-spacing: .06em; }
 
-/* Banner */
-.art-banner-v2 {
-  background: var(--flag-blue-pale);
-  padding: 44px 0 48px;
-  border-bottom: 3px solid transparent;
-  border-image: var(--flag-stripe) 1;
+/* Article Hero */
+.art-hero {
+  position: relative;
+  min-height: 420px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
 }
+.art-hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.art-hero-scene {
+  position: absolute;
+  inset: 0;
+}
+.art-hero-scene > * { width: 100%; height: 100%; }
+.art-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10,20,40,.82) 0%, rgba(10,20,40,.45) 55%, rgba(10,20,40,.1) 100%);
+}
+.art-hero-body {
+  position: relative;
+  z-index: 1;
+  padding-top: 120px;
+  padding-bottom: 48px;
+}
+.crumbs-light, .crumbs-light a { color: rgba(255,255,255,.75); }
+.crumbs-light a:hover { color: #fff; }
+.crumbs-light .cur { color: rgba(255,255,255,.55); }
+.art-hero-body .art-tag-pill { background: rgba(255,255,255,.2); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,.3); }
+.art-hero-body h1 { font-size: clamp(26px,3.8vw,52px); font-weight: 800; color: #fff; line-height: 1.15; margin: 14px 0 16px; max-width: 720px; }
+.art-hero-lead { font-size: 17px; color: rgba(255,255,255,.82); line-height: 1.65; margin: 0 0 22px; max-width: 620px; }
+.art-hero-meta { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.65); }
+.art-hero-meta svg { vertical-align: middle; }
+.art-hero-dot { opacity: .5; }
+
+/* Legacy banner kept for back-compat */
+.art-banner-v2 { background: var(--flag-blue-pale); padding: 44px 0 48px; border-bottom: 3px solid transparent; border-image: var(--flag-stripe) 1; }
 .art-banner-text { max-width: 760px; }
 .art-banner-text h1 { font-size: clamp(26px,3.5vw,44px); font-weight: 800; color: var(--ink); line-height: 1.2; margin: 14px 0 18px; }
 .art-lead { font-size: 17px; color: var(--ink-soft); line-height: 1.65; margin: 0 0 22px; max-width: 640px; }
@@ -2189,6 +2226,10 @@ body.en .back-top { left: auto; right: 28px; }
   .page-banner { padding: 32px 0 24px; }
   .page-banner h1 { font-size: clamp(22px, 6vw, 30px); }
   .page-banner p { font-size: 14px; }
+  .art-hero { min-height: 320px; }
+  .art-hero-body { padding-top: 80px; padding-bottom: 32px; }
+  .art-hero-body h1 { font-size: clamp(22px,6vw,34px); }
+  .art-hero-lead { font-size: 15px; }
   .art-banner-v2 { padding: 28px 0 32px; }
   .art-banner-text h1 { font-size: clamp(22px, 6vw, 32px); }
   .art-lead { font-size: 15px; }

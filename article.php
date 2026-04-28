@@ -27,43 +27,47 @@ if (count($feature_pkgs) < 3) {
     $feature_pkgs = array_slice(array_merge($feature_pkgs, array_values($extra)), 0, 3);
 }
 
-$title = $lang==='he' ? $article['title_he'] : $article['title_en'];
-$desc  = $lang==='he' ? $article['desc_he']  : $article['desc_en'];
-$body  = $lang==='he' ? ($article['body_he'] ?? '') : ($article['body_en'] ?? $article['body_he'] ?? '');
-$tag   = $lang==='he' ? $article['tag_he']   : $article['tag_en'];
+$title    = $lang==='he' ? $article['title_he'] : $article['title_en'];
+$desc     = $lang==='he' ? $article['desc_he']  : $article['desc_en'];
+$body     = $lang==='he' ? ($article['body_he'] ?? '') : ($article['body_en'] ?? $article['body_he'] ?? '');
+$tag      = $lang==='he' ? $article['tag_he']   : $article['tag_en'];
+$hero_img = $article['image_url'] ?? '';
 
-page_head($title . ' — Moldova Plus', $desc, $lang);
+page_head($title . ' — Moldova Plus', $desc, $lang, '/article/' . $id . ($lang==='en'?'?lang=en':''));
 ?>
 <?php include 'includes/header.php'; ?>
 
-<!-- ── Article Banner ──────────────────────────────────── -->
-<section class="art-banner-v2">
-  <div class="container">
-    <div class="crumbs">
+<!-- ── Hero ─────────────────────────────────────────────── -->
+<div class="art-hero">
+  <?php if ($hero_img): ?>
+    <img src="<?= htmlspecialchars($hero_img) ?>" alt="" class="art-hero-img">
+  <?php else: ?>
+    <div class="art-hero-img art-hero-scene"><?= scene_img($article['scene'] ?? 'gold') ?></div>
+  <?php endif; ?>
+  <div class="art-hero-overlay"></div>
+  <div class="art-hero-body container">
+    <div class="crumbs crumbs-light">
       <a href="/<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">בית</span><span class="en">Home</span></a> /
       <a href="articles<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">בלוג תיירות</span><span class="en">Travel blog</span></a> /
       <span class="cur"><?= htmlspecialchars($tag) ?></span>
     </div>
-    <div class="art-banner-text">
-      <span class="art-tag-pill"><?= htmlspecialchars($tag) ?></span>
-      <h1<?= le('articles:' . ($article['id'] ?? '') . ':title_he') ?>><?= htmlspecialchars($title) ?></h1>
-      <p class="art-lead"<?= le('articles:' . ($article['id'] ?? '') . ':desc_he') ?>><?= htmlspecialchars($desc) ?></p>
-      <div class="art-meta">
-        <span>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <?= $article['read'] ?> <span class="he">דקות קריאה</span><span class="en">min read</span>
-        </span>
-        <span>·</span>
-        <span><?= $article['date'] ?></span>
-      </div>
+    <span class="art-tag-pill"><?= htmlspecialchars($tag) ?></span>
+    <h1<?= le('articles:' . $id . ':title_he') ?>><?= htmlspecialchars($title) ?></h1>
+    <p class="art-hero-lead"<?= le('articles:' . $id . ':desc_he') ?>><?= htmlspecialchars($desc) ?></p>
+    <div class="art-hero-meta">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <?= $article['read'] ?> <span class="he">דקות קריאה</span><span class="en">min read</span>
+      <span class="art-hero-dot">·</span>
+      <span><?= $article['date'] ?></span>
     </div>
   </div>
-</section>
+</div>
 
-<!-- ── Article Prose ─────────────────────────────────────── -->
+<!-- ── Article body ──────────────────────────────────────── -->
 <section class="art-prose-section">
   <div class="container">
     <div class="art-prose-wrap">
+
       <div class="art-prose-v2">
         <?= $body ?>
       </div>
@@ -85,29 +89,37 @@ page_head($title . ' — Moldova Plus', $desc, $lang);
       </div>
 
       <!-- Other articles -->
+      <?php $other_articles = array_values(array_filter($ARTICLES, fn($a) => ($a['id']??'') !== $id));
+      if ($other_articles): ?>
       <div class="art-related-articles">
         <h3 class="he">כתבות נוספות</h3><h3 class="en">More articles</h3>
         <div class="art-more-grid-v2">
-          <?php foreach ($ARTICLES as $oa): if (($oa['id'] ?? '') === $id) continue; ?>
-          <a href="article/<?= $oa['id'] ?><?= $lang==='en'?'?lang=en':'' ?>" class="art-more-card-v2">
-            <div class="art-more-img-v2"><?= scene_img($oa['scene']) ?></div>
+          <?php foreach ($other_articles as $oa):
+            $_oa_img = !empty($oa['image_url'])
+              ? '<img src="'.htmlspecialchars($oa['image_url']).'" alt="" style="width:100%;height:100%;object-fit:cover">'
+              : scene_img($oa['scene']);
+          ?>
+          <a href="/article/<?= $oa['id'] ?><?= $lang==='en'?'?lang=en':'' ?>" class="art-more-card-v2">
+            <div class="art-more-img-v2"><?= $_oa_img ?></div>
             <div class="art-more-body-v2">
-              <span class="art-tag-sm"><?= $lang==='he' ? $oa['tag_he'] : htmlspecialchars($oa['tag_en']) ?></span>
-              <b><?= $lang==='he' ? $oa['title_he'] : htmlspecialchars($oa['title_en']) ?></b>
+              <span class="art-tag-sm"><?= htmlspecialchars($lang==='he' ? $oa['tag_he'] : $oa['tag_en']) ?></span>
+              <b><?= htmlspecialchars($lang==='he' ? $oa['title_he'] : $oa['title_en']) ?></b>
               <small><?= $oa['read'] ?> <span class="he">דק׳</span><span class="en">min</span> · <?= $oa['date'] ?></small>
             </div>
           </a>
           <?php endforeach; ?>
         </div>
       </div>
+      <?php endif; ?>
+
     </div>
   </div>
 </section>
 
 <!-- ── Featured Packages ─────────────────────────────────── -->
+<?php if ($feature_pkgs): ?>
 <section class="art-pkgs-section">
   <div class="container">
-
     <div class="art-pkgs-head">
       <div>
         <p class="art-pkgs-kicker"><span class="he">חבילות מומלצות</span><span class="en">Recommended packages</span></p>
@@ -121,37 +133,10 @@ page_head($title . ' — Moldova Plus', $desc, $lang);
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
     </div>
-
     <div class="card-grid">
-      <?php foreach ($feature_pkgs as $i => $p): ?>
-      <a href="package-detail?id=<?= $p['id'] ?><?= $lang==='en'?'&lang=en':'' ?>" class="card reveal d<?= $i+1 ?>">
-        <div class="card-img">
-          <?= scene_img($p['scene']) ?>
-          <?php if (!empty($p['tag_he'])): ?>
-          <span class="card-badge"><?= $lang==='he' ? $p['tag_he'] : htmlspecialchars($p['tag_en'] ?? $p['tag_he']) ?></span>
-          <?php endif; ?>
-          <span class="card-rating"><span class="star">★</span> <?= $p['rating'] ?></span>
-          <span class="card-nights"><?= $p['nights'] ?> <span class="he">לילות</span><span class="en">nights</span></span>
-        </div>
-        <div class="card-body">
-          <span class="card-loc">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-7 7-12a7 7 0 1 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
-            <?= $lang==='he' ? $p['loc_he'] : htmlspecialchars($p['loc_en']) ?>
-          </span>
-          <h3 class="card-title"><?= $lang==='he' ? $p['title_he'] : htmlspecialchars($p['title_en']) ?></h3>
-          <p class="card-desc"><?= $lang==='he' ? $p['desc_he'] : htmlspecialchars($p['desc_en']) ?></p>
-          <div class="card-foot">
-            <div class="card-price">
-              <small><?= $lang==='he'?'מחיר לאדם':'per person' ?></small>
-              <b>₪<?= number_format($p['price']) ?></b>
-            </div>
-            <span class="btn btn-primary btn-sm">
-              <span class="he">פרטים</span><span class="en">Details</span>
-            </span>
-          </div>
-        </div>
-      </a>
-      <?php endforeach; ?>
+      <?php foreach ($feature_pkgs as $fp):
+        echo render_card($fp, $lang, $t['nights'], $t['from']);
+      endforeach; ?>
     </div>
 
     <!-- Bottom CTA -->
@@ -179,9 +164,9 @@ page_head($title . ' — Moldova Plus', $desc, $lang);
         </div>
       </div>
     </div>
-
   </div>
 </section>
+<?php endif; ?>
 
 <?php include 'includes/footer.php'; ?>
 <?php page_foot(); ?>
