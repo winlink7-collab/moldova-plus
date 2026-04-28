@@ -481,7 +481,7 @@
         // Welcome message
         showTyping(800, function() {
           addMsg(
-            isHe ? 'שלום! שמי שוריק ממולדובה 🇲🇩<br>אני כאן לעזור לך לתכנן את הטיול המושלם!' : 'Hi! I\'m Shurik from Moldova 🇲🇩<br>I\'m here to help you plan the perfect trip!',
+            isHe ? 'שלום! שמי שוריק ממולדובה פלוס 🇲🇩<br>אני כאן לעזור לך לתכנן את הטיול המושלם!' : 'Hi! I\'m Shurik from Moldova Plus 🇲🇩<br>I\'m here to help you plan the perfect trip!',
             'bot'
           );
           setQuick(isHe ? ['חבילות','מחירים','רווקים','ספא','יין'] : ['Packages','Prices','Bachelor','Spa','Wine']);
