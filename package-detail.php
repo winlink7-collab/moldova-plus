@@ -44,7 +44,7 @@ page_head(
     <!-- Gallery: 6 images -->
     <div class="detail-gal">
       <?php foreach ($scenes_gallery as $i => $sc): ?>
-      <div class="gm<?= $i===0?' gm-main':'' ?><?= $i===5?' gm-last':'' ?>">
+      <div class="gm<?= $i===5?' gm-last':'' ?>">
         <?= scene_img($sc) ?>
         <?php if ($i===5): ?>
         <button class="gal-all-btn" type="button">
