@@ -293,7 +293,7 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
           </div>
         </div>
         <div class="deal-actions">
-          <a href="https://wa.me/<?= htmlspecialchars(json_decode(file_get_contents(__DIR__.'/data/settings.json'),true)['whatsapp']??'972355501880') ?>?text=<?= urlencode($lang==='he' ? 'היי, אני מעוניין במבצע השבוע: '.$DEAL['title_he'] : 'Hi, interested in deal: '.($DEAL['title_en']??'')) ?>" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
+          <a href="https://wa.me/<?= mp_sr('whatsapp','972355501880') ?>?text=<?= urlencode($lang==='he' ? 'היי, אני מעוניין במבצע השבוע: '.$DEAL['title_he'] : 'Hi, interested in deal: '.($DEAL['title_en']??'')) ?>" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
             <span class="he">הזמינו עכשיו</span><span class="en">Book now</span>
           </a>
           <a href="packages.php<?= $lang==='en'?'?lang=en':'' ?>" class="btn btn-ghost">

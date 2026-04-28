@@ -1,6 +1,7 @@
 <?php
 require_once 'includes/functions.php';
 require_once 'includes/data.php';
+require_once 'includes/mp_settings.php';
 
 [$lang, $t] = page_init('terms');
 $page = 'terms';
@@ -141,7 +142,7 @@ page_head(
         </h2>
         <p><span class="he">לכל שאלה הנוגעת לתנאי השימוש:</span><span class="en">For any question regarding these terms:</span></p>
         <p>
-          <a href="mailto:hello@moldovaplus.com" style="color:var(--flag-blue)">hello@moldovaplus.com</a><br>
+          <a href="mailto:<?= mp_s('email','hello@moldovaplus.com') ?>" style="color:var(--flag-blue)"><?= mp_s('email','hello@moldovaplus.com') ?></a><br>
           <a href="https://wa.me/972355501880" style="color:var(--flag-blue)">WhatsApp: +972 35-550-1880</a>
         </p>
       </div>

@@ -2,6 +2,7 @@
 require_once 'includes/functions.php';
 require_once 'includes/data.php';
 require_once 'includes/scenes.php';
+require_once 'includes/mp_settings.php';
 
 [$lang, $t] = page_init('hotels');
 $page = 'hotels';
@@ -182,7 +183,7 @@ $hotels = [
               <small><?= $lang==='he'?'מחיר ללילה':'per night' ?></small>
               <b>$<?= $h['price'] ?><sub> /<?= $lang==='he'?'לילה':'night' ?></sub></b>
             </div>
-            <a href="https://wa.me/972355501880?text=<?= urlencode($lang==='he' ? 'היי, אני מעוניין להזמין חדר ב-' . $h['name_he'] : 'Hi, I\'d like to book a room at ' . $h['name_en']) ?>"
+            <a href="https://wa.me/<?= mp_sr('whatsapp','972355501880') ?>?text=<?= urlencode($lang==='he' ? 'היי, אני מעוניין להזמין חדר ב-' . $h['name_he'] : 'Hi, I\'d like to book a room at ' . $h['name_en']) ?>"
                target="_blank" rel="noopener"
                class="btn btn-primary" style="padding:10px 18px;font-size:13px;text-decoration:none">
               <span class="he">הזמן</span><span class="en">Book</span>
