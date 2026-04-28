@@ -30,10 +30,14 @@ if ($type === 'text') {
     $value = strip_tags(trim($value));
 } elseif ($type === 'img') {
     $value = trim($value);
-    if ($value !== '' && !preg_match('#^(https?://|\.\./|assets/)#i', $value)) {
+    if ($value !== '' && !preg_match('#^(https?://|\.\./|/?assets/)#i', $value)) {
         echo json_encode(['ok' => false, 'error' => 'invalid_url']);
         exit;
     }
+} elseif ($type === 'gallery') {
+    $arr = json_decode($value, true);
+    if (!is_array($arr)) $arr = [];
+    $value = array_values(array_filter($arr, fn($v) => is_string($v) && $v !== ''));
 }
 
 // Parse key: "file:field" or "file:id:field"

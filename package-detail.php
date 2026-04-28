@@ -72,7 +72,7 @@ page_head(
     </div>
 
     <!-- Gallery: 6 images -->
-    <div class="detail-gal" id="detail-gal"<?= le_img('packages:' . $p['id'] . ':image_url') ?>>
+    <div class="detail-gal" id="detail-gal"<?= LE_ADMIN ? ' data-le-gallery="packages:' . $p['id'] . ':gallery_images" data-gal-current="' . htmlspecialchars(json_encode($_gal_custom, JSON_UNESCAPED_UNICODE), ENT_QUOTES) . '"' : '' ?>>
       <?php if ($use_custom_gallery):
         $gal_show = array_slice($_gal_custom, 0, 6);
         while (count($gal_show) < 6) {
