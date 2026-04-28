@@ -511,7 +511,7 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
           ? '<div class="scene-img"><img src="'.htmlspecialchars($a['image_url']).'" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"></div>'
           : scene_img($a['scene']);
       ?>
-      <a href="article/<?= $a['id'] ?><?= $lang==='en'?'?lang=en':'' ?>" class="article reveal d<?= $i+1 ?>">
+      <a href="/article/<?= $a['id'] ?><?= $lang==='en'?'?lang=en':'' ?>" class="article reveal d<?= $i+1 ?>">
         <div class="article-img"<?= le_img('articles:' . $a['id'] . ':image_url') ?>><?= $_art_img ?></div>
         <div class="article-body">
           <span class="article-tag">
