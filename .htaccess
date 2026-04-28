@@ -18,17 +18,16 @@ RewriteRule ^ /%1 [R=301,NE,QSA,L]
 # 3. Redirect /articles → /blog (301)
 RewriteRule ^articles$ /blog [R=301,L]
 
-# Route /package/slug → package-detail.php
-RewriteRule ^package/([a-zA-Z0-9_-]+)$ package-detail.php?slug=$1 [L,QSA]
-
-# Route /article/slug → article.php
-RewriteRule ^article/([a-zA-Z0-9_-]+)$ article.php?id=$1 [L,QSA]
+# Explicit routes — must be before generic rule
+RewriteRule ^blog$                              blog.php                      [END,QSA]
+RewriteRule ^package/([a-zA-Z0-9_-]+)$         package-detail.php?slug=$1    [END,QSA]
+RewriteRule ^article/([a-zA-Z0-9_-]+)$         article.php?id=$1             [END,QSA]
 
 # 4. Internally route clean URLs → .php files
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} !^/admin/
-RewriteRule ^([a-zA-Z0-9_-]+)$ $1.php [L,QSA]
+RewriteRule ^([a-zA-Z0-9_-]+)$ $1.php [END,QSA]
 
 # Default charset and compression
 AddDefaultCharset UTF-8
