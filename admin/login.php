@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (password_verify($pass, mp_get_pass())) {
         $_SESSION['mp_admin_ok'] = true;
         $_SESSION['csrf'] = bin2hex(random_bytes(16));
-        $dest = $return ? rawurldecode($return) : 'index.php';
+        $dest = $return ? rawurldecode($return) : '/';
         header('Location: ' . $dest);
         exit;
     }

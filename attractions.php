@@ -21,7 +21,7 @@ $filtered = $cat_filter === 'all' ? $ATTRACTIONS : array_values(array_filter($AT
 <section class="page-banner">
   <div class="container">
     <div class="crumbs">
-      <a href="index.php<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">בית</span><span class="en">Home</span></a> /
+      <a href="/<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">בית</span><span class="en">Home</span></a> /
       <span class="cur he">אטרקציות</span><span class="cur en">Attractions</span>
     </div>
     <h1>
@@ -48,7 +48,7 @@ $filtered = $cat_filter === 'all' ? $ATTRACTIONS : array_values(array_filter($AT
         'nightlife'  => ['he'=>'חיי לילה',  'en'=>'Nightlife'],
       ];
       foreach ($cats as $cid => $cl): ?>
-      <a href="attractions.php?cat=<?= $cid ?><?= $lang==='en'?'&lang=en':'' ?>" class="filter-pill <?= $cat_filter===$cid?'active':'' ?>">
+      <a href="attractions?cat=<?= $cid ?><?= $lang==='en'?'&lang=en':'' ?>" class="filter-pill <?= $cat_filter===$cid?'active':'' ?>">
         <span class="he"><?= $cl['he'] ?></span>
         <span class="en"><?= htmlspecialchars($cl['en']) ?></span>
       </a>

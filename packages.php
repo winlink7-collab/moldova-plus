@@ -24,7 +24,7 @@ page_head(
 <section class="page-banner">
   <div class="container">
     <div class="crumbs">
-      <a href="index.php<?= $lang==='en'?'?lang=en':'' ?>">
+      <a href="/<?= $lang==='en'?'?lang=en':'' ?>">
         <span class="he">בית</span><span class="en">Home</span>
       </a> /
       <span class="cur he">חבילות נופש</span>
@@ -56,7 +56,7 @@ page_head(
         'spa'     => ['he'=>'ספא',      'en'=>'Spa'],
       ];
       foreach ($filter_types as $fid => $fl): ?>
-      <a href="packages.php?type=<?= $fid ?><?= $lang==='en'?'&lang=en':'' ?>" class="filter-pill <?= $type===$fid?'active':'' ?>">
+      <a href="packages?type=<?= $fid ?><?= $lang==='en'?'&lang=en':'' ?>" class="filter-pill <?= $type===$fid?'active':'' ?>">
         <span class="he"><?= $fl['he'] ?></span>
         <span class="en"><?= htmlspecialchars($fl['en']) ?></span>
       </a>

@@ -9,7 +9,7 @@ $_FS = mp_site_settings();
     <div class="foot-grid">
       <!-- About -->
       <div class="about">
-        <a href="index.php" class="logo logo-light">
+        <a href="/" class="logo logo-light">
           <span class="logo-mark">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 19 L12 5 L19 19Z"/><path d="M9 14 L12 17 L15 14"/>
@@ -40,11 +40,11 @@ $_FS = mp_site_settings();
       <div>
         <h5><span class="he">חבילות</span><span class="en">Packages</span></h5>
         <ul>
-          <li><a href="packages.php<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">חבילות נופש</span><span class="en">Travel packages</span></a></li>
-          <li><a href="bachelor.php<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">מסיבות רווקים</span><span class="en">Bachelor parties</span></a></li>
-          <li><a href="packages.php<?= $lang==='en'?'?lang=en':'' ?>#couples"><span class="he">חבילות זוגיות</span><span class="en">Couples</span></a></li>
-          <li><a href="packages.php<?= $lang==='en'?'?lang=en':'' ?>#wine"><span class="he">יקבים</span><span class="en">Wine tours</span></a></li>
-          <li><a href="packages.php<?= $lang==='en'?'?lang=en':'' ?>#lux"><span class="he">יוקרה</span><span class="en">Luxury</span></a></li>
+          <li><a href="packages<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">חבילות נופש</span><span class="en">Travel packages</span></a></li>
+          <li><a href="bachelor<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">מסיבות רווקים</span><span class="en">Bachelor parties</span></a></li>
+          <li><a href="packages<?= $lang==='en'?'?lang=en':'' ?>#couples"><span class="he">חבילות זוגיות</span><span class="en">Couples</span></a></li>
+          <li><a href="packages<?= $lang==='en'?'?lang=en':'' ?>#wine"><span class="he">יקבים</span><span class="en">Wine tours</span></a></li>
+          <li><a href="packages<?= $lang==='en'?'?lang=en':'' ?>#lux"><span class="he">יוקרה</span><span class="en">Luxury</span></a></li>
         </ul>
       </div>
 
@@ -52,11 +52,11 @@ $_FS = mp_site_settings();
       <div>
         <h5><span class="he">אטרקציות</span><span class="en">Attractions</span></h5>
         <ul>
-          <li><a href="attractions.php<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">יקבים</span><span class="en">Wineries</span></a></li>
-          <li><a href="attractions.php<?= $lang==='en'?'?lang=en':'' ?>#culture"><span class="he">תרבות</span><span class="en">Culture</span></a></li>
-          <li><a href="attractions.php<?= $lang==='en'?'?lang=en':'' ?>#adrenaline"><span class="he">אדרנלין</span><span class="en">Adrenaline</span></a></li>
-          <li><a href="attractions.php<?= $lang==='en'?'?lang=en':'' ?>#food"><span class="he">מסעדות</span><span class="en">Restaurants</span></a></li>
-          <li><a href="attractions.php<?= $lang==='en'?'?lang=en':'' ?>#nightlife"><span class="he">חיי לילה</span><span class="en">Nightlife</span></a></li>
+          <li><a href="attractions<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">יקבים</span><span class="en">Wineries</span></a></li>
+          <li><a href="attractions<?= $lang==='en'?'?lang=en':'' ?>#culture"><span class="he">תרבות</span><span class="en">Culture</span></a></li>
+          <li><a href="attractions<?= $lang==='en'?'?lang=en':'' ?>#adrenaline"><span class="he">אדרנלין</span><span class="en">Adrenaline</span></a></li>
+          <li><a href="attractions<?= $lang==='en'?'?lang=en':'' ?>#food"><span class="he">מסעדות</span><span class="en">Restaurants</span></a></li>
+          <li><a href="attractions<?= $lang==='en'?'?lang=en':'' ?>#nightlife"><span class="he">חיי לילה</span><span class="en">Nightlife</span></a></li>
         </ul>
       </div>
 
@@ -64,11 +64,11 @@ $_FS = mp_site_settings();
       <div>
         <h5><span class="he">מידע</span><span class="en">Info</span></h5>
         <ul>
-          <li><a href="about.php<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">אודות</span><span class="en">About</span></a></li>
-          <li><a href="faq.php<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">שאלות נפוצות</span><span class="en">FAQ</span></a></li>
-          <li><a href="terms.php<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">תקנון</span><span class="en">Terms</span></a></li>
-          <li><a href="privacy.php<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">מדיניות פרטיות</span><span class="en">Privacy</span></a></li>
-          <li><a href="contact.php<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">צור קשר</span><span class="en">Contact</span></a></li>
+          <li><a href="about<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">אודות</span><span class="en">About</span></a></li>
+          <li><a href="faq<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">שאלות נפוצות</span><span class="en">FAQ</span></a></li>
+          <li><a href="terms<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">תקנון</span><span class="en">Terms</span></a></li>
+          <li><a href="privacy<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">מדיניות פרטיות</span><span class="en">Privacy</span></a></li>
+          <li><a href="contact<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">צור קשר</span><span class="en">Contact</span></a></li>
         </ul>
       </div>
 

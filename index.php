@@ -42,13 +42,13 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
           <span class="en"><?= htmlspecialchars($t['hero']['sub']) ?></span>
         </p>
         <div class="hero-btns">
-          <a href="packages.php<?= $lang==='en'?'?lang=en':'' ?>" class="btn btn-primary">
+          <a href="packages<?= $lang==='en'?'?lang=en':'' ?>" class="btn btn-primary">
             <span class="he">גלו חבילות</span>
             <span class="en">Browse packages</span>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="he"><path d="M19 12H5M11 5l-7 7 7 7"/></svg>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="en"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
           </a>
-          <a href="bachelor.php<?= $lang==='en'?'?lang=en':'' ?>" class="btn btn-ghost">
+          <a href="bachelor<?= $lang==='en'?'?lang=en':'' ?>" class="btn btn-ghost">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14l-2 9a5 5 0 0 1-10 0L5 3z"/><path d="M12 17v4M8 21h8"/></svg>
             <span class="he">מסיבת רווקים</span>
             <span class="en">Bachelor party</span>
@@ -269,7 +269,7 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
       </div>
 
       <!-- Search button -->
-      <button type="button" class="search-go" id="search-go" data-base="packages.php" data-lang="<?= $lang ?>">
+      <button type="button" class="search-go" id="search-go" data-base="packages" data-lang="<?= $lang ?>">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></svg>
         <?= htmlspecialchars($t['search']['go']) ?>
       </button>
@@ -282,7 +282,7 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
   <div class="container reveal">
     <div class="qc-grid">
       <?php foreach ($QUICK_CATS as $cat): ?>
-      <a href="packages.php?type=<?= $cat['id'] ?><?= $lang==='en'?'&lang=en':'' ?>" class="qc">
+      <a href="packages?type=<?= $cat['id'] ?><?= $lang==='en'?'&lang=en':'' ?>" class="qc">
         <div class="qc-ic"><?= qc_icon($cat['ic']) ?></div>
         <span class="he"><?= $cat['he'] ?></span>
         <span class="en"><?= htmlspecialchars($cat['en']) ?></span>
@@ -347,7 +347,7 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
           <a href="https://wa.me/<?= mp_sr('whatsapp','972355501880') ?>?text=<?= urlencode($lang==='he' ? 'היי, אני מעוניין במבצע השבוע: '.$DEAL['title_he'] : 'Hi, interested in deal: '.($DEAL['title_en']??'')) ?>" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
             <span class="he">הזמינו עכשיו</span><span class="en">Book now</span>
           </a>
-          <a href="packages.php<?= $lang==='en'?'?lang=en':'' ?>" class="btn btn-ghost">
+          <a href="packages<?= $lang==='en'?'?lang=en':'' ?>" class="btn btn-ghost">
             <span class="he">ראו פרטים</span><span class="en">View details</span>
           </a>
         </div>
@@ -370,7 +370,7 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
         <span class="he">חבילות <span>מומלצות</span></span>
         <span class="en">Recommended <span>packages</span></span>
       </h2>
-      <a href="packages.php<?= $lang==='en'?'?lang=en':'' ?>" class="btn-link">
+      <a href="packages<?= $lang==='en'?'?lang=en':'' ?>" class="btn-link">
         <span class="he">כל החבילות</span><span class="en">View all</span>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="he"><path d="M19 12H5M11 5l-7 7 7 7"/></svg>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="en"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
@@ -445,7 +445,7 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
     </div>
     <div class="region-grid reveal">
       <?php foreach ($REGIONS as $r): ?>
-      <a href="packages.php<?= $lang==='en'?'?lang=en':'' ?>" class="region">
+      <a href="packages<?= $lang==='en'?'?lang=en':'' ?>" class="region">
         <?= scene_img($r['scene']) ?>
         <span class="he"<?= le('settings:region_' . $r['id'] . '_he') ?>><?= htmlspecialchars($r['he']) ?></span>
         <span class="en"><?= htmlspecialchars($r['en']) ?></span>
@@ -511,7 +511,7 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
           ? '<div class="scene-img"><img src="'.htmlspecialchars($a['image_url']).'" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"></div>'
           : scene_img($a['scene']);
       ?>
-      <a href="article.php?id=<?= $a['id'] ?><?= $lang==='en'?'&lang=en':'' ?>" class="article reveal d<?= $i+1 ?>">
+      <a href="article?id=<?= $a['id'] ?><?= $lang==='en'?'&lang=en':'' ?>" class="article reveal d<?= $i+1 ?>">
         <div class="article-img"<?= le_img('articles:' . $a['id'] . ':image_url') ?>><?= $_art_img ?></div>
         <div class="article-body">
           <span class="article-tag">

@@ -49,7 +49,7 @@ function render_card(array $p, string $lang, string $t_nights, string $t_from, b
         ? '<div class="scene-img"><img src="' . htmlspecialchars($p['image_url']) . '" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"></div>'
         : scene_img($p['scene'] ?? 'dark');
     ob_start(); ?>
-    <a href="package-detail.php?id=<?= $p['id'] ?><?= $lang==='en'?'&lang=en':'' ?>" class="card">
+    <a href="package-detail?id=<?= $p['id'] ?><?= $lang==='en'?'&lang=en':'' ?>" class="card">
       <div class="card-img"<?= le_img('packages:' . $p['id'] . ':image_url') ?>>
         <?= $card_img ?>
         <span class="card-rating"><span class="star">★</span> <?= htmlspecialchars($p['rating']) ?></span>

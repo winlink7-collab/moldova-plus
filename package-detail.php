@@ -46,8 +46,8 @@ page_head(
 
     <!-- Breadcrumb -->
     <div class="crumbs" style="margin-bottom:16px">
-      <a href="index.php<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">בית</span><span class="en">Home</span></a> /
-      <a href="packages.php<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">חבילות</span><span class="en">Packages</span></a> /
+      <a href="/<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">בית</span><span class="en">Home</span></a> /
+      <a href="packages<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">חבילות</span><span class="en">Packages</span></a> /
       <span class="cur"><?= htmlspecialchars($title) ?></span>
     </div>
 

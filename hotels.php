@@ -18,7 +18,7 @@ page_head(
 <section class="page-banner">
   <div class="container">
     <div class="crumbs">
-      <a href="index.php<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">בית</span><span class="en">Home</span></a> /
+      <a href="/<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">בית</span><span class="en">Home</span></a> /
       <span class="cur he">מלונות בקישינב</span>
       <span class="cur en">Hotels in Chișinău</span>
     </div>
@@ -137,7 +137,7 @@ $hotels = !empty($_hotels_active) ? $_hotels_active : $hotels_default;
 
     <!-- Filter bar -->
     <div class="filter-bar" style="margin-bottom:28px">
-      <a href="hotels.php<?= $lang==='en'?'?lang=en':'' ?>" class="filter-pill active">
+      <a href="hotels<?= $lang==='en'?'?lang=en':'' ?>" class="filter-pill active">
         <span class="he">הכל</span><span class="en">All</span>
       </a>
       <a href="#" class="filter-pill">

@@ -18,7 +18,7 @@ $results = array_values(array_filter($PACKAGES, fn($p) => ($p['page'] ?? '') ===
 <section class="page-banner" style="background:linear-gradient(135deg,#0a0e22,#0c1430)">
   <div class="container">
     <div class="crumbs" style="color:rgba(255,255,255,.5)">
-      <a href="index.php<?= $lang==='en'?'?lang=en':'' ?>" style="color:rgba(255,255,255,.5)">
+      <a href="/<?= $lang==='en'?'?lang=en':'' ?>" style="color:rgba(255,255,255,.5)">
         <span class="he">בית</span><span class="en">Home</span>
       </a> /
       <span class="cur" style="color:#ffd400">
@@ -73,7 +73,7 @@ $results = array_values(array_filter($PACKAGES, fn($p) => ($p['page'] ?? '') ===
       ];
       $active_type = isset($_GET['type']) && array_key_exists($_GET['type'], $bt) && $_GET['type'] !== 'all' ? $_GET['type'] : 'all';
       foreach ($bt as $fid => $fl): ?>
-      <a href="bachelor.php?type=<?= $fid ?><?= $lang==='en'?'&lang=en':'' ?>" class="filter-pill <?= $active_type===$fid?'active':'' ?>">
+      <a href="bachelor?type=<?= $fid ?><?= $lang==='en'?'&lang=en':'' ?>" class="filter-pill <?= $active_type===$fid?'active':'' ?>">
         <span class="he"><?= $fl['he'] ?></span>
         <span class="en"><?= htmlspecialchars($fl['en']) ?></span>
       </a>
