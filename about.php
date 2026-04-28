@@ -2,15 +2,14 @@
 require_once 'includes/functions.php';
 require_once 'includes/data.php';
 require_once 'includes/scenes.php';
+require_once 'includes/mp_settings.php';
 
 [$lang, $t] = page_init('about');
 
-$_sf = __DIR__ . '/data/settings.json';
-$_S  = file_exists($_sf) ? (json_decode(file_get_contents($_sf), true) ?? []) : [];
-$_stat_years     = $_S['stat_years']     ?? '8+';
-$_stat_packages  = $_S['stat_packages']  ?? '1,200+';
-$_stat_customers = $_S['stat_customers'] ?? '15,000+';
-$_stat_rating    = $_S['stat_rating']    ?? '4.9';
+$_stat_years     = mp_sr('stat_years',     '8+');
+$_stat_packages  = mp_sr('stat_packages',  '1,200+');
+$_stat_customers = mp_sr('stat_customers', '15,000+');
+$_stat_rating    = mp_sr('stat_rating',    '4.9');
 $page = 'about';
 
 page_head(

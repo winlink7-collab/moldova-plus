@@ -143,7 +143,7 @@ page_head(
         <p><span class="he">לכל שאלה הנוגעת לתנאי השימוש:</span><span class="en">For any question regarding these terms:</span></p>
         <p>
           <a href="mailto:<?= mp_s('email','hello@moldovaplus.com') ?>" style="color:var(--flag-blue)"><?= mp_s('email','hello@moldovaplus.com') ?></a><br>
-          <a href="https://wa.me/972355501880" style="color:var(--flag-blue)">WhatsApp: +972 35-550-1880</a>
+          <a href="https://wa.me/<?= mp_sr('whatsapp','972355501880') ?>" style="color:var(--flag-blue)">WhatsApp: +<?= mp_s('phone_display','+972 35-550-1880') ?></a>
         </p>
       </div>
 

@@ -1,6 +1,7 @@
 <?php
 require_once 'includes/functions.php';
 require_once 'includes/data.php';
+require_once 'includes/mp_settings.php';
 
 [$lang, $t] = page_init('faq');
 $page = 'faq';
@@ -292,8 +293,7 @@ page_head(
         <h3><span class="he">לא מצאתם תשובה?</span><span class="en">Didn't find an answer?</span></h3>
         <p><span class="he">הצוות שלנו זמין בוואטסאפ ומשיב תוך דקות.</span><span class="en">Our team is available on WhatsApp and responds within minutes.</span></p>
       </div>
-      <?php $_faq_sf=__DIR__.'/data/settings.json'; $_faq_wa=(file_exists($_faq_sf)?json_decode(file_get_contents($_faq_sf),true):[])['whatsapp']??'972355501880'; ?>
-      <a href="https://wa.me/<?= htmlspecialchars($_faq_wa) ?>" target="_blank" rel="noopener" class="btn btn-cta" style="position:relative;z-index:1">
+      <a href="https://wa.me/<?= mp_sr('whatsapp','972355501880') ?>" target="_blank" rel="noopener" class="btn btn-cta" style="position:relative;z-index:1">
         <span class="he">שלחו הודעה ←</span><span class="en">Send a message →</span>
       </a>
     </div>

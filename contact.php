@@ -1,18 +1,17 @@
 <?php
 require_once 'includes/functions.php';
 require_once 'includes/data.php';
+require_once 'includes/mp_settings.php';
 
 [$lang, $t] = page_init('contact');
 
-$_sf = __DIR__ . '/data/settings.json';
-$_S  = file_exists($_sf) ? (json_decode(file_get_contents($_sf), true) ?? []) : [];
-$_wa      = $_S['whatsapp']    ?? '972355501880';
-$_phone   = $_S['phone']       ?? '035550188';
-$_email   = $_S['email']       ?? 'hello@moldovaplus.com';
-$_addr_he = $_S['address_he']  ?? 'רחוב הברזל 3, תל אביב–יפו, קומה 4';
-$_addr_en = $_S['address_en']  ?? '3 HaBarzel St, Tel Aviv–Yafo, Floor 4';
-$_h_sun   = $_S['hours_sun_thu'] ?? '09:00 – 20:00';
-$_h_fri   = $_S['hours_fri']   ?? '09:00 – 14:00';
+$_wa      = mp_sr('whatsapp',    '972355501880');
+$_phone   = mp_sr('phone',       '035550188');
+$_email   = mp_sr('email',       'hello@moldovaplus.com');
+$_addr_he = mp_sr('address_he',  'רחוב הברזל 3, תל אביב–יפו, קומה 4');
+$_addr_en = mp_sr('address_en',  '3 HaBarzel St, Tel Aviv–Yafo, Floor 4');
+$_h_sun   = mp_sr('hours_sun_thu', '09:00 – 20:00');
+$_h_fri   = mp_sr('hours_fri',   '09:00 – 14:00');
 $page = 'contact';
 
 page_head(
