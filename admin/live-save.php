@@ -86,7 +86,7 @@ switch ($file) {
         break;
 
     case 'articles':
-        // format: "articles:slug:field"
+        // format: "articles:slug:field" — upsert by id
         $id    = $parts[1] ?? '';
         $field = $parts[2] ?? '';
         if (!$id || !$field) { echo json_encode(['ok' => false, 'error' => 'no_id']); exit; }
@@ -99,7 +99,7 @@ switch ($file) {
             }
         }
         unset($item);
-        if (!$found) { echo json_encode(['ok' => false, 'error' => 'not_found']); exit; }
+        if (!$found) { $data[] = ['id' => $id, $field => $value]; }
         break;
 
     case 'faq':

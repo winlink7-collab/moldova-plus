@@ -418,11 +418,11 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
       <div class="promo-orb" style="width:200px;height:200px;bottom:-60px;left:30%"></div>
       <div style="position:relative;z-index:1">
         <h3>
-          <span class="he">מועדון Moldova Plus — הצטרפו חינם</span>
+          <span class="he"<?= le('settings:promo_title_he') ?>><?= htmlspecialchars($_S['promo_title_he'] ?? 'מועדון Moldova Plus — הצטרפו חינם') ?></span>
           <span class="en">Moldova Plus Club — join free</span>
         </h3>
         <p>
-          <span class="he">5% הנחה בכל הזמנה, גישה מוקדמת לחבילות חדשות והטבה אישית בכל יום הולדת. ללא דמי חבר.</span>
+          <span class="he"<?= le('settings:promo_desc_he') ?>><?= htmlspecialchars($_S['promo_desc_he'] ?? '5% הנחה בכל הזמנה, גישה מוקדמת לחבילות חדשות והטבה אישית בכל יום הולדת. ללא דמי חבר.') ?></span>
           <span class="en">5% off every booking, early access to new packages and a birthday perk. No membership fee.</span>
         </p>
       </div>
@@ -447,7 +447,7 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
       <?php foreach ($REGIONS as $r): ?>
       <a href="packages.php<?= $lang==='en'?'?lang=en':'' ?>" class="region">
         <?= scene_img($r['scene']) ?>
-        <span class="he"><?= $r['he'] ?></span>
+        <span class="he"<?= le('settings:region_' . $r['id'] . '_he') ?>><?= htmlspecialchars($r['he']) ?></span>
         <span class="en"><?= htmlspecialchars($r['en']) ?></span>
       </a>
       <?php endforeach; ?>
@@ -467,24 +467,24 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
     </div>
     <div class="reviews-slider">
       <div class="reviews-track">
-        <?php foreach ([$REVIEWS, $REVIEWS] as $set): foreach ($set as $r): ?>
+        <?php foreach ([$REVIEWS, $REVIEWS] as $_rset_i => $set): foreach ($set as $r): ?>
         <div class="review">
           <div class="review-top">
             <div class="review-avatar" style="background:<?= $r['color'] ?>"><?= $r['initials'] ?></div>
             <div class="review-author">
-              <b class="he"><?= $r['name_he'] ?></b>
-              <b class="en"><?= htmlspecialchars($r['name_en']) ?></b>
+              <b class="he"<?= $_rset_i===0 ? le('reviews:' . $r['id'] . ':name_he') : '' ?>><?= htmlspecialchars($r['name_he']) ?></b>
+              <b class="en"><?= htmlspecialchars($r['name_en'] ?? '') ?></b>
               <span><?= $r['when'] ?></span>
             </div>
             <span class="review-stars"><?= str_repeat('★', $r['stars']) ?></span>
           </div>
           <p>
-            <span class="he"><?= $r['body_he'] ?></span>
-            <span class="en"><?= htmlspecialchars($r['body_en']) ?></span>
+            <span class="he"<?= $_rset_i===0 ? le('reviews:' . $r['id'] . ':body_he') : '' ?>><?= htmlspecialchars($r['body_he']) ?></span>
+            <span class="en"><?= htmlspecialchars($r['body_en'] ?? '') ?></span>
           </p>
           <div class="review-place">
-            <span class="he"><?= $r['place_he'] ?></span>
-            <span class="en"><?= htmlspecialchars($r['place_en']) ?></span>
+            <span class="he"<?= $_rset_i===0 ? le('reviews:' . $r['id'] . ':place_he') : '' ?>><?= htmlspecialchars($r['place_he']) ?></span>
+            <span class="en"><?= htmlspecialchars($r['place_en'] ?? '') ?></span>
           </div>
         </div>
         <?php endforeach; endforeach; ?>
@@ -506,20 +506,24 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
       </button>
     </div>
     <div class="article-grid">
-      <?php foreach ($ARTICLES as $i => $a): ?>
+      <?php foreach ($ARTICLES as $i => $a):
+        $_art_img = !empty($a['image_url'])
+          ? '<div class="scene-img"><img src="'.htmlspecialchars($a['image_url']).'" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"></div>'
+          : scene_img($a['scene']);
+      ?>
       <a href="article.php?id=<?= $a['id'] ?><?= $lang==='en'?'&lang=en':'' ?>" class="article reveal d<?= $i+1 ?>">
-        <div class="article-img"><?= scene_img($a['scene']) ?></div>
+        <div class="article-img"<?= le_img('articles:' . $a['id'] . ':image_url') ?>><?= $_art_img ?></div>
         <div class="article-body">
           <span class="article-tag">
-            <span class="he"><?= $a['tag_he'] ?></span>
+            <span class="he"<?= le('articles:' . $a['id'] . ':tag_he') ?>><?= htmlspecialchars($a['tag_he']) ?></span>
             <span class="en"><?= htmlspecialchars($a['tag_en']) ?></span>
           </span>
           <h4>
-            <span class="he"><?= $a['title_he'] ?></span>
+            <span class="he"<?= le('articles:' . $a['id'] . ':title_he') ?>><?= htmlspecialchars($a['title_he']) ?></span>
             <span class="en"><?= htmlspecialchars($a['title_en']) ?></span>
           </h4>
           <p>
-            <span class="he"><?= $a['desc_he'] ?></span>
+            <span class="he"<?= le('articles:' . $a['id'] . ':desc_he') ?>><?= htmlspecialchars($a['desc_he']) ?></span>
             <span class="en"><?= htmlspecialchars($a['desc_en']) ?></span>
           </p>
           <div class="article-foot">

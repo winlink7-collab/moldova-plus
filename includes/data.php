@@ -152,13 +152,22 @@ if (file_exists($_pkg_file)) {
 
 // ─── Regions ─────────────────────────────────────────────────────────────────
 $REGIONS = [
-  ['he'=>'מרכז קישינב',   'en'=>'Chișinău center',  'scene'=>'warm'],
-  ['he'=>'רובע הבילויים', 'en'=>'Nightlife district','scene'=>'dark'],
-  ['he'=>'יקב Mileștii',  'en'=>'Mileștii Mici',    'scene'=>'gold'],
-  ['he'=>'יער Codru',     'en'=>'Codru forest',     'scene'=>'green'],
-  ['he'=>'יקב Cricova',   'en'=>'Cricova',          'scene'=>'blue'],
-  ['he'=>'וילות יוקרה',  'en'=>'Luxury villas',    'scene'=>'light'],
+  ['id'=>0,'he'=>'מרכז קישינב',   'en'=>'Chișinău center',  'scene'=>'warm'],
+  ['id'=>1,'he'=>'רובע הבילויים', 'en'=>'Nightlife district','scene'=>'dark'],
+  ['id'=>2,'he'=>'יקב Mileștii',  'en'=>'Mileștii Mici',    'scene'=>'gold'],
+  ['id'=>3,'he'=>'יער Codru',     'en'=>'Codru forest',     'scene'=>'green'],
+  ['id'=>4,'he'=>'יקב Cricova',   'en'=>'Cricova',          'scene'=>'blue'],
+  ['id'=>5,'he'=>'וילות יוקרה',  'en'=>'Luxury villas',    'scene'=>'light'],
 ];
+// Override region names from settings.json
+if (isset($_stf) && file_exists($_stf)) {
+    $_rst = json_decode(file_get_contents($_stf), true) ?? [];
+    foreach ($REGIONS as &$_r) {
+        $k = 'region_' . $_r['id'] . '_he';
+        if (!empty($_rst[$k])) $_r['he'] = $_rst[$k];
+    }
+    unset($_r);
+}
 
 // ─── Reviews ─────────────────────────────────────────────────────────────────
 $_reviews_file = __DIR__ . '/../data/reviews.json';
@@ -250,11 +259,21 @@ $ARTICLES = [
   ],
 ];
 
-// Override ARTICLES from articles.json if available
+// Override ARTICLES from articles.json (selective merge by id)
 $_articles_json_path = __DIR__ . '/../data/articles.json';
 if (file_exists($_articles_json_path)) {
-    $_articles_from_json = json_decode(file_get_contents($_articles_json_path), true) ?? [];
-    if (!empty($_articles_from_json)) $ARTICLES = $_articles_from_json;
+    $_articles_ov = json_decode(file_get_contents($_articles_json_path), true) ?? [];
+    foreach ($ARTICLES as &$_a) {
+        foreach ($_articles_ov as $_oa) {
+            if (($_oa['id'] ?? '') === $_a['id']) {
+                foreach (['title_he','title_en','desc_he','desc_en','tag_he','tag_en','image_url'] as $_k) {
+                    if (isset($_oa[$_k])) $_a[$_k] = $_oa[$_k];
+                }
+                break;
+            }
+        }
+    }
+    unset($_a);
 }
 
 // ─── Attractions ─────────────────────────────────────────────────────────────
