@@ -1171,7 +1171,44 @@ body.en .region span { right: auto; left: 14px; }
 .review-place { font-size: 12px; color: var(--flag-blue); font-weight: 700; margin-top: auto; padding-top: 10px; border-top: 1px solid var(--line-soft); }
 
 /* ── Articles ────────────────────────────────────────── */
-.article-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 20px; }
+/* Blog featured card */
+.blog-featured {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 0;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow .2s, transform .18s;
+  min-height: 380px;
+}
+.blog-featured:hover { box-shadow: var(--sh-lg); transform: translateY(-3px); }
+.blog-featured-img { position: relative; overflow: hidden; }
+.blog-featured-img > * { width: 100%; height: 100%; object-fit: cover; display: block; }
+.blog-featured-body {
+  padding: 40px 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  justify-content: center;
+}
+body.he .blog-featured-body { padding: 40px 44px 40px 36px; }
+.blog-featured-body h2 { font-size: clamp(20px,2.2vw,30px); font-weight: 800; color: var(--ink); line-height: 1.25; margin: 0; }
+.blog-featured-body p { font-size: 15px; color: var(--ink-soft); line-height: 1.7; margin: 0; }
+.blog-featured-meta { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-mute); }
+.blog-featured-meta svg { flex-shrink: 0; }
+.blog-featured-cta {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 14px; font-weight: 700; color: var(--flag-blue);
+  margin-top: 4px;
+  transition: gap .2s;
+}
+.blog-featured:hover .blog-featured-cta { gap: 10px; }
+
+.article-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
 .article {
   background: #fff;
   border-radius: var(--r-lg);
@@ -2230,6 +2267,9 @@ body.en .back-top { left: auto; right: 28px; }
   .art-hero-body { padding-top: 80px; padding-bottom: 32px; }
   .art-hero-body h1 { font-size: clamp(22px,6vw,34px); }
   .art-hero-lead { font-size: 15px; }
+  .blog-featured { grid-template-columns: 1fr; }
+  .blog-featured-img { aspect-ratio: 16/8; }
+  .blog-featured-body { padding: 24px 24px 28px; }
   .art-banner-v2 { padding: 28px 0 32px; }
   .art-banner-text h1 { font-size: clamp(22px, 6vw, 32px); }
   .art-lead { font-size: 15px; }
