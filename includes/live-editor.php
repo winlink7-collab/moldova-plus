@@ -15,7 +15,11 @@ function le_img(string $key): string {
 
 // Output the editor toolbar + JS at page bottom (called from page_foot)
 function le_footer(): void {
-    if (!LE_ADMIN) return;
+    if (!LE_ADMIN) {
+        // Show a tiny discreet admin-login button for non-admins
+        echo '<a href="admin/" id="le-admin-hint" title="Admin login" style="position:fixed;bottom:12px;left:12px;z-index:9999;width:28px;height:28px;background:rgba(15,23,42,.55);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;text-decoration:none;font-size:13px;opacity:.35;transition:opacity .2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.35">🔐</a>';
+        return;
+    }
     if (session_status() === PHP_SESSION_NONE) session_start();
     if (empty($_SESSION['csrf'])) {
         $_SESSION['csrf'] = bin2hex(random_bytes(16));
