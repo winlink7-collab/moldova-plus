@@ -345,6 +345,12 @@
     var isHe         = chatLang !== 'en';
     var chatOpen     = false;
     var waNum        = '972355501880';
+    var lastTopic    = null;   // last matched response for context memory
+    var msgCount     = 0;      // user messages sent this session
+    var leadState    = null;   // null | 'ask_name' | 'ask_phone' | 'done'
+    var leadName     = '';
+    var leadPhone    = '';
+    var badgeShown   = false;
 
     // Bot knowledge base
     var responses = [
@@ -355,34 +361,34 @@
         quick: { he: ['כן, תראה לי','מחירים','רווקים','יין'], en: ['Show me','Prices','Bachelor','Wine'] }
       },
       {
-        keys: ['מחיר','מחירים','עלות','כמה','price','cost','how much'],
+        keys: ['מחיר','מחירים','עלות','price','cost','how much'],
         he: 'המחירים שלנו מתחילים מ-₪1,200 לאדם 💰\n\n• בסיסי: ₪1,200 – ₪1,800\n• מתקדם: ₪2,000 – ₪3,000\n• יוקרה: ₪3,500+\n\nכל החבילות כוללות: מלון, ארוחות בוקר, סיורים ולווי מקומי.',
         en: 'Our prices start from ₪1,200 per person 💰\n\n• Basic: ₪1,200 – ₪1,800\n• Premium: ₪2,000 – ₪3,000\n• Luxury: ₪3,500+\n\nAll packages include: hotel, breakfasts, tours & local guide.',
-        quick: { he: ['הזמנה','דברו איתי','כל החבילות'], en: ['Book now','Talk to us','All packages'] }
+        quick: { he: ['השאר פרטים','דברו איתי','כל החבילות'], en: ['Leave details','Talk to us','All packages'] }
       },
       {
         keys: ['רווקים','bachelor','מסיבה','party','חברים','friends'],
         he: 'מסיבות רווקים במולדובה 🎉 — הבחירה הכי חכמה!\n\n✅ וילות פרטיות עם בריכה\n✅ חיי לילה אגדיים בקישינב\n✅ מחירים פי 3 זולים מאירופה\n✅ סיפור שיספרו עליו שנים\n\nכמה אנשים בקבוצה?',
         en: 'Bachelor parties in Moldova 🎉 — the smartest choice!\n\n✅ Private villas with pool\n✅ Legendary nightlife in Chisinau\n✅ 3× cheaper than Europe\n✅ A story they\'ll tell for years\n\nHow many people in the group?',
-        quick: { he: ['5-10 אנשים','10-20 אנשים','דברו איתי'], en: ['5-10 people','10-20 people','Talk to us'] }
+        quick: { he: ['5-10 אנשים','10-20 אנשים','השאר פרטים'], en: ['5-10 people','10-20 people','Leave details'] }
       },
       {
         keys: ['יין','יקב','wine','winery','קריקובה','מילשטי','cricova','milestii'],
         he: 'יין מולדובי — הטוב בעולם 🍇\n\nסיורים ב-2 היקבים הגדולים בעולם:\n• <b>Mileștii Mici</b> — 200 ק"מ מנהרות תת-קרקעיות\n• <b>Cricova</b> — היקב של הסלבס\n\nכולל: טעימת יין, ארוחה וסיור ברכב.',
         en: 'Moldovan wine — among the world\'s best 🍇\n\nTours to 2 of the world\'s largest wineries:\n• <b>Mileștii Mici</b> — 200km underground tunnels\n• <b>Cricova</b> — the celebrity winery\n\nIncludes: wine tasting, meal & vehicle tour.',
-        quick: { he: ['הזמנה','מחירים','כל החבילות'], en: ['Book now','Prices','All packages'] }
+        quick: { he: ['השאר פרטים','מחירים','כל החבילות'], en: ['Leave details','Prices','All packages'] }
       },
       {
         keys: ['ספא','spa','מסאז','massage','זוגי','couple','רומנטי','romantic'],
         he: 'חבילות ספא רומנטיות 💆‍♀️\n\nמושלם לזוגות:\n✅ מלון בוטיק 4-5 כוכבים\n✅ יום ספא מלא + עיסוי זוגי\n✅ ארוחת ערב רומנטית\n✅ סיור ביקב עם זיווגי יין\n\nחבילות זוגיות מ-₪2,200 לזוג.',
         en: 'Romantic Spa Packages 💆‍♀️\n\nPerfect for couples:\n✅ 4-5 star boutique hotel\n✅ Full spa day + couples massage\n✅ Romantic dinner\n✅ Winery tour with wine pairing\n\nCouples packages from ₪2,200 per couple.',
-        quick: { he: ['הזמנה','מחירים','דברו איתי'], en: ['Book now','Prices','Talk to us'] }
+        quick: { he: ['השאר פרטים','מחירים','דברו איתי'], en: ['Leave details','Prices','Talk to us'] }
       },
       {
         keys: ['הזמנה','להזמין','book','reserve','קניה','buy'],
-        he: 'מעולה! 🎯 הדרך הכי מהירה להזמין — שלח לנו הודעה בוואטסאפ ונחזור אליך תוך דקות.',
-        en: 'Great! 🎯 The fastest way to book — send us a WhatsApp message and we\'ll get back to you within minutes.',
-        quick: { he: ['פתח וואטסאפ 💬'], en: ['Open WhatsApp 💬'] }
+        he: 'מעולה! 🎯 השאר לי את הפרטים שלך ונחזור אליך תוך דקות.',
+        en: 'Great! 🎯 Leave me your details and we\'ll get back to you within minutes.',
+        quick: { he: ['השאר פרטים','פתח וואטסאפ 💬'], en: ['Leave details','Open WhatsApp 💬'] }
       },
       {
         keys: ['שלום','היי','hello','hi','hey','בוקר','ערב'],
@@ -392,17 +398,15 @@
       }
     ];
 
-    var waQuickKeys = isHe ? ['פתח וואטסאפ 💬','דברו איתי'] : ['Open WhatsApp 💬','Talk to us'];
+    var waQuickKeys   = isHe ? ['פתח וואטסאפ 💬','דברו איתי'] : ['Open WhatsApp 💬','Talk to us'];
+    var leadQuickKeys = isHe ? ['השאר פרטים'] : ['Leave details'];
 
-    function addMsg(text, who, delay) {
-      delay = delay || 0;
-      setTimeout(function() {
-        var el = document.createElement('div');
-        el.className = 'shurik-msg ' + who;
-        el.innerHTML = text.replace(/\n/g,'<br>');
-        shurikMsgs.appendChild(el);
-        shurikMsgs.scrollTop = shurikMsgs.scrollHeight;
-      }, delay);
+    function addMsg(text, who) {
+      var el = document.createElement('div');
+      el.className = 'shurik-msg ' + who;
+      el.innerHTML = text.replace(/\n/g,'<br>');
+      shurikMsgs.appendChild(el);
+      shurikMsgs.scrollTop = shurikMsgs.scrollHeight;
     }
 
     function showTyping(duration, cb) {
@@ -429,18 +433,69 @@
       });
     }
 
+    // Lead collection flow
+    function startLeadFlow() {
+      leadState = 'ask_name';
+      showTyping(600, function() {
+        addMsg(isHe ? 'מעולה! 🎯 כדי שנוכל לחזור אליך — <b>מה שמך?</b>' : 'Great! 🎯 So we can reach you — <b>what\'s your name?</b>', 'bot');
+        setQuick(null);
+      });
+    }
+
+    function handleLeadStep(text) {
+      if (leadState === 'ask_name') {
+        leadName = text.trim();
+        leadState = 'ask_phone';
+        showTyping(500, function() {
+          addMsg(isHe ? 'נחמד ' + leadName + '! 😊 ומה <b>מספר הטלפון</b> שלך?' : 'Nice to meet you, ' + leadName + '! 😊 And your <b>phone number</b>?', 'bot');
+          setQuick(null);
+        });
+        return;
+      }
+      if (leadState === 'ask_phone') {
+        leadPhone = text.trim();
+        leadState = 'done';
+        showTyping(700, function() {
+          addMsg(isHe ? 'תודה ' + leadName + '! 🙏 נציג שלנו יחזור אליך בהקדם.' : 'Thanks ' + leadName + '! 🙏 Our agent will be in touch soon.', 'bot');
+          setTimeout(function() {
+            var waMsg = isHe
+              ? 'ליד חדש מהצ\'אט באתר:\nשם: ' + leadName + '\nטלפון: ' + leadPhone
+              : 'New lead from website chat:\nName: ' + leadName + '\nPhone: ' + leadPhone;
+            window.open('https://wa.me/' + waNum + '?text=' + encodeURIComponent(waMsg), '_blank');
+          }, 1200);
+          setQuick(isHe ? ['חבילות','מחירים'] : ['Packages','Prices']);
+        });
+      }
+    }
+
     function handleInput(text) {
       if (!text.trim()) return;
       addMsg(text, 'user');
       shurikInput.value = '';
       setQuick(null);
+      msgCount++;
 
-      // Check if WA redirect
+      // Lead collection in progress
+      if (leadState && leadState !== 'done') {
+        handleLeadStep(text);
+        return;
+      }
+
+      // Lead trigger quick button
+      if (leadQuickKeys.indexOf(text) !== -1 && leadState === null) {
+        startLeadFlow();
+        return;
+      }
+
+      // WhatsApp redirect
       if (waQuickKeys.indexOf(text) !== -1) {
         showTyping(700, function() {
           addMsg(isHe ? 'בסדר! מעביר אותך לוואטסאפ... 💬' : 'On it! Redirecting to WhatsApp... 💬', 'bot');
           setTimeout(function() {
-            var msg = isHe ? 'היי שוריק, שמחתי לדבר! אשמח לשמוע על חבילות' : 'Hi Shurik! I chatted with the bot and want to hear about packages';
+            var ctx = lastTopic ? (isHe ? lastTopic.keys[0] : lastTopic.keys[0]) : 'חבילות';
+            var msg = isHe
+              ? 'היי! דיברתי עם שוריק באתר ורציתי לשמוע על ' + ctx
+              : 'Hi! I chatted with Shurik on the site and want to know about ' + ctx;
             window.open('https://wa.me/' + waNum + '?text=' + encodeURIComponent(msg), '_blank');
           }, 1000);
         });
@@ -458,18 +513,65 @@
       }
 
       if (found) {
+        lastTopic = found;
         showTyping(900, function() {
           addMsg(isHe ? found.he : found.en, 'bot');
           setQuick(isHe ? found.quick.he : found.quick.en);
         });
+        // After 3 user messages on same topic, offer lead capture
+        if (msgCount >= 3 && leadState === null) {
+          setTimeout(function() {
+            showTyping(600, function() {
+              addMsg(isHe ? 'רואה שאתה מתעניין 🙂 רוצה שנחזור אליך עם הצעה מותאמת?' : 'I see you\'re interested 🙂 Want us to reach out with a tailored offer?', 'bot');
+              setQuick(isHe ? ['כן, השאר פרטים','המשך'] : ['Yes, leave details','Continue']);
+            });
+          }, 1800);
+        }
       } else {
-        showTyping(700, function() {
-          addMsg(
-            isHe ? 'לא הבנתי לגמרי 😅 אבל אשמח לעזור! לחץ על אחת האפשרויות או שלח לנו ב-וואטסאפ.' : 'I didn\'t quite get that 😅 Happy to help though! Choose an option or contact us on WhatsApp.',
-            'bot'
-          );
-          setQuick(isHe ? ['חבילות','מחירים','פתח וואטסאפ 💬'] : ['Packages','Prices','Open WhatsApp 💬']);
-        });
+        // Context-aware fallback: vague follow-up on last topic
+        var vagueWords = ['כן','אוקיי','בסדר','ספר','עוד','yes','ok','sure','more','tell me','show me'];
+        var isVague = vagueWords.some(function(w) { return lc.indexOf(w) !== -1; });
+
+        if (isVague && lastTopic) {
+          showTyping(800, function() {
+            addMsg(isHe ? lastTopic.he : lastTopic.en, 'bot');
+            setQuick(isHe ? lastTopic.quick.he : lastTopic.quick.en);
+          });
+        } else {
+          showTyping(700, function() {
+            addMsg(
+              isHe ? 'לא הבנתי לגמרי 😅 אבל אשמח לעזור! בחר נושא או שלח לנו ב-וואטסאפ.' : 'I didn\'t quite get that 😅 Happy to help! Pick a topic or reach us on WhatsApp.',
+              'bot'
+            );
+            setQuick(isHe ? ['חבילות','מחירים','פתח וואטסאפ 💬'] : ['Packages','Prices','Open WhatsApp 💬']);
+          });
+        }
+      }
+    }
+
+    // Handle "כן, השאר פרטים" from the 3-message nudge
+    function handleSpecialQuick(text) {
+      if (text === 'כן, השאר פרטים' || text === 'Yes, leave details') {
+        startLeadFlow();
+        return true;
+      }
+      if (text === 'המשך' || text === 'Continue') {
+        setQuick(isHe ? ['חבילות','מחירים','רווקים'] : ['Packages','Prices','Bachelor']);
+        return true;
+      }
+      return false;
+    }
+
+    var _origHandleInput = handleInput;
+    handleInput = function(text) {
+      if (handleSpecialQuick(text)) { addMsg(text, 'user'); shurikInput.value = ''; setQuick(null); return; }
+      _origHandleInput(text);
+    };
+
+    function showBadge() {
+      if (!chatOpen && !badgeShown) {
+        badgeShown = true;
+        shurikBadge.classList.remove('hide');
       }
     }
 
@@ -478,7 +580,6 @@
       shurikBox.classList.add('open');
       shurikBadge.classList.add('hide');
       if (shurikMsgs.children.length === 0) {
-        // Welcome message
         showTyping(800, function() {
           addMsg(
             isHe ? 'שלום! שמי שוריק ממולדובה פלוס 🇲🇩<br>אני כאן לעזור לך לתכנן את הטיול המושלם!' : 'Hi! I\'m Shurik from Moldova Plus 🇲🇩<br>I\'m here to help you plan the perfect trip!',
@@ -495,16 +596,28 @@
 
     shurikBubble.addEventListener('click', function() { chatOpen ? closeChat() : openChat(); });
     shurikClose && shurikClose.addEventListener('click', closeChat);
-
     shurikSend && shurikSend.addEventListener('click', function() { handleInput(shurikInput.value); });
     shurikInput && shurikInput.addEventListener('keydown', function(e) {
       if (e.key === 'Enter') handleInput(shurikInput.value);
     });
 
-    // Show badge after 4s
-    setTimeout(function() {
-      if (!chatOpen) shurikBadge.classList.remove('hide');
-    }, 4000);
+    // Smart trigger: exit intent — mouse leaves top of viewport (desktop)
+    document.addEventListener('mouseleave', function(e) {
+      if (e.clientY < 10) showBadge();
+    });
+
+    // Smart trigger: 10s idle on touch devices (mobile)
+    if ('ontouchstart' in window) {
+      var idleTimer = null;
+      function resetIdle() { clearTimeout(idleTimer); idleTimer = setTimeout(showBadge, 10000); }
+      ['touchstart','touchend','scroll'].forEach(function(ev) {
+        document.addEventListener(ev, resetIdle, { passive: true });
+      });
+      resetIdle();
+    } else {
+      // Fallback: show after 12s if user hasn't triggered exit intent
+      setTimeout(showBadge, 12000);
+    }
   }
 
   /* ── Gallery Lightbox ────────────────────────────────── */
