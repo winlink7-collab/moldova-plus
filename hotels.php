@@ -158,7 +158,7 @@ $hotels = !empty($_hotels_active) ? $_hotels_active : $hotels_default;
     <div class="card-grid">
       <?php foreach ($hotels as $h): ?>
       <div class="card" style="cursor:default">
-        <div class="card-img">
+        <div class="card-img"<?= le_img('hotels:' . $h['id'] . ':image_url') ?>>
           <?= scene_img($h['scene']) ?>
           <span class="card-rating">
             <span class="star">★</span> <?= $h['rating'] ?>
@@ -168,12 +168,12 @@ $hotels = !empty($_hotels_active) ? $_hotels_active : $hotels_default;
           </span>
         </div>
         <div class="card-body">
-          <span class="card-loc">
+          <span class="card-loc"<?= le('hotels:' . $h['id'] . ':area_he') ?>>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-7 7-12a7 7 0 1 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
             <?= $lang==='he' ? $h['area_he'] : htmlspecialchars($h['area_en']) ?>
           </span>
           <h3 class="card-title"<?= le('hotels:' . $h['id'] . ':name_he') ?>><?= htmlspecialchars($h['name_he']) ?></h3>
-          <p style="font-size:13px;color:var(--ink-soft);margin:4px 0 6px;line-height:1.5">
+          <p style="font-size:13px;color:var(--ink-soft);margin:4px 0 6px;line-height:1.5"<?= le('hotels:' . $h['id'] . ':desc_he') ?>>
             <?= $lang==='he' ? $h['desc_he'] : htmlspecialchars($h['desc_en']) ?>
           </p>
           <div class="card-meta">

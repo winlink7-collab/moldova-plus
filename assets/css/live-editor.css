@@ -1,30 +1,25 @@
-/* ── Moldova Plus Live Visual Editor ─────────────────────── */
+/* ── Moldova Plus Live Visual Editor ───────────────────────── */
 
-/* ── Toolbar bar ─────────────────────────────────────── */
+/* ── Toolbar ────────────────────────────────────────────────── */
 #le-bar {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 0; left: 0; right: 0;
   z-index: 99999;
   background: #0f172a;
   color: #e2e8f0;
   height: 44px;
   display: flex;
   align-items: center;
-  gap: 0;
   font-family: 'Heebo', sans-serif;
   font-size: 13px;
   direction: rtl;
   box-shadow: 0 -2px 16px rgba(0,0,0,.35);
   transition: background .2s;
 }
-
 body.le-on #le-bar {
   background: #1e3a5f;
   border-top: 2px solid #3b82f6;
 }
-
 body { padding-bottom: 44px; }
 
 .le-logo {
@@ -36,6 +31,7 @@ body { padding-bottom: 44px; }
   height: 100%;
   display: flex;
   align-items: center;
+  white-space: nowrap;
 }
 
 #le-edit-btn {
@@ -59,13 +55,17 @@ body { padding-bottom: 44px; }
 body.le-on #le-edit-btn { background: #3b82f6; color: #fff; }
 
 #le-hint {
+  flex: 1;
   padding: 0 16px;
   font-size: 12px;
   color: #64748b;
   display: none;
+  align-items: center;
   border-left: 1px solid rgba(255,255,255,.08);
   height: 100%;
-  align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 body.le-on #le-hint { display: flex; color: #94a3b8; }
 
@@ -73,17 +73,15 @@ body.le-on #le-hint { display: flex; color: #94a3b8; }
   padding: 0 14px;
   font-size: 12px;
   font-weight: 700;
-  min-width: 72px;
+  min-width: 80px;
   height: 100%;
   display: flex;
   align-items: center;
+  white-space: nowrap;
 }
 .le-saving { color: #fbbf24; }
 .le-saved  { color: #4ade80; }
 .le-error  { color: #f87171; }
-
-/* Spacer pushes admin link and exit to the left */
-#le-hint { flex: 1; }
 
 #le-admin-link {
   display: none;
@@ -119,74 +117,45 @@ body.le-on #le-admin-link { display: flex; }
 #le-exit-btn:hover { color: #f87171; background: rgba(248,113,113,.08); }
 body.le-on #le-exit-btn { display: flex; align-items: center; }
 
-/* ── Editable element highlights ──────────────────────── */
+/* ── Editable text highlights ─────────────────────────────── */
 body.le-on [data-le] {
-  cursor: text;
-  border-radius: 4px;
+  cursor: pointer !important;
   outline: 2px dashed transparent;
-  outline-offset: 3px;
+  outline-offset: 2px;
+  border-radius: 3px;
   transition: outline-color .12s, background-color .12s;
 }
-
 body.le-on [data-le]:hover {
   outline-color: #3b82f6;
-  background-color: rgba(59,130,246,.07);
+  background-color: rgba(59,130,246,.08);
 }
-
-body.le-on [data-le][contenteditable="true"]:focus {
+body.le-on [data-le].le-active-edit {
   outline: 2px solid #3b82f6 !important;
-  outline-offset: 3px;
-  background-color: rgba(59,130,246,.1);
-  border-radius: 4px;
+  background-color: rgba(59,130,246,.12);
 }
-
-/* Pencil tooltip on hover */
-body.le-on [data-le] {
-  position: relative;
-}
+/* Pencil badge */
+body.le-on [data-le] { position: relative; }
 body.le-on [data-le]:hover::after {
   content: '✏';
   position: absolute;
-  top: -20px;
+  top: -18px;
   right: 0;
   background: #3b82f6;
   color: #fff;
   font-size: 10px;
-  padding: 2px 6px;
+  padding: 1px 5px;
   border-radius: 4px;
   z-index: 10000;
   pointer-events: none;
   white-space: nowrap;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
-/* ── Image swap targets ────────────────────────────────── */
+/* ── Image swap targets ────────────────────────────────────── */
 body.le-on [data-le-img] {
-  cursor: pointer;
+  position: relative !important;
+  cursor: pointer !important;
 }
-
-body.le-on [data-le-img]:hover {
-  position: relative;
-}
-
-body.le-on [data-le-img]:hover::before {
-  content: '📷 החלף תמונה';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(0,0,0,.72);
-  color: #fff;
-  font-size: 13px;
-  font-weight: 700;
-  padding: 10px 20px;
-  border-radius: 10px;
-  z-index: 10001;
-  pointer-events: none;
-  white-space: nowrap;
-  font-family: 'Heebo', sans-serif;
-}
-
 body.le-on [data-le-img]::after {
   content: '';
   position: absolute;
@@ -195,9 +164,117 @@ body.le-on [data-le-img]::after {
   border-radius: inherit;
   transition: border-color .15s;
   pointer-events: none;
-  z-index: 10000;
+  z-index: 9998;
 }
-
 body.le-on [data-le-img]:hover::after {
   border-color: #3b82f6;
 }
+body.le-on [data-le-img]:hover::before {
+  content: '📷 החלף תמונה';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,.75);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: 10px;
+  z-index: 9999;
+  pointer-events: none;
+  white-space: nowrap;
+  font-family: 'Heebo', sans-serif;
+}
+
+/* ── Edit popup ───────────────────────────────────────────── */
+#le-popup {
+  display: none;
+  position: absolute;
+  z-index: 99998;
+  background: #fff;
+  border: 1.5px solid #dbeafe;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.18), 0 2px 8px rgba(59,130,246,.1);
+  padding: 14px;
+  width: 310px;
+  font-family: 'Heebo', sans-serif;
+  direction: rtl;
+}
+.le-pop-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #3b82f6;
+  margin-bottom: 8px;
+  letter-spacing: .02em;
+}
+.le-pop-ta {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 14px;
+  font-family: 'Heebo', sans-serif;
+  direction: rtl;
+  resize: vertical;
+  outline: none;
+  line-height: 1.55;
+  color: #0f172a;
+  min-height: 52px;
+}
+.le-pop-ta:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59,130,246,.14);
+}
+.le-pop-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+  justify-content: flex-end;
+}
+.le-pop-save {
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 7px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Heebo', sans-serif;
+  transition: background .15s;
+}
+.le-pop-save:hover { background: #2563eb; }
+.le-pop-cancel {
+  background: #f1f5f9;
+  color: #64748b;
+  border: none;
+  border-radius: 7px;
+  padding: 7px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: 'Heebo', sans-serif;
+  transition: background .15s;
+}
+.le-pop-cancel:hover { background: #e2e8f0; color: #0f172a; }
+
+/* ── Edit trigger buttons (for complex text like story) ────── */
+.le-trigger-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #3b82f6;
+  background: rgba(59,130,246,.1);
+  border: 1.5px dashed #3b82f6;
+  border-radius: 7px;
+  padding: 5px 12px;
+  cursor: pointer;
+  font-family: 'Heebo', sans-serif;
+  transition: background .15s;
+  user-select: none;
+}
+.le-trigger-btn:hover { background: rgba(59,130,246,.18); }

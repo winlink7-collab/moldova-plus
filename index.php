@@ -60,7 +60,7 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
             </span>
             <div>
-              <b><span class="he"><?= $t['hero']['best'] ?></span><span class="en"><?= htmlspecialchars($t['hero']['best']) ?></span></b>
+              <b><span class="he"<?= le('settings:hero_trust1_he') ?>><?= $t['hero']['best'] ?></span><span class="en"><?= htmlspecialchars($t['hero']['best']) ?></span></b>
               <span class="he">מוסכם</span><span class="en">Guaranteed</span>
             </div>
           </div>
@@ -298,7 +298,7 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
   <div class="container">
     <div class="deal-banner reveal">
       <div class="deal-visual">
-        <div class="deal-scene"><?= scene_img('warm','deal-img') ?></div>
+        <div class="deal-scene"<?= le_img('deal:image_url') ?>><?= scene_img('warm','deal-img') ?></div>
         <div class="deal-badge-float">
           <span class="deal-pct"<?= le('deal:discount') ?>><?= (int)$DEAL['discount'] ?>%</span>
           <span class="deal-off he">הנחה</span><span class="deal-off en">OFF</span>

@@ -72,7 +72,7 @@ page_head(
     </div>
 
     <!-- Gallery: 6 images -->
-    <div class="detail-gal" id="detail-gal">
+    <div class="detail-gal" id="detail-gal"<?= le_img('packages:' . $p['id'] . ':image_url') ?>>
       <?php if ($use_custom_gallery):
         $gal_show = array_slice($_gal_custom, 0, 6);
         while (count($gal_show) < 6) {
@@ -115,7 +115,7 @@ page_head(
 
       <!-- Main content -->
       <div class="detail-main">
-        <span class="card-loc" style="margin-bottom:10px">
+        <span class="card-loc"<?= le('packages:' . $p['id'] . ':loc_he') ?> style="margin-bottom:10px">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-7 7-12a7 7 0 1 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
           <?= htmlspecialchars($loc) ?>
         </span>
@@ -143,7 +143,7 @@ page_head(
         <!-- About -->
         <div class="det-section">
           <h3><span class="he">על החבילה</span><span class="en">About this package</span></h3>
-          <p><?= htmlspecialchars($desc ?: ($lang==='he'
+          <p<?= le('packages:' . $p['id'] . ':desc_he') ?>><?= htmlspecialchars($desc ?: ($lang==='he'
               ? 'חבילה ייחודית במולדובה שעוצבה במיוחד עבור אורחים שמחפשים שילוב של יוקרה, חוויה אותנטית וערך כלכלי גבוה. כל פרט בחבילה תוכנן בקפידה — מהאיסוף בשדה התעופה ועד הליווי המקומי.'
               : 'A distinctive Moldova package designed for guests seeking a blend of luxury, authentic experience and high value. Every detail is carefully planned — from the airport pickup to the local fixer.')) ?>
           </p>

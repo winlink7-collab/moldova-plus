@@ -81,7 +81,11 @@ page_head(
         $_default_en = "Moldova Plus was founded in 2018 by Israelis who lived and worked in Chișinău and fell in love with this small country — its amazing wines, genuine hospitality, endless nights and prices that simply don't exist in Europe.\n\nWe saw there was no reliable Hebrew source explaining why to come, what to do and how to book — so we built one. Every package we sell, we know personally. Every hotel we've tested. Every restaurant we've tasted.";
         $_story_he = $_about_he ?: $_default_he;
         $_story_en = $_about_en ?: $_default_en;
-        foreach (explode("\n\n", trim($_story_he)) as $_para): ?>
+        ?>
+        <?php if (LE_ADMIN): ?>
+        <span data-le="settings:about_story_he" data-le-init="<?= htmlspecialchars($_story_he) ?>" class="le-trigger-btn he" style="margin-bottom:14px">✏ ערוך סיפור</span>
+        <?php endif; ?>
+        <?php foreach (explode("\n\n", trim($_story_he)) as $_para): ?>
         <p style="font-size:16px;color:var(--ink-soft);line-height:1.8;margin:0 0 16px">
           <span class="he"><?= nl2br(htmlspecialchars($_para)) ?></span>
         </p>
@@ -100,7 +104,7 @@ page_head(
           </a>
         </div>
       </div>
-      <div class="story-img">
+      <div class="story-img"<?= le_img('settings:about_img') ?>>
         <?= scene_img('city') ?>
       </div>
     </div>
