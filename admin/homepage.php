@@ -25,6 +25,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['section'] ?? '') === 'prom
     mp_write_json('settings.json', $s) ? $msg = 'הפרומו עודכן!' : $error = 'שגיאה בשמירה.';
 }
 
+// --- SAVE HERO CARD ---
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['section'] ?? '') === 'herocard' && mp_csrf_verify()) {
+    $s = mp_read_json('settings.json');
+    $s['hc_title_he']    = trim($_POST['hc_title_he'] ?? '');
+    $s['hc_loc_he']      = trim($_POST['hc_loc_he'] ?? '');
+    $s['hc_nights']      = trim($_POST['hc_nights'] ?? '');
+    $s['hc_disc']        = trim($_POST['hc_disc'] ?? '');
+    $s['hc_price']       = trim($_POST['hc_price'] ?? '');
+    $s['hc_was']         = trim($_POST['hc_was'] ?? '');
+    $s['hc_rating']      = trim($_POST['hc_rating'] ?? '');
+    $s['hc_img']         = trim($_POST['hc_img'] ?? '');
+    $s['hc_includes_he'] = array_values(array_filter(array_map('trim', explode("\n", $_POST['hc_includes_he'] ?? ''))));
+    mp_write_json('settings.json', $s) ? $msg = 'כרטיס ה-Hero עודכן!' : $error = 'שגיאה בשמירה.';
+}
+
 // --- SAVE FOOTER ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['section'] ?? '') === 'footer' && mp_csrf_verify()) {
     $s = mp_read_json('settings.json');
@@ -89,6 +104,60 @@ $S = mp_read_json('settings.json');
               </div>
             </div>
             <button type="submit" class="btn-admin primary" style="margin-top:8px">שמור Hero</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Hero Package Card -->
+      <div class="admin-card" style="margin-bottom:20px">
+        <div class="card-head"><div><h2>כרטיס חבילה בהירו</h2><p>הכרטיס הצף בצד ימין של עמוד הבית</p></div></div>
+        <div class="card-body" style="padding:20px">
+          <form method="POST">
+            <input type="hidden" name="csrf" value="<?= htmlspecialchars(mp_csrf()) ?>">
+            <input type="hidden" name="section" value="herocard">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:12px">
+              <div class="form-group">
+                <label>שם החבילה (עברית)</label>
+                <input type="text" name="hc_title_he" value="<?= htmlspecialchars($S['hc_title_he'] ?? '') ?>" placeholder="חופשת יין וספא — 4 לילות">
+              </div>
+              <div class="form-group">
+                <label>מיקום</label>
+                <input type="text" name="hc_loc_he" value="<?= htmlspecialchars($S['hc_loc_he'] ?? '') ?>" placeholder="קישינב, מולדובה">
+              </div>
+              <div class="form-group">
+                <label>לילות</label>
+                <input type="text" name="hc_nights" value="<?= htmlspecialchars($S['hc_nights'] ?? '') ?>" placeholder="4">
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;margin-bottom:12px">
+              <div class="form-group">
+                <label>מחיר (€)</label>
+                <input type="text" name="hc_price" value="<?= htmlspecialchars($S['hc_price'] ?? '') ?>" placeholder="299">
+              </div>
+              <div class="form-group">
+                <label>מחיר מקורי (€)</label>
+                <input type="text" name="hc_was" value="<?= htmlspecialchars($S['hc_was'] ?? '') ?>" placeholder="470">
+              </div>
+              <div class="form-group">
+                <label>הנחה (%)</label>
+                <input type="text" name="hc_disc" value="<?= htmlspecialchars($S['hc_disc'] ?? '') ?>" placeholder="35">
+              </div>
+              <div class="form-group">
+                <label>דירוג</label>
+                <input type="text" name="hc_rating" value="<?= htmlspecialchars($S['hc_rating'] ?? '') ?>" placeholder="4.9">
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:12px">
+              <div class="form-group">
+                <label>תמונה (URL)</label>
+                <input type="text" name="hc_img" value="<?= htmlspecialchars($S['hc_img'] ?? '') ?>" placeholder="https://images.unsplash.com/...">
+              </div>
+              <div class="form-group">
+                <label>מה כלול (שורה לכל פריט, עד 4)</label>
+                <textarea name="hc_includes_he" rows="4" placeholder="מלון 5★&#10;סיור יקב&#10;ספא זוגי&#10;ארוחות בוקר"><?= htmlspecialchars(implode("\n", $S['hc_includes_he'] ?? [])) ?></textarea>
+              </div>
+            </div>
+            <button type="submit" class="btn-admin primary">שמור כרטיס Hero</button>
           </form>
         </div>
       </div>

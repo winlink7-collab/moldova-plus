@@ -2,6 +2,15 @@
 require_once __DIR__ . '/includes/auth.php';
 mp_admin_check();
 
+$UPLOAD_DIR = __DIR__ . '/../assets/images/uploads/';
+$UPLOAD_URL = '../assets/images/uploads/';
+$upload_images = [];
+if (is_dir($UPLOAD_DIR)) {
+    foreach (glob($UPLOAD_DIR . '*.{jpg,jpeg,png,webp,gif}', GLOB_BRACE) as $path) {
+        $upload_images[] = ['name' => basename($path), 'url' => $UPLOAD_URL . basename($path)];
+    }
+}
+
 $msg = ''; $error = '';
 $hotels = mp_read_json('hotels.json');
 
@@ -16,13 +25,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delet
 // --- SAVE ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'save' && mp_csrf_verify()) {
     $id = (int)($_POST['id'] ?? 0);
+    $tags_he = array_values(array_filter(array_map('trim', explode(',', $_POST['tags_he'] ?? ''))));
+    $tags_en = array_values(array_filter(array_map('trim', explode(',', $_POST['tags_en'] ?? ''))));
     $entry = [
-        'id'     => $id ?: (count($hotels) ? max(array_column($hotels,'id')) + 1 : 1),
-        'name'   => trim($_POST['name'] ?? ''),
-        'stars'  => max(1, min(5, (int)($_POST['stars'] ?? 4))),
-        'price'  => (int)($_POST['price'] ?? 0),
-        'rating' => trim($_POST['rating'] ?? ''),
-        'status' => trim($_POST['status'] ?? 'פעיל'),
+        'id'        => $id ?: (count($hotels) ? max(array_column($hotels,'id')) + 1 : 1),
+        'name_he'   => trim($_POST['name_he'] ?? ''),
+        'name_en'   => trim($_POST['name_en'] ?? ''),
+        'stars'     => max(1, min(5, (int)($_POST['stars'] ?? 4))),
+        'rating'    => trim($_POST['rating'] ?? ''),
+        'area_he'   => trim($_POST['area_he'] ?? ''),
+        'area_en'   => trim($_POST['area_en'] ?? ''),
+        'price'     => (int)($_POST['price'] ?? 0),
+        'desc_he'   => trim($_POST['desc_he'] ?? ''),
+        'desc_en'   => trim($_POST['desc_en'] ?? ''),
+        'tags_he'   => $tags_he,
+        'tags_en'   => $tags_en,
+        'scene'     => trim($_POST['scene'] ?? 'warm'),
+        'image_url' => trim($_POST['image_url'] ?? ''),
+        'status'    => trim($_POST['status'] ?? 'פעיל'),
     ];
     if ($id) {
         foreach ($hotels as &$h) { if ((int)$h['id'] === $id) { $h = $entry; break; } }
@@ -35,7 +55,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'save'
 }
 
 $edit_id = (int)($_GET['edit'] ?? 0);
-$edit = $edit_id ? (array_values(array_filter($hotels, fn($h) => (int)$h['id'] === $edit_id))[0] ?? null) : null;
+$edit = null;
+if ($edit_id) {
+    foreach ($hotels as $h) { if ((int)$h['id'] === $edit_id) { $edit = $h; break; } }
+    if (!$edit && isset($_GET['edit']) && $_GET['edit'] === 'new') $edit = [];
+}
+$scenes = ['warm','dark','light','green','gold','blue','honey','city'];
 ?>
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
@@ -53,7 +78,7 @@ $edit = $edit_id ? (array_values(array_filter($hotels, fn($h) => (int)$h['id'] =
     <div class="admin-topbar">
       <div><h1>מלונות בקישינב</h1><p>ניהול המלונות המוצגים באתר</p></div>
       <div style="display:flex;gap:10px">
-        <a href="../hotels.php" target="_blank" class="btn-admin ghost sm">צפה בדף המלונות</a>
+        <a href="../hotels.php" target="_blank" class="btn-admin ghost sm">צפה בדף</a>
         <a href="hotels.php?edit=new" class="btn-admin primary">+ הוסף מלון</a>
       </div>
     </div>
@@ -62,25 +87,32 @@ $edit = $edit_id ? (array_values(array_filter($hotels, fn($h) => (int)$h['id'] =
       <?php if ($msg): ?><div class="alert success"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg><?= htmlspecialchars($msg) ?></div><?php endif; ?>
       <?php if ($error): ?><div class="alert error"><?= htmlspecialchars($error) ?></div><?php endif; ?>
 
-      <!-- Form -->
+      <!-- Edit/Add Form -->
       <?php if (isset($_GET['edit'])): ?>
       <div class="admin-card" style="margin-bottom:20px">
-        <div class="card-head"><h2><?= $edit ? 'עריכת מלון' : 'הוסף מלון חדש' ?></h2></div>
+        <div class="card-head"><h2><?= $edit && !empty($edit) ? 'עריכת מלון' : 'הוסף מלון חדש' ?></h2></div>
         <div class="card-body" style="padding:20px">
           <form method="POST">
             <input type="hidden" name="csrf" value="<?= htmlspecialchars(mp_csrf()) ?>">
             <input type="hidden" name="action" value="save">
-            <input type="hidden" name="id" value="<?= $edit ? $edit['id'] : 0 ?>">
-            <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:16px;align-items:end">
+            <input type="hidden" name="id" value="<?= $edit['id'] ?? 0 ?>">
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:12px">
               <div class="form-group">
-                <label>שם המלון</label>
-                <input type="text" name="name" value="<?= htmlspecialchars($edit['name'] ?? '') ?>" placeholder="Nobil Luxury Boutique" required>
+                <label>שם המלון (עברית)</label>
+                <input type="text" name="name_he" value="<?= htmlspecialchars($edit['name_he'] ?? $edit['name'] ?? '') ?>" placeholder="Nobil Luxury Boutique" required>
               </div>
+              <div class="form-group">
+                <label>Hotel name (English)</label>
+                <input type="text" name="name_en" value="<?= htmlspecialchars($edit['name_en'] ?? $edit['name'] ?? '') ?>" placeholder="Nobil Luxury Boutique" style="direction:ltr">
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:16px;margin-bottom:12px">
               <div class="form-group">
                 <label>כוכבים</label>
                 <select name="stars">
                   <?php for($s=5;$s>=1;$s--): ?>
-                  <option value="<?= $s ?>" <?= ($edit['stars'] ?? 4)==$s?'selected':'' ?>><?= $s ?> כוכבים</option>
+                  <option value="<?= $s ?>" <?= ($edit['stars'] ?? 4)==$s?'selected':'' ?>><?= $s ?> ★</option>
                   <?php endfor; ?>
                 </select>
               </div>
@@ -93,6 +125,14 @@ $edit = $edit_id ? (array_values(array_filter($hotels, fn($h) => (int)$h['id'] =
                 <input type="text" name="rating" value="<?= htmlspecialchars($edit['rating'] ?? '') ?>" placeholder="9.8">
               </div>
               <div class="form-group">
+                <label>Scene (רקע)</label>
+                <select name="scene">
+                  <?php foreach ($scenes as $sc): ?>
+                  <option value="<?= $sc ?>" <?= ($edit['scene'] ?? 'warm')===$sc?'selected':'' ?>><?= $sc ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+              <div class="form-group">
                 <label>סטטוס</label>
                 <select name="status">
                   <option value="פעיל" <?= ($edit['status'] ?? '')==='פעיל'?'selected':'' ?>>פעיל</option>
@@ -100,7 +140,47 @@ $edit = $edit_id ? (array_values(array_filter($hotels, fn($h) => (int)$h['id'] =
                 </select>
               </div>
             </div>
-            <div style="display:flex;gap:10px;margin-top:8px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:12px">
+              <div class="form-group">
+                <label>אזור (עברית)</label>
+                <input type="text" name="area_he" value="<?= htmlspecialchars($edit['area_he'] ?? '') ?>" placeholder="מרכז העיר">
+              </div>
+              <div class="form-group">
+                <label>Area (English)</label>
+                <input type="text" name="area_en" value="<?= htmlspecialchars($edit['area_en'] ?? '') ?>" placeholder="City Center" style="direction:ltr">
+              </div>
+              <div class="form-group">
+                <label>תיאור (עברית)</label>
+                <textarea name="desc_he" rows="3" placeholder="תיאור קצר..."><?= htmlspecialchars($edit['desc_he'] ?? '') ?></textarea>
+              </div>
+              <div class="form-group">
+                <label>Description (English)</label>
+                <textarea name="desc_en" rows="3" style="direction:ltr" placeholder="Short description..."><?= htmlspecialchars($edit['desc_en'] ?? '') ?></textarea>
+              </div>
+              <div class="form-group">
+                <label>תגיות (עברית, מופרדות בפסיק)</label>
+                <input type="text" name="tags_he" value="<?= htmlspecialchars(implode(', ', $edit['tags_he'] ?? [])) ?>" placeholder="ספא, מסעדה, בריכה">
+              </div>
+              <div class="form-group">
+                <label>Tags (English, comma-separated)</label>
+                <input type="text" name="tags_en" value="<?= htmlspecialchars(implode(', ', $edit['tags_en'] ?? [])) ?>" placeholder="Spa, Restaurant, Pool" style="direction:ltr">
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom:12px">
+              <label>תמונה (URL) — השאר ריק לשימוש ב-scene</label>
+              <div style="display:flex;gap:8px">
+                <input type="text" name="image_url" id="hotel-img-url" value="<?= htmlspecialchars($edit['image_url'] ?? '') ?>" placeholder="https://..." style="flex:1">
+                <?php if ($upload_images): ?>
+                <select onchange="document.getElementById('hotel-img-url').value=this.value;this.selectedIndex=0" style="max-width:200px">
+                  <option value="">בחר מהמדיה...</option>
+                  <?php foreach ($upload_images as $img): ?>
+                  <option value="<?= htmlspecialchars($img['url']) ?>"><?= htmlspecialchars($img['name']) ?></option>
+                  <?php endforeach; ?>
+                </select>
+                <?php endif; ?>
+              </div>
+            </div>
+            <div style="display:flex;gap:10px">
               <button type="submit" class="btn-admin primary">שמור</button>
               <a href="hotels.php" class="btn-admin ghost">ביטול</a>
             </div>
@@ -112,22 +192,24 @@ $edit = $edit_id ? (array_values(array_filter($hotels, fn($h) => (int)$h['id'] =
       <!-- Table -->
       <div class="admin-card">
         <div class="card-head">
-          <div><h2>רשימת מלונות</h2><p><?= count($hotels) ?> מלונות רשומים</p></div>
+          <div><h2>רשימת מלונות</h2><p><?= count($hotels) ?> מלונות — מוצגים בדף hotels.php</p></div>
         </div>
         <table class="admin-table">
-          <thead><tr><th>שם המלון</th><th>כוכבים</th><th>מחיר/לילה</th><th>דירוג</th><th>סטטוס</th><th></th></tr></thead>
+          <thead><tr><th>שם</th><th>★</th><th>מחיר/לילה</th><th>דירוג</th><th>אזור</th><th>סטטוס</th><th></th></tr></thead>
           <tbody>
+            <?php if ($hotels): ?>
             <?php foreach ($hotels as $h): ?>
             <tr>
-              <td><b><?= htmlspecialchars($h['name']) ?></b></td>
-              <td><?= str_repeat('★', (int)$h['stars']) ?></td>
-              <td><b style="color:var(--blue)">$<?= (int)$h['price'] ?></b>/לילה</td>
-              <td>★ <?= htmlspecialchars($h['rating']) ?></td>
-              <td><span class="badge <?= $h['status']==='פעיל'?'green':'gray' ?>"><?= htmlspecialchars($h['status']) ?></span></td>
+              <td><b><?= htmlspecialchars($h['name_he'] ?? $h['name'] ?? '') ?></b></td>
+              <td><?= str_repeat('★', (int)($h['stars'] ?? 0)) ?></td>
+              <td><b style="color:var(--blue)">$<?= (int)($h['price'] ?? 0) ?></b>/לילה</td>
+              <td>★ <?= htmlspecialchars($h['rating'] ?? '') ?></td>
+              <td><?= htmlspecialchars($h['area_he'] ?? '') ?></td>
+              <td><span class="badge <?= ($h['status'] ?? 'פעיל')==='פעיל'?'green':'gray' ?>"><?= htmlspecialchars($h['status'] ?? 'פעיל') ?></span></td>
               <td>
                 <div style="display:flex;gap:6px">
                   <a href="hotels.php?edit=<?= $h['id'] ?>" class="btn-admin ghost sm">ערוך</a>
-                  <form method="POST" style="display:inline" onsubmit="return confirm('למחוק מלון זה?')">
+                  <form method="POST" style="display:inline" onsubmit="return confirm('למחוק?')">
                     <input type="hidden" name="csrf" value="<?= htmlspecialchars(mp_csrf()) ?>">
                     <input type="hidden" name="action" value="delete">
                     <input type="hidden" name="id" value="<?= $h['id'] ?>">
@@ -137,8 +219,17 @@ $edit = $edit_id ? (array_values(array_filter($hotels, fn($h) => (int)$h['id'] =
               </td>
             </tr>
             <?php endforeach; ?>
+            <?php else: ?>
+            <tr><td colspan="7" style="text-align:center;padding:32px;color:var(--ink-mute)">אין מלונות עדיין — לחץ "+ הוסף מלון" להוספת המלון הראשון</td></tr>
+            <?php endif; ?>
           </tbody>
         </table>
+      </div>
+
+      <div class="admin-card" style="margin-top:16px">
+        <div class="card-body" style="padding:14px 20px;font-size:13px;color:var(--ink-soft)">
+          <b>שים לב:</b> מלונות שנוספים כאן מוצגים בדף hotels.php. כל עוד הרשימה ריקה — יוצגו המלונות הברירת מחדל.
+        </div>
       </div>
     </div>
   </main>

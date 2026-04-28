@@ -86,48 +86,56 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
       </div>
 
       <!-- Hero package card visual -->
+      <?php
+      $_hc_title   = $_S['hc_title_he']    ?? 'חופשת יין וספא — 4 לילות';
+      $_hc_loc     = $_S['hc_loc_he']      ?? 'קישינב, מולדובה';
+      $_hc_disc    = $_S['hc_disc']        ?? '35';
+      $_hc_price   = $_S['hc_price']       ?? '299';
+      $_hc_was     = $_S['hc_was']         ?? '470';
+      $_hc_rating  = $_S['hc_rating']      ?? '4.9';
+      $_hc_img     = $_S['hc_img']         ?? 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=700&h=420&q=85';
+      $_hc_inc     = $_S['hc_includes_he'] ?? ['מלון 5★','סיור יקב','ספא זוגי','ארוחות בוקר'];
+      ?>
       <div class="hero-card-wrap">
 
         <!-- Main package card -->
         <div class="hero-pkg-card">
           <div class="hero-pkg-img">
-            <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=700&h=420&q=85" alt="" loading="eager">
+            <img src="<?= htmlspecialchars($_hc_img) ?>" alt="" loading="eager">
             <div class="hero-pkg-overlay"></div>
             <span class="hero-pkg-badge">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2l-8 11h7l-1 9 9-11h-7l2-9z"/></svg>
               <span class="he">מבצע השבוע</span><span class="en">Deal of the week</span>
             </span>
-            <span class="hero-pkg-rating">★ 4.9</span>
+            <span class="hero-pkg-rating">★ <?= htmlspecialchars($_hc_rating) ?></span>
           </div>
           <div class="hero-pkg-body">
             <div class="hero-pkg-top">
               <div>
                 <p class="hero-pkg-loc">
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-7 7-12a7 7 0 1 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
-                  <span class="he">קישינב, מולדובה</span><span class="en">Chișinău, Moldova</span>
+                  <?= htmlspecialchars($_hc_loc) ?>
                 </p>
-                <h3 class="hero-pkg-title">
-                  <span class="he">חופשת יין וספא — 4 לילות</span>
-                  <span class="en">Wine & Spa Escape — 4 nights</span>
-                </h3>
+                <h3 class="hero-pkg-title"><?= htmlspecialchars($_hc_title) ?></h3>
               </div>
+              <?php if ($_hc_disc): ?>
               <div class="hero-pkg-disc">
-                <span>35%</span>
+                <span><?= htmlspecialchars($_hc_disc) ?>%</span>
                 <small><span class="he">הנחה</span><span class="en">OFF</span></small>
               </div>
+              <?php endif; ?>
             </div>
             <div class="hero-pkg-includes">
-              <span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg><span class="he">מלון 5★</span><span class="en">5★ Hotel</span></span>
-              <span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg><span class="he">סיור יקב</span><span class="en">Winery tour</span></span>
-              <span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg><span class="he">ספא זוגי</span><span class="en">Couples spa</span></span>
-              <span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg><span class="he">ארוחות בוקר</span><span class="en">Breakfasts</span></span>
+              <?php foreach (array_slice($_hc_inc, 0, 4) as $_inc): ?>
+              <span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg><?= htmlspecialchars($_inc) ?></span>
+              <?php endforeach; ?>
             </div>
             <div class="hero-pkg-foot">
               <div class="hero-pkg-price">
-                <span class="hero-pkg-was">€470</span>
-                <div><small class="he">מ-</small><small class="en">from </small><b>€299</b><small class="he"> /אדם</small><small class="en"> /pp</small></div>
+                <?php if ($_hc_was): ?><span class="hero-pkg-was">€<?= htmlspecialchars($_hc_was) ?></span><?php endif; ?>
+                <div><small class="he">מ-</small><small class="en">from </small><b>€<?= htmlspecialchars($_hc_price) ?></b><small class="he"> /אדם</small><small class="en"> /pp</small></div>
               </div>
-              <a href="https://wa.me/<?= mp_sr('whatsapp','972355501880') ?>?text=<?= urlencode($lang==='he' ? 'היי, אני מעוניין בחבילת יין וספא 4 לילות' : "Hi, interested in Wine & Spa 4 nights deal") ?>" target="_blank" rel="noopener" class="hero-pkg-cta">
+              <a href="https://wa.me/<?= mp_sr('whatsapp','972355501880') ?>?text=<?= urlencode($lang==='he' ? 'היי, אני מעוניין בחבילה: '.$_hc_title : 'Hi, interested in: '.$_hc_title) ?>" target="_blank" rel="noopener" class="hero-pkg-cta">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.554 4.124 1.525 5.858L.057 23.5l5.797-1.516A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.663-.49-5.207-1.348l-.374-.218-3.44.9.924-3.35-.239-.386A9.955 9.955 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
                 <span class="he">הזמינו</span><span class="en">Book</span>
               </a>

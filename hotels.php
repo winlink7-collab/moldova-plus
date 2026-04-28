@@ -34,7 +34,7 @@ page_head(
 </section>
 
 <?php
-$hotels = [
+$hotels_default = [
   [
     'id'      => 1,
     'scene'   => 'blue',
@@ -126,6 +126,10 @@ $hotels = [
     'tags_en' => ['Historic location', 'Wi-Fi', 'Bar'],
   ],
 ];
+$_hotels_json = __DIR__ . '/data/hotels.json';
+$_hotels_from_json = file_exists($_hotels_json) ? (json_decode(file_get_contents($_hotels_json), true) ?? []) : [];
+$_hotels_active = array_values(array_filter($_hotels_from_json, fn($h) => ($h['status'] ?? 'פעיל') === 'פעיל'));
+$hotels = !empty($_hotels_active) ? $_hotels_active : $hotels_default;
 ?>
 
 <section class="page-pad">

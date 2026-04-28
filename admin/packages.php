@@ -37,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && mp_csrf_verify()) {
             'people_he'      => trim($_POST['people_he'] ?? ''),
             'image_url'      => trim($_POST['image_url'] ?? ''),
             'gallery_images' => array_values(array_filter($gallery_arr)),
+            'includes_he'   => array_values(array_filter(array_map('trim', explode("\n", $_POST['includes_he'] ?? '')))),
         ];
         if (mp_write_json('packages.json', $overrides)) {
             $saved = true;
@@ -280,6 +281,18 @@ $type_colors = [
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                       הוסף תמונות
                     </button>
+                  </div>
+
+                  <!-- Includes -->
+                  <div class="gal-edit-section">
+                    <div class="gal-edit-label">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                      מה כלול בחבילה
+                      <span style="font-weight:400;color:var(--ink-mute);font-size:11px">(שורה לכל פריט — ריק = ברירת מחדל)</span>
+                    </div>
+                    <div class="form-group" style="margin:0">
+                      <textarea name="includes_he" rows="5" placeholder="4 לילות במלון&#10;ארוחות בוקר&#10;יום ספא&#10;סיור יקב&#10;איסוף משדה התעופה"><?= htmlspecialchars(implode("\n", $ov['includes_he'] ?? [])) ?></textarea>
+                    </div>
                   </div>
                 </form>
               </td>

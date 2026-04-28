@@ -248,6 +248,13 @@ $ARTICLES = [
   ],
 ];
 
+// Override ARTICLES from articles.json if available
+$_articles_json_path = __DIR__ . '/../data/articles.json';
+if (file_exists($_articles_json_path)) {
+    $_articles_from_json = json_decode(file_get_contents($_articles_json_path), true) ?? [];
+    if (!empty($_articles_from_json)) $ARTICLES = $_articles_from_json;
+}
+
 // ─── Attractions ─────────────────────────────────────────────────────────────
 $ATTRACTIONS = [
   ['he'=>'יקב Mileștii Mici','en'=>'Mileștii Mici Winery','cat'=>'wine','scene'=>'gold','he2'=>'200 ק"מ של מנהרות תת-קרקעיות','en2'=>'200km of underground tunnels'],
@@ -259,3 +266,10 @@ $ATTRACTIONS = [
   ['he'=>'מסעדת Pegas',     'en'=>'Pegas Restaurant',     'cat'=>'food','scene'=>'warm','he2'=>'אגם פרטי + ספא דגים','en2'=>'Private lake + fish spa'],
   ['he'=>'רובע La 33',       'en'=>'La 33 District',       'cat'=>'nightlife','scene'=>'dark','he2'=>'חיי הלילה הכי שווים בקישינב','en2'=>'Best nightlife in Chișinău'],
 ];
+
+// Override ATTRACTIONS from attractions.json if available
+$_attr_json_path = __DIR__ . '/../data/attractions.json';
+if (file_exists($_attr_json_path)) {
+    $_attr_from_json = json_decode(file_get_contents($_attr_json_path), true) ?? [];
+    if (!empty($_attr_from_json)) $ATTRACTIONS = $_attr_from_json;
+}

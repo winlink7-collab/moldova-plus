@@ -153,8 +153,10 @@ page_head(
         <div class="det-section">
           <h3><span class="he">מה כלול</span><span class="en">What's included</span></h3>
           <?php
-          $inc_he = ['4 לילות במלון בוטיק יוקרתי','ארוחות בוקר עשירות','יום ספא מלא לזוג','סיור ביקב Mileștii Mici','ערב גסטרונומי עם זיווגי יין','איסוף ופיזור משדה התעופה','ליווי מקומי דובר אנגלית','WiFi מהיר וביטוח בריאות'];
-          $inc_en = ['4 nights in a luxury boutique hotel','Generous daily breakfasts','Full spa day for two','Mileștii Mici winery tour','Gastronomic evening with wine pairing','Airport pickup & drop-off','English-speaking local fixer','Fast WiFi and health insurance'];
+          $_default_inc_he = ['4 לילות במלון בוטיק יוקרתי','ארוחות בוקר עשירות','יום ספא מלא לזוג','סיור ביקב Mileștii Mici','ערב גסטרונומי עם זיווגי יין','איסוף ופיזור משדה התעופה','ליווי מקומי דובר אנגלית','WiFi מהיר וביטוח בריאות'];
+          $_default_inc_en = ['4 nights in a luxury boutique hotel','Generous daily breakfasts','Full spa day for two','Mileștii Mici winery tour','Gastronomic evening with wine pairing','Airport pickup & drop-off','English-speaking local fixer','Fast WiFi and health insurance'];
+          $inc_he = !empty($_pov['includes_he']) ? $_pov['includes_he'] : $_default_inc_he;
+          $inc_en = $_default_inc_en;
           ?>
           <ul class="incl">
             <?php foreach ($lang==='he' ? $inc_he : $inc_en as $item): ?>

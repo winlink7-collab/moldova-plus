@@ -74,14 +74,23 @@ page_head(
           <span class="he">נולדנו מתוך <span style="color:var(--flag-blue)">אהבה למולדובה</span></span>
           <span class="en">Born from a <span style="color:var(--flag-blue)">love for Moldova</span></span>
         </h2>
+        <?php
+        $_about_he = mp_s('about_story_he','');
+        $_about_en = mp_s('about_story_en','');
+        $_default_he = "Moldova Plus נוסדה ב-2018 על ידי ישראלים שחיו ועבדו בקישינב ונפלו בקסם של המדינה הקטנה הזו — היינות המדהימים, הכנסת האורחים האמיתית, הלילות האינסופיים, והמחירים שפשוט לא קיימים באירופה.\n\nראינו שאין מקום אמין בעברית שמסביר למה לבוא, מה לעשות ואיך להזמין — אז בנינו אחד. כל חבילה שאנחנו מוכרים — אנחנו מכירים אישית. כל מלון בדקנו. כל מסעדה טעמנו.";
+        $_default_en = "Moldova Plus was founded in 2018 by Israelis who lived and worked in Chișinău and fell in love with this small country — its amazing wines, genuine hospitality, endless nights and prices that simply don't exist in Europe.\n\nWe saw there was no reliable Hebrew source explaining why to come, what to do and how to book — so we built one. Every package we sell, we know personally. Every hotel we've tested. Every restaurant we've tasted.";
+        $_story_he = $_about_he ?: $_default_he;
+        $_story_en = $_about_en ?: $_default_en;
+        foreach (explode("\n\n", trim($_story_he)) as $_para): ?>
         <p style="font-size:16px;color:var(--ink-soft);line-height:1.8;margin:0 0 16px">
-          <span class="he">Moldova Plus נוסדה ב-2018 על ידי ישראלים שחיו ועבדו בקישינב ונפלו בקסם של המדינה הקטנה הזו — היינות המדהימים, הכנסת האורחים האמיתית, הלילות האינסופיים, והמחירים שפשוט לא קיימים באירופה.</span>
-          <span class="en">Moldova Plus was founded in 2018 by Israelis who lived and worked in Chișinău and fell in love with this small country — its amazing wines, genuine hospitality, endless nights and prices that simply don't exist in Europe.</span>
+          <span class="he"><?= nl2br(htmlspecialchars($_para)) ?></span>
         </p>
-        <p style="font-size:16px;color:var(--ink-soft);line-height:1.8;margin:0 0 24px">
-          <span class="he">ראינו שאין מקום אמין בעברית שמסביר למה לבוא, מה לעשות ואיך להזמין — אז בנינו אחד. כל חבילה שאנחנו מוכרים — אנחנו מכירים אישית. כל מלון בדקנו. כל מסעדה טעמנו.</span>
-          <span class="en">We saw there was no reliable Hebrew source explaining why to come, what to do and how to book — so we built one. Every package we sell, we know personally. Every hotel we've tested. Every restaurant we've tasted.</span>
+        <?php endforeach;
+        foreach (explode("\n\n", trim($_story_en)) as $_para): ?>
+        <p style="font-size:16px;color:var(--ink-soft);line-height:1.8;margin:0 0 16px">
+          <span class="en"><?= nl2br(htmlspecialchars($_para)) ?></span>
         </p>
+        <?php endforeach; ?>
         <div style="display:flex;gap:12px;flex-wrap:wrap">
           <a href="packages.php<?= $lang==='en'?'?lang=en':'' ?>" class="btn btn-primary">
             <span class="he">גלו את החבילות שלנו</span><span class="en">Browse our packages</span>

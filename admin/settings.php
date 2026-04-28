@@ -19,6 +19,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['section'] ?? '') === 'cont
     mp_write_json('settings.json', $s) ? $msg = 'הגדרות הקשר עודכנו!' : $error = 'שגיאה בשמירה.';
 }
 
+// --- SAVE ABOUT ---
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['section'] ?? '') === 'about' && mp_csrf_verify()) {
+    $s = mp_read_json('settings.json');
+    $s['about_story_he'] = trim($_POST['about_story_he'] ?? '');
+    $s['about_story_en'] = trim($_POST['about_story_en'] ?? '');
+    mp_write_json('settings.json', $s) ? $msg = 'טקסט עמוד אודות עודכן!' : $error = 'שגיאה בשמירה.';
+}
+
 // --- SAVE STATS ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['section'] ?? '') === 'stats' && mp_csrf_verify()) {
     $s = mp_read_json('settings.json');
@@ -144,6 +152,28 @@ $S = mp_read_json('settings.json');
               </div>
             </div>
             <button type="submit" class="btn-admin primary" style="margin-top:8px">שמור סטטיסטיקות</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- About Story -->
+      <div class="admin-card" style="margin-bottom:20px">
+        <div class="card-head"><div><h2>טקסט עמוד אודות</h2><p>הסיפור שמוצג בעמוד "אודות"</p></div></div>
+        <div class="card-body" style="padding:20px">
+          <form method="POST">
+            <input type="hidden" name="csrf" value="<?= htmlspecialchars(mp_csrf()) ?>">
+            <input type="hidden" name="section" value="about">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+              <div class="form-group">
+                <label>הסיפור שלנו — עברית</label>
+                <textarea name="about_story_he" rows="7" placeholder="Moldova Plus נוסדה ב-2018..."><?= htmlspecialchars($S['about_story_he'] ?? '') ?></textarea>
+              </div>
+              <div class="form-group">
+                <label>Our Story — English</label>
+                <textarea name="about_story_en" rows="7" style="direction:ltr" placeholder="Moldova Plus was founded in 2018..."><?= htmlspecialchars($S['about_story_en'] ?? '') ?></textarea>
+              </div>
+            </div>
+            <button type="submit" class="btn-admin primary" style="margin-top:8px">שמור טקסט אודות</button>
           </form>
         </div>
       </div>

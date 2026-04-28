@@ -15,8 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && mp_csrf_verify()) {
     $deal['price']     = (int)($_POST['price'] ?? 0);
     $deal['was_price'] = (int)($_POST['was_price'] ?? 0);
     $deal['discount']  = (int)($_POST['discount'] ?? 0);
-    $deal['spots_left']= (int)($_POST['spots_left'] ?? 0);
-    $deal['spots_total']=(int)($_POST['spots_total'] ?? 12);
+    $deal['spots_left']  = (int)($_POST['spots_left'] ?? 0);
+    $deal['spots_total'] = (int)($_POST['spots_total'] ?? 12);
+    $deal['includes_he'] = array_values(array_filter(array_map('trim', explode("\n", $_POST['includes_he'] ?? ''))));
+    $deal['includes_en'] = array_values(array_filter(array_map('trim', explode("\n", $_POST['includes_en'] ?? ''))));
 
     if (mp_write_json('deal.json', $deal)) {
         $saved = true;
@@ -134,6 +136,22 @@ $fill_pct = $deal['spots_total'] > 0
                     <label>סה"כ מקומות</label>
                     <input type="number" name="spots_total" value="<?= (int)($deal['spots_total'] ?? 12) ?>" min="1">
                     <p class="form-hint">משפיע על פס הזמינות</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="admin-card" style="margin-bottom:16px">
+              <div class="card-head"><div><h2>מה כלול במבצע</h2><p>שורה אחת לכל פריט (מוצג באתר עם ✓)</p></div></div>
+              <div class="card-body">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>כולל — עברית (שורה לכל פריט)</label>
+                    <textarea name="includes_he" rows="5" placeholder="4 לילות במלון 5★&#10;ארוחות בוקר&#10;סיור ביקב&#10;איסוף משדה התעופה"><?= htmlspecialchars(implode("\n", $deal['includes_he'] ?? [])) ?></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>Includes — English (one per line)</label>
+                    <textarea name="includes_en" rows="5" style="direction:ltr" placeholder="4 nights 5★ hotel&#10;Daily breakfasts&#10;Winery tour&#10;Airport transfer"><?= htmlspecialchars(implode("\n", $deal['includes_en'] ?? [])) ?></textarea>
                   </div>
                 </div>
               </div>
