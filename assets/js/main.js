@@ -13,17 +13,26 @@
   const mobNav     = document.getElementById('mob-nav');
   const mobOverlay = document.getElementById('mob-overlay');
 
+  var scrollY = 0;
   function openMenu() {
+    scrollY = window.scrollY;
     mobNav    && mobNav.classList.add('open');
     mobOverlay && mobOverlay.classList.add('open');
     hamburger && hamburger.setAttribute('aria-expanded', 'true');
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow   = 'hidden';
+    document.body.style.position   = 'fixed';
+    document.body.style.top        = '-' + scrollY + 'px';
+    document.body.style.width      = '100%';
   }
   function closeMenu() {
     mobNav    && mobNav.classList.remove('open');
     mobOverlay && mobOverlay.classList.remove('open');
     hamburger && hamburger.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
+    document.body.style.overflow   = '';
+    document.body.style.position   = '';
+    document.body.style.top        = '';
+    document.body.style.width      = '';
+    window.scrollTo(0, scrollY);
   }
 
   hamburger  && hamburger.addEventListener('click', () =>
