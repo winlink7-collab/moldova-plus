@@ -39,6 +39,21 @@ $T = [
   ],
 ];
 
+// Override hero text from settings.json if available
+$_stf = __DIR__ . '/../data/settings.json';
+if (file_exists($_stf)) {
+    $_st = json_decode(file_get_contents($_stf), true) ?? [];
+    if (!empty($_st['hero_kicker_he'])) $T['he']['hero']['kicker'] = $_st['hero_kicker_he'];
+    if (!empty($_st['hero_kicker_en'])) $T['en']['hero']['kicker'] = $_st['hero_kicker_en'];
+    if (!empty($_st['hero_sub_he'])) $T['he']['hero']['sub'] = $_st['hero_sub_he'];
+    if (!empty($_st['hero_sub_en'])) $T['en']['hero']['sub'] = $_st['hero_sub_en'];
+    if (!empty($_st['hero_h1_he'])) $T['he']['hero']['h1'] = [$_st['hero_h1_he'], ''];
+    if (!empty($_st['hero_h1_en'])) $T['en']['hero']['h1'] = [$_st['hero_h1_en'], ''];
+    if (!empty($_st['footer_about_he'])) $T['he']['foot']['about'] = $_st['footer_about_he'];
+    if (!empty($_st['footer_about_en'])) $T['en']['foot']['about'] = $_st['footer_about_en'];
+    if (!empty($_st['footer_copy'])) { $T['he']['foot']['copy'] = $_st['footer_copy']; $T['en']['foot']['copy'] = $_st['footer_copy']; }
+}
+
 // ─── Quick categories ────────────────────────────────────────────────────────
 $QUICK_CATS = [
   ['id'=>'couples','he'=>'זוגי & ירח דבש','en'=>'Couples & Honeymoon','ic'=>'sparkles'],
@@ -117,6 +132,21 @@ $PACKAGES = [
     'desc_en'=>'6 magical nights — honeymoon suite with private jacuzzi, candlelit dinners, couples spa massage and a wine tour at Castel Mimi. Includes champagne, room decoration and flowers on arrival.',
   ],
 ];
+
+// Merge full package overrides from packages.json
+$_pkg_file = __DIR__ . '/../data/packages.json';
+if (file_exists($_pkg_file)) {
+    $_overrides = json_decode(file_get_contents($_pkg_file), true) ?? [];
+    foreach ($PACKAGES as &$_p) {
+        $_ov = $_overrides[$_p['id']] ?? [];
+        if (!empty($_ov)) {
+            foreach (['price','discount','status','tag_he','tag_en','title_he','loc_he','desc_he','nights','people_he','image_url'] as $_k) {
+                if (isset($_ov[$_k]) && $_ov[$_k] !== '') $_p[$_k] = $_ov[$_k];
+            }
+        }
+    }
+    unset($_p);
+}
 
 // ─── Regions ─────────────────────────────────────────────────────────────────
 $REGIONS = [

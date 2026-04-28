@@ -11,11 +11,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && mp_csrf_verify()) {
     $id = (int)($_POST['id'] ?? 0);
     if ($id > 0) {
         $overrides[$id] = [
-            'price'    => (int)($_POST['price'] ?? 0),
-            'discount' => (int)($_POST['discount'] ?? 0),
-            'status'   => $_POST['status'] ?? 'now',
-            'tag_he'   => trim($_POST['tag_he'] ?? ''),
-            'tag_en'   => trim($_POST['tag_en'] ?? ''),
+            'price'     => (int)($_POST['price'] ?? 0),
+            'discount'  => (int)($_POST['discount'] ?? 0),
+            'status'    => $_POST['status'] ?? 'now',
+            'tag_he'    => trim($_POST['tag_he'] ?? ''),
+            'tag_en'    => trim($_POST['tag_en'] ?? ''),
+            'title_he'  => trim($_POST['title_he'] ?? ''),
+            'loc_he'    => trim($_POST['loc_he'] ?? ''),
+            'desc_he'   => trim($_POST['desc_he'] ?? ''),
+            'nights'    => (int)($_POST['nights'] ?? 0),
+            'people_he' => trim($_POST['people_he'] ?? ''),
+            'image_url' => trim($_POST['image_url'] ?? ''),
         ];
         if (mp_write_json('packages.json', $overrides)) {
             $saved = true;
@@ -50,8 +56,13 @@ $type_colors = [
   <style>
     .pkg-edit-row { display:none; background:#f8faff; }
     .pkg-edit-row.open { display:table-row; }
-    .pkg-edit-form { padding:20px 24px; display:grid; grid-template-columns:repeat(4,1fr) auto; gap:12px; align-items:end; }
+    .pkg-edit-form { padding:20px 24px; }
     .pkg-edit-form .form-group { margin:0; }
+    .pkg-edit-grid-1 { display:grid; grid-template-columns:repeat(4,1fr) auto; gap:12px; align-items:end; margin-bottom:12px; }
+    .pkg-edit-grid-2 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:12px; }
+    .pkg-edit-grid-3 { display:grid; grid-template-columns:1fr 1fr auto; gap:12px; align-items:end; }
+    .pkg-image-row { display:flex; gap:8px; }
+    .pkg-image-row input { flex:1; }
     tr.editing td { background:#eef4ff; }
   </style>
 </head>
@@ -62,7 +73,7 @@ $type_colors = [
     <div class="admin-topbar">
       <div>
         <h1>ניהול חבילות</h1>
-        <p>עריכת מחיר, הנחה ותגית לכל חבילה</p>
+        <p>עריכת מחיר, הנחה, תוכן ותגית לכל חבילה</p>
       </div>
     </div>
     <div class="admin-content">
@@ -80,7 +91,7 @@ $type_colors = [
         <div class="card-head">
           <div>
             <h2>כל החבילות</h2>
-            <p>לחצו על "ערוך" לשינוי מחיר, הנחה ותגית</p>
+            <p>לחצו על "ערוך" לשינוי מחיר, הנחה, תוכן ותגית</p>
           </div>
           <span class="badge blue"><?= count($PACKAGES) ?> חבילות</span>
         </div>
@@ -129,28 +140,58 @@ $type_colors = [
                 <form method="POST" class="pkg-edit-form">
                   <input type="hidden" name="csrf" value="<?= htmlspecialchars(mp_csrf()) ?>">
                   <input type="hidden" name="id" value="<?= $p['id'] ?>">
-                  <div class="form-group">
-                    <label>מחיר (€)</label>
-                    <input type="number" name="price" value="<?= $price ?>" min="1">
+                  <div class="pkg-edit-grid-1">
+                    <div class="form-group">
+                      <label>מחיר (€)</label>
+                      <input type="number" name="price" value="<?= $price ?>" min="1">
+                    </div>
+                    <div class="form-group">
+                      <label>הנחה (%)</label>
+                      <input type="number" name="discount" value="<?= $discount ?>" min="0" max="99">
+                    </div>
+                    <div class="form-group">
+                      <label>סטטוס</label>
+                      <select name="status">
+                        <option value="now" <?= $status==='now'?'selected':'' ?>>אישור מיידי</option>
+                        <option value="day" <?= $status==='day'?'selected':'' ?>>יום עסקים</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>תגית (עברית)</label>
+                      <input type="text" name="tag_he" value="<?= htmlspecialchars($tag_he) ?>" placeholder="הכי פופולרי">
+                    </div>
+                    <div></div>
                   </div>
-                  <div class="form-group">
-                    <label>הנחה (%)</label>
-                    <input type="number" name="discount" value="<?= $discount ?>" min="0" max="99">
+                  <div class="pkg-edit-grid-2">
+                    <div class="form-group">
+                      <label>שם החבילה (עברית)</label>
+                      <input type="text" name="title_he" value="<?= htmlspecialchars($ov['title_he'] ?? '') ?>" placeholder="<?= htmlspecialchars($p['title_he']) ?>">
+                    </div>
+                    <div class="form-group">
+                      <label>מיקום (עברית)</label>
+                      <input type="text" name="loc_he" value="<?= htmlspecialchars($ov['loc_he'] ?? '') ?>" placeholder="<?= htmlspecialchars($p['loc_he']) ?>">
+                    </div>
+                    <div class="form-group">
+                      <label>אורחים (עברית)</label>
+                      <input type="text" name="people_he" value="<?= htmlspecialchars($ov['people_he'] ?? '') ?>" placeholder="<?= htmlspecialchars($p['people_he']) ?>">
+                    </div>
                   </div>
-                  <div class="form-group">
-                    <label>סטטוס</label>
-                    <select name="status">
-                      <option value="now" <?= $status==='now'?'selected':'' ?>>אישור מיידי</option>
-                      <option value="day" <?= $status==='day'?'selected':'' ?>>יום עסקים</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label>תגית (עברית)</label>
-                    <input type="text" name="tag_he" value="<?= htmlspecialchars($tag_he) ?>" placeholder="הכי פופולרי">
-                  </div>
-                  <div style="display:flex;gap:8px;padding-bottom:1px">
-                    <button type="submit" class="btn-admin primary sm">שמור</button>
-                    <button type="button" class="btn-admin ghost sm" onclick="toggleEdit(<?= $p['id'] ?>)">ביטול</button>
+                  <div class="pkg-edit-grid-3">
+                    <div class="form-group">
+                      <label>תיאור (עברית)</label>
+                      <textarea name="desc_he" rows="2" placeholder="<?= htmlspecialchars($p['desc_he']) ?>"><?= htmlspecialchars($ov['desc_he'] ?? '') ?></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label>תמונה (URL)</label>
+                      <div class="pkg-image-row">
+                        <input type="text" name="image_url" value="<?= htmlspecialchars($ov['image_url'] ?? '') ?>" placeholder="https://...">
+                        <a href="../admin/media.php" target="_blank" class="btn-admin ghost sm" style="white-space:nowrap">בחר מהמדיה</a>
+                      </div>
+                    </div>
+                    <div style="display:flex;gap:8px;align-items:flex-end;padding-bottom:1px">
+                      <button type="submit" class="btn-admin primary sm">שמור</button>
+                      <button type="button" class="btn-admin ghost sm" onclick="toggleEdit(<?= $p['id'] ?>)">ביטול</button>
+                    </div>
                   </div>
                 </form>
               </td>
@@ -163,7 +204,7 @@ $type_colors = [
       <div class="admin-card" style="margin-top:16px">
         <div class="card-body" style="display:flex;align-items:center;gap:12px;padding:16px 20px">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <span style="font-size:13px;color:var(--ink-soft)">שינויים כאן (מחיר/הנחה/סטטוס/תגית) נשמרים ב-<code>data/packages.json</code> ויחולו באתר אחרי Pull ב-Cloudways.</span>
+          <span style="font-size:13px;color:var(--ink-soft)">שינויים כאן (מחיר/הנחה/סטטוס/תגית/תוכן/תמונה) נשמרים ב-<code>data/packages.json</code> ויחולו באתר אחרי Pull ב-Cloudways.</span>
         </div>
       </div>
     </div>

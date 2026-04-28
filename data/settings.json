@@ -1,6 +1,7 @@
 {
   "whatsapp": "972355501880",
   "phone": "035550188",
+  "phone_display": "+972 3-555-0188",
   "email": "hello@moldovaplus.com",
   "site_name": "Moldova Plus",
   "address_he": "רחוב הברזל 3, תל אביב–יפו, קומה 4",
@@ -10,5 +11,17 @@
   "stat_years": "8+",
   "stat_packages": "1,200+",
   "stat_customers": "15,000+",
-  "stat_rating": "4.9"
+  "stat_rating": "4.9",
+  "promo_he": "✦ מבצע אביב — עד 15% הנחה",
+  "promo_en": "✦ Spring offer — up to 15% off",
+  "promo_active": true,
+  "hero_kicker_he": "יעד #1 לחבילות מולדובה",
+  "hero_kicker_en": "#1 destination for Moldova",
+  "hero_h1_he": "חוויית מולדובה מתחילה כאן.",
+  "hero_h1_en": "The Moldova experience starts here.",
+  "hero_sub_he": "פורטל ההזמנות הגדול בישראל לחבילות נופש בקישינב — מסיבות רווקים, חוויות יוקרה ויקבים מובילים. מחירים שקופים, אישור מיידי.",
+  "hero_sub_en": "Israel's largest portal for Chișinău getaways — bachelor parties, luxury escapes and top wineries. Transparent prices, instant confirmation.",
+  "footer_about_he": "הפורטל הגדול בישראל לחבילות מולדובה. כל חבילה עוברת בדיקה — מקומות שלא הוכיחו את עצמם יורדים מהאתר.",
+  "footer_about_en": "Israel's largest portal for Moldova getaways. Every package is vetted — venues that don't perform are removed.",
+  "footer_copy": "© 2026 Moldova Plus · כל הזכויות שמורות"
 }

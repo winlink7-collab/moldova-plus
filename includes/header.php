@@ -1,22 +1,26 @@
 <?php
 // header.php — Top bar + sticky navigation
 // Expects: $page (current page slug), $lang (he/en), $t (translations)
+require_once __DIR__ . '/mp_settings.php';
+$_HS = mp_site_settings();
 ?>
 <div class="top-bar">
   <div class="container top-bar-inner">
     <div class="top-bar-l">
       <span>
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7l.8 4a2 2 0 0 1-.6 1.9L7.6 11.4a16 16 0 0 0 6 6l1.8-1.7a2 2 0 0 1 1.9-.6l4 .8a2 2 0 0 1 1.7 2z"/></svg>
-        +972-3-555-0188
+        <?= mp_s('phone_display', '+972 3-555-0188') ?>
       </span>
       <span>
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
-        hello@moldovaplus.com
+        <?= mp_s('email', 'hello@moldovaplus.com') ?>
       </span>
+      <?php if (!empty($_HS['promo_active'])): ?>
       <span class="top-promo">
-        <span class="he">✦ מבצע אביב — עד 15% הנחה</span>
-        <span class="en">✦ Spring offer — up to 15% off</span>
+        <span class="he"><?= mp_s('promo_he') ?></span>
+        <span class="en"><?= mp_s('promo_en') ?></span>
       </span>
+      <?php endif; ?>
     </div>
     <div class="top-bar-r">
       <a href="#" class="he">מועדון לקוחות</a>
@@ -70,7 +74,7 @@
 
     <!-- Header tools -->
     <div class="header-tools">
-      <a href="https://wa.me/972355501880" target="_blank" rel="noopener" class="btn btn-whatsapp">
+      <a href="https://wa.me/<?= mp_sr('whatsapp','972355501880') ?>" target="_blank" rel="noopener" class="btn btn-whatsapp">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.554 4.124 1.525 5.858L.057 23.5l5.797-1.516A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.663-.49-5.207-1.348l-.374-.218-3.44.9.924-3.35-.239-.386A9.955 9.955 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
         WhatsApp
       </a>
@@ -116,7 +120,7 @@
     </a>
   </nav>
   <div class="mob-nav-footer">
-    <a href="https://wa.me/972355501880" target="_blank" rel="noopener" class="mob-wa">
+    <a href="https://wa.me/<?= mp_sr('whatsapp','972355501880') ?>" target="_blank" rel="noopener" class="mob-wa">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.554 4.124 1.525 5.858L.057 23.5l5.797-1.516A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.663-.49-5.207-1.348l-.374-.218-3.44.9.924-3.35-.239-.386A9.955 9.955 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
       <span class="he">דברו איתנו בוואטסאפ</span>
       <span class="en">Chat on WhatsApp</span>

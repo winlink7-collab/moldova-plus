@@ -7,9 +7,10 @@ $msg = ''; $error = '';
 // --- SAVE CONTACT ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['section'] ?? '') === 'contact' && mp_csrf_verify()) {
     $s = mp_read_json('settings.json');
-    $s['whatsapp']      = preg_replace('/\D/', '', $_POST['whatsapp'] ?? '');
-    $s['phone']         = trim($_POST['phone'] ?? '');
-    $s['email']         = trim($_POST['email'] ?? '');
+    $s['whatsapp']       = preg_replace('/\D/', '', $_POST['whatsapp'] ?? '');
+    $s['phone']          = trim($_POST['phone'] ?? '');
+    $s['phone_display']  = trim($_POST['phone_display'] ?? '');
+    $s['email']          = trim($_POST['email'] ?? '');
     $s['site_name']     = trim($_POST['site_name'] ?? '');
     $s['address_he']    = trim($_POST['address_he'] ?? '');
     $s['address_en']    = trim($_POST['address_en'] ?? '');
@@ -80,8 +81,12 @@ $S = mp_read_json('settings.json');
                 </div>
               </div>
               <div class="form-group">
-                <label>טלפון</label>
+                <label>טלפון (לקישורי tel:)</label>
                 <input type="text" name="phone" value="<?= htmlspecialchars($S['phone'] ?? '') ?>" placeholder="035550188">
+              </div>
+              <div class="form-group">
+                <label>טלפון (תצוגה)</label>
+                <input type="text" name="phone_display" value="<?= htmlspecialchars($S['phone_display'] ?? '') ?>" placeholder="+972 3-555-0188">
               </div>
               <div class="form-group">
                 <label>אימייל</label>
