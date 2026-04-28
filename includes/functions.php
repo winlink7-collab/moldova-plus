@@ -123,7 +123,7 @@ function page_head(string $title, string $desc = '', string $lang = 'he', string
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 20'><rect width='10' height='20' fill='%230046ae'/><rect x='10' width='10' height='20' fill='%23ffd400'/><rect x='20' width='10' height='20' fill='%23cc1126'/></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=<?= filemtime(__DIR__ . '/../assets/css/style.css') ?>">
+  <link rel="stylesheet" href="/assets/css/style.css?v=<?= filemtime(__DIR__ . '/../assets/css/style.css') ?>">
 </head>
 <body class="<?= $lang ?>">
 <?php }
@@ -131,7 +131,7 @@ function page_head(string $title, string $desc = '', string $lang = 'he', string
 function page_foot(): void {
   le_footer();
 ?>
-  <script src="assets/js/main.js?v=<?= filemtime(__DIR__ . '/../assets/js/main.js') ?>"></script>
+  <script src="/assets/js/main.js?v=<?= filemtime(__DIR__ . '/../assets/js/main.js') ?>"></script>
 </body>
 </html>
 <?php }

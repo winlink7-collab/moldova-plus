@@ -140,7 +140,7 @@
       fd.append('image', inp.files[0]);
       showStatus('מעלה תמונה...', 'saving');
 
-      fetch('admin/upload.php', { method: 'POST', body: fd })
+      fetch('/admin/upload.php', { method: 'POST', body: fd })
         .then(function (r) { return r.json(); })
         .then(function (d) {
           if (d.error) { showStatus('שגיאה: ' + d.error, 'error'); return; }
@@ -258,7 +258,7 @@
 
     var uploads = files.map(function (f) {
       var fd = new FormData(); fd.append('image', f);
-      return fetch('admin/upload.php', { method: 'POST', body: fd }).then(function (r) { return r.json(); });
+      return fetch('/admin/upload.php', { method: 'POST', body: fd }).then(function (r) { return r.json(); });
     });
     Promise.all(uploads).then(function (results) {
       prog.textContent = '';

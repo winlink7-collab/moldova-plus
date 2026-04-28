@@ -37,7 +37,7 @@ function le_footer(): void {
     }
     $csrf = $_SESSION['csrf'];
 ?>
-<link rel="stylesheet" href="assets/css/live-editor.css">
+<link rel="stylesheet" href="/assets/css/live-editor.css">
 <div id="le-bar">
   <div class="le-logo">M+</div>
 
@@ -65,8 +65,8 @@ function le_footer(): void {
 </div>
 <script>
 window.LE_CSRF     = '<?= htmlspecialchars($csrf, ENT_QUOTES) ?>';
-window.LE_SAVE_URL = 'admin/live-save.php';
+window.LE_SAVE_URL = '/admin/live-save.php';
 </script>
-<script src="assets/js/live-editor.js"></script>
+<script src="/assets/js/live-editor.js"></script>
 <?php
 }
