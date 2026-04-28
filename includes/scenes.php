@@ -8,7 +8,7 @@ function scene_photos(): array {
         'gold'  => 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=700&h=460&q=80',
         'green' => 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=700&h=460&q=80',
         'dark'  => 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=700&h=460&q=80',
-        'blue'  => 'https://images.unsplash.com/photo-1551882547-ff40c4a49587?auto=format&fit=crop&w=700&h=460&q=80',
+        'blue'  => 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=700&h=460&q=80',
         'light' => 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=700&h=460&q=80',
         'honey' => 'https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=700&h=460&q=80',
         'city'  => 'https://images.unsplash.com/photo-1499678329028-101435549a4e?auto=format&fit=crop&w=700&h=460&q=80',

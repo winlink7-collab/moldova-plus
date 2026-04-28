@@ -164,6 +164,97 @@
     });
   });
 
+  /* ── Dynamic search bar ──────────────────────────────── */
+  const searchBar = document.getElementById('search-bar');
+  if (searchBar) {
+    const lang      = searchBar.dataset.lang || 'he';
+    const guestWord = lang === 'he' ? 'אורחים' : 'guests';
+
+    // Toggle dropdown open/closed on cell click
+    searchBar.querySelectorAll('.sc-interactive').forEach(cell => {
+      cell.addEventListener('click', function(e) {
+        if (e.target.closest('.sc-dropdown')) return; // clicks inside dropdown handled separately
+        const drop = cell.querySelector('.sc-dropdown');
+        if (!drop) return;
+        const isOpen = drop.classList.contains('open');
+        // close all
+        searchBar.querySelectorAll('.sc-dropdown.open').forEach(d => {
+          d.classList.remove('open');
+          d.closest('.sc-interactive').classList.remove('sc-active');
+        });
+        if (!isOpen) {
+          drop.classList.add('open');
+          cell.classList.add('sc-active');
+        }
+      });
+    });
+
+    // Close dropdowns on outside click
+    document.addEventListener('click', function(e) {
+      if (!searchBar.contains(e.target)) {
+        searchBar.querySelectorAll('.sc-dropdown.open').forEach(d => {
+          d.classList.remove('open');
+          d.closest('.sc-interactive').classList.remove('sc-active');
+        });
+      }
+    });
+
+    // Month selection
+    searchBar.querySelectorAll('.sc-drop-months .sc-opt').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const cell = btn.closest('.sc-interactive');
+        const val  = cell.querySelector('.sc-val');
+        val.textContent = btn.textContent.trim();
+        searchBar.querySelectorAll('.sc-drop-months .sc-opt').forEach(b => b.classList.remove('sc-opt-active'));
+        btn.classList.add('sc-opt-active');
+        btn.closest('.sc-dropdown').classList.remove('open');
+        cell.classList.remove('sc-active');
+      });
+    });
+
+    // Guest counter
+    let guestCount = 2;
+    const cntEl    = document.getElementById('sc-cnt');
+    const dispEl   = document.getElementById('sc-guests-display');
+
+    function updateGuests(n) {
+      guestCount = Math.max(1, Math.min(30, n));
+      if (cntEl)  cntEl.textContent = guestCount;
+      if (dispEl) dispEl.innerHTML  = guestCount + ' <span class="' + (lang === 'he' ? 'he' : 'en') + '">' + guestWord + '</span>';
+    }
+
+    const minusBtn = document.getElementById('sc-minus');
+    const plusBtn  = document.getElementById('sc-plus');
+    minusBtn && minusBtn.addEventListener('click', function(e) { e.stopPropagation(); updateGuests(guestCount - 1); });
+    plusBtn  && plusBtn.addEventListener('click',  function(e) { e.stopPropagation(); updateGuests(guestCount + 1); });
+
+    // Type selection
+    searchBar.querySelectorAll('.sc-drop-types .sc-opt').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const cell = btn.closest('.sc-interactive');
+        const val  = cell.querySelector('.sc-val');
+        val.textContent = btn.textContent.trim();
+        val.dataset.type = btn.dataset.type || '';
+        searchBar.querySelectorAll('.sc-drop-types .sc-opt').forEach(b => b.classList.remove('sc-opt-active'));
+        btn.classList.add('sc-opt-active');
+        btn.closest('.sc-dropdown').classList.remove('open');
+        cell.classList.remove('sc-active');
+      });
+    });
+
+    // Search button
+    const goBtn = document.getElementById('search-go');
+    goBtn && goBtn.addEventListener('click', function() {
+      const typeVal  = searchBar.querySelector('[data-field="type"] .sc-val');
+      const selType  = typeVal ? (typeVal.dataset.type || '') : '';
+      const params   = new URLSearchParams();
+      if (selType)      params.set('type', selType);
+      if (lang === 'en') params.set('lang', 'en');
+      const qs = params.toString();
+      location.href = 'packages.php' + (qs ? '?' + qs : '');
+    });
+  }
+
   /* ── Newsletter form ──────────────────────────────────── */
   document.querySelectorAll('.nl-form').forEach(form => {
     form.addEventListener('submit', e => {

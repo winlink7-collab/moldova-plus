@@ -160,10 +160,12 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
     </div>
 
     <!-- Search bar -->
-    <div class="search-bar">
-      <div class="search-cell" onclick="location.href='packages.php<?= $lang==='en'?'?lang=en':'' ?>'">
+    <div class="search-bar" id="search-bar" data-lang="<?= $lang ?>">
+
+      <!-- 1. Where (static) -->
+      <div class="search-cell">
         <span class="sc-ic">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="var(--flag-blue)" opacity=".18"/>
             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="var(--flag-blue)" stroke-width="1.8" fill="none"/>
             <circle cx="12" cy="9" r="2.5" fill="var(--flag-blue)"/>
@@ -174,9 +176,11 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
           <b><?= htmlspecialchars($t['search']['whereV']) ?></b>
         </div>
       </div>
-      <div class="search-cell">
+
+      <!-- 2. When (month dropdown) -->
+      <div class="search-cell sc-interactive" data-field="when">
         <span class="sc-ic">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <rect x="3" y="5" width="18" height="16" rx="3" fill="var(--flag-blue)" opacity=".12"/>
             <rect x="3" y="5" width="18" height="16" rx="3" stroke="var(--flag-blue)" stroke-width="1.8" fill="none"/>
             <path d="M3 10h18" stroke="var(--flag-blue)" stroke-width="1.8"/>
@@ -188,12 +192,24 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
         </span>
         <div class="sc-col">
           <label><?= htmlspecialchars($t['search']['when']) ?></label>
-          <b><?= htmlspecialchars($t['search']['whenV']) ?></b>
+          <b class="sc-val" data-placeholder="<?= htmlspecialchars($t['search']['whenV']) ?>"><?= htmlspecialchars($t['search']['whenV']) ?></b>
+        </div>
+        <svg class="sc-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        <div class="sc-dropdown sc-drop-months">
+          <?php
+          $months = $lang==='he'
+            ? ['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר']
+            : ['January','February','March','April','May','June','July','August','September','October','November','December'];
+          foreach ($months as $m): ?>
+          <button class="sc-opt" type="button"><?= $m ?></button>
+          <?php endforeach; ?>
         </div>
       </div>
-      <div class="search-cell">
+
+      <!-- 3. Guests (counter) -->
+      <div class="search-cell sc-interactive" data-field="who">
         <span class="sc-ic">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <circle cx="8" cy="8" r="3.5" fill="var(--flag-blue)" opacity=".2"/>
             <circle cx="8" cy="8" r="3.5" stroke="var(--flag-blue)" stroke-width="1.8" fill="none"/>
             <path d="M2 20c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="var(--flag-blue)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
@@ -203,25 +219,52 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
         </span>
         <div class="sc-col">
           <label><?= htmlspecialchars($t['search']['who']) ?></label>
-          <b><?= htmlspecialchars($t['search']['whoV']) ?></b>
+          <b class="sc-val" id="sc-guests-display">2 <span class="he">אורחים</span><span class="en">guests</span></b>
+        </div>
+        <svg class="sc-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        <div class="sc-dropdown sc-drop-counter">
+          <div class="sc-counter-row">
+            <span class="he">מספר אורחים</span><span class="en">Number of guests</span>
+            <div class="sc-counter" dir="ltr">
+              <button class="sc-cnt-btn" id="sc-minus" type="button">−</button>
+              <span class="sc-cnt-val" id="sc-cnt">2</span>
+              <button class="sc-cnt-btn" id="sc-plus" type="button">+</button>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="search-cell">
+
+      <!-- 4. Package type (dropdown) -->
+      <div class="search-cell sc-interactive" data-field="type">
         <span class="sc-ic">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6L12 2z" fill="var(--flag-yel)" opacity=".6"/>
             <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6L12 2z" stroke="var(--flag-blue)" stroke-width="1.6" fill="none" stroke-linejoin="round"/>
           </svg>
         </span>
         <div class="sc-col">
           <label><?= htmlspecialchars($t['search']['type']) ?></label>
-          <b><?= htmlspecialchars($t['search']['typeV']) ?></b>
+          <b class="sc-val" data-placeholder="<?= htmlspecialchars($t['search']['typeV']) ?>" data-type=""><?= htmlspecialchars($t['search']['typeV']) ?></b>
+        </div>
+        <svg class="sc-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        <div class="sc-dropdown sc-drop-types">
+          <button class="sc-opt sc-opt-active" type="button" data-type="">
+            <span class="he">הכל</span><span class="en">All</span>
+          </button>
+          <?php foreach ($QUICK_CATS as $cat): ?>
+          <button class="sc-opt" type="button" data-type="<?= $cat['id'] ?>">
+            <span class="he"><?= htmlspecialchars($cat['he']) ?></span>
+            <span class="en"><?= htmlspecialchars($cat['en']) ?></span>
+          </button>
+          <?php endforeach; ?>
         </div>
       </div>
-      <a href="packages.php<?= $lang==='en'?'?lang=en':'' ?>" class="search-go">
+
+      <!-- Search button -->
+      <button type="button" class="search-go" id="search-go" data-base="packages.php" data-lang="<?= $lang ?>">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></svg>
         <?= htmlspecialchars($t['search']['go']) ?>
-      </a>
+      </button>
     </div>
   </div>
 </section>

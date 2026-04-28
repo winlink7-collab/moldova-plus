@@ -21,7 +21,7 @@ $wa_msg = urlencode($lang==='he'
     : "Hi, I'm interested in: {$title} — {$p['nights']} nights, " . eur($p['price'])
 );
 
-$scenes_gallery = ['warm','gold','green','dark','blue'];
+$scenes_gallery = [$p['scene'] ?? 'warm', 'gold', 'green', 'dark', 'honey', 'light'];
 
 page_head(
     ($lang==='he' ? $title : htmlspecialchars($title)) . ' — Moldova Plus',
@@ -41,11 +41,18 @@ page_head(
       <span class="cur"><?= htmlspecialchars($title) ?></span>
     </div>
 
-    <!-- Gallery -->
+    <!-- Gallery: 6 images -->
     <div class="detail-gal">
-      <div class="gm main"><?= scene_img($p['scene'] ?? 'warm') ?></div>
-      <?php foreach (array_slice($scenes_gallery, 1) as $sc): ?>
-        <div class="gm"><?= scene_img($sc) ?></div>
+      <?php foreach ($scenes_gallery as $i => $sc): ?>
+      <div class="gm<?= $i===0?' gm-main':'' ?><?= $i===5?' gm-last':'' ?>">
+        <?= scene_img($sc) ?>
+        <?php if ($i===5): ?>
+        <button class="gal-all-btn" type="button">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          <span class="he">כל התמונות</span><span class="en">All photos</span>
+        </button>
+        <?php endif; ?>
+      </div>
       <?php endforeach; ?>
     </div>
 
