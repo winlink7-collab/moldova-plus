@@ -41,8 +41,28 @@ page_head(
       <span class="cur"><?= htmlspecialchars($title) ?></span>
     </div>
 
+    <!-- Lightbox -->
+    <div class="gal-lightbox" id="gal-lightbox" role="dialog" aria-modal="true">
+      <div class="gal-lb-top">
+        <span class="gal-lb-counter" id="gal-lb-counter">1 / 6</span>
+        <button class="gal-lb-close" id="gal-lb-close" aria-label="<?= $lang==='he'?'סגור':'Close' ?>">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="gal-lb-img-wrap">
+        <img src="" alt="" id="gal-lb-img">
+      </div>
+      <button class="gal-lb-prev" id="gal-lb-prev" aria-label="<?= $lang==='he'?'הקודם':'Previous' ?>">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="gal-lb-next" id="gal-lb-next" aria-label="<?= $lang==='he'?'הבא':'Next' ?>">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+      <div class="gal-lb-thumbs" id="gal-lb-thumbs"></div>
+    </div>
+
     <!-- Gallery: 6 images -->
-    <div class="detail-gal">
+    <div class="detail-gal" id="detail-gal">
       <?php foreach ($scenes_gallery as $i => $sc): ?>
       <div class="gm<?= $i===5?' gm-last':'' ?>">
         <?= scene_img($sc) ?>

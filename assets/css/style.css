@@ -1411,6 +1411,135 @@ body.en .art-prose-v2 h3 { padding-right: 0; padding-left: 16px; border-right: n
 body.en .filter-results { margin-right: 0; margin-left: auto; }
 .page-pad { padding: 48px 0 80px; }
 
+/* ── Gallery Lightbox ────────────────────────────────── */
+.gal-lightbox {
+  display: none;
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  z-index: 2000;
+  background: rgba(0,0,0,.95);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.gal-lightbox.open { display: flex; }
+.gal-lb-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: linear-gradient(to bottom, rgba(0,0,0,.7) 0%, transparent 100%);
+  z-index: 10;
+}
+.gal-lb-counter {
+  color: rgba(255,255,255,.85);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+.gal-lb-close {
+  width: 44px; height: 44px;
+  display: grid; place-items: center;
+  background: rgba(255,255,255,.15);
+  border: 1.5px solid rgba(255,255,255,.25);
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  transition: background .18s;
+  -webkit-tap-highlight-color: transparent;
+}
+.gal-lb-close:hover { background: rgba(255,255,255,.28); }
+.gal-lb-img-wrap {
+  width: 100%;
+  max-width: 1100px;
+  max-height: calc(100vh - 140px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 70px;
+}
+.gal-lb-img-wrap img {
+  max-width: 100%;
+  max-height: calc(100vh - 140px);
+  object-fit: contain;
+  border-radius: 10px;
+  display: block;
+  user-select: none;
+}
+.gal-lb-prev, .gal-lb-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px; height: 52px;
+  display: grid; place-items: center;
+  background: rgba(255,255,255,.15);
+  border: 1.5px solid rgba(255,255,255,.25);
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  transition: background .18s, transform .18s;
+  z-index: 10;
+  -webkit-tap-highlight-color: transparent;
+}
+.gal-lb-prev { right: 16px; }
+.gal-lb-next { left: 16px; }
+body.en .gal-lb-prev { right: auto; left: 16px; }
+body.en .gal-lb-next { left: auto; right: 16px; }
+.gal-lb-prev:hover, .gal-lb-next:hover { background: rgba(255,255,255,.28); transform: translateY(-50%) scale(1.08); }
+.gal-lb-dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+.gal-lb-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.35);
+  transition: background .2s, transform .2s;
+  cursor: pointer;
+}
+.gal-lb-dot.active { background: #fff; transform: scale(1.3); }
+.gal-lb-thumbs {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  max-width: calc(100vw - 40px);
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 4px;
+}
+.gal-lb-thumbs::-webkit-scrollbar { display: none; }
+.gal-lb-thumb {
+  width: 64px; height: 48px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  opacity: .5;
+  cursor: pointer;
+  transition: opacity .2s, outline .2s;
+  outline: 2px solid transparent;
+}
+.gal-lb-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.gal-lb-thumb.active { opacity: 1; outline: 2px solid #fff; }
+@media (max-width: 760px) {
+  .gal-lb-img-wrap { padding: 0 52px; max-height: calc(100vh - 180px); }
+  .gal-lb-prev { right: 8px; }
+  .gal-lb-next { left: 8px; }
+  .gal-lb-prev, .gal-lb-next { width: 42px; height: 42px; }
+  .gal-lb-thumbs { bottom: 10px; }
+  .gal-lb-thumb { width: 52px; height: 38px; }
+}
+/* cursor pointer on gallery images */
+.detail-gal .gm { cursor: pointer; }
+
 /* ── Detail page gallery ─────────────────────────────── */
 .detail-gal {
   display: grid;
@@ -1539,12 +1668,14 @@ body.en .incl li::after {
 /* Booking sidebar */
 .booking {
   position: sticky;
-  top: 100px;
+  top: 88px;
   background: #fff;
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
   padding: 24px;
   box-shadow: var(--sh-md);
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
 }
 .booking .price { padding-bottom: 18px; border-bottom: 1px solid var(--line-soft); margin-bottom: 18px; }
 .booking .price small { font-size: 11.5px; color: var(--ink-mute); font-weight: 500; }
