@@ -12,7 +12,13 @@ $article = null;
 foreach ($ARTICLES as $a) {
     if (($a['id'] ?? '') === $id) { $article = $a; break; }
 }
-if (!$article) { header('Location: index.php'); exit; }
+if (!$article) { header('Location: /'); exit; }
+
+// 301-redirect old /article?id=X to clean /article/X
+if ($id && strpos($_SERVER['REQUEST_URI'] ?? '', '/article/') === false) {
+    header('Location: /article/' . $id . ($lang === 'en' ? '?lang=en' : ''), true, 301);
+    exit;
+}
 
 $related_types = $article['related_types'] ?? [];
 $feature_pkgs  = array_slice(array_values(array_filter($PACKAGES, fn($p) => in_array($p['type'], $related_types))), 0, 3);
@@ -83,7 +89,7 @@ page_head($title . ' — Moldova Plus', $desc, $lang);
         <h3 class="he">כתבות נוספות</h3><h3 class="en">More articles</h3>
         <div class="art-more-grid-v2">
           <?php foreach ($ARTICLES as $oa): if (($oa['id'] ?? '') === $id) continue; ?>
-          <a href="article?id=<?= $oa['id'] ?><?= $lang==='en'?'&lang=en':'' ?>" class="art-more-card-v2">
+          <a href="article/<?= $oa['id'] ?><?= $lang==='en'?'?lang=en':'' ?>" class="art-more-card-v2">
             <div class="art-more-img-v2"><?= scene_img($oa['scene']) ?></div>
             <div class="art-more-body-v2">
               <span class="art-tag-sm"><?= $lang==='he' ? $oa['tag_he'] : htmlspecialchars($oa['tag_en']) ?></span>
