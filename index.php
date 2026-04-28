@@ -414,28 +414,30 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
       </h2>
       <span style="font-size:13px;color:var(--ink-mute)">★★★★★ <b style="color:var(--ink)">4.9</b> · <span class="he">מתוך 4,247 ביקורות</span><span class="en">from 4,247 reviews</span></span>
     </div>
-    <div class="reviews-grid">
-      <?php foreach ($REVIEWS as $i => $r): ?>
-      <div class="review reveal d<?= ($i%4)+1 ?>">
-        <div class="review-top">
-          <div class="review-avatar" style="background:<?= $r['color'] ?>"><?= $r['initials'] ?></div>
-          <div class="review-author">
-            <b class="he"><?= $r['name_he'] ?></b>
-            <b class="en"><?= htmlspecialchars($r['name_en']) ?></b>
-            <span><?= $r['when'] ?></span>
+    <div class="reviews-slider">
+      <div class="reviews-track">
+        <?php foreach ([$REVIEWS, $REVIEWS] as $set): foreach ($set as $r): ?>
+        <div class="review">
+          <div class="review-top">
+            <div class="review-avatar" style="background:<?= $r['color'] ?>"><?= $r['initials'] ?></div>
+            <div class="review-author">
+              <b class="he"><?= $r['name_he'] ?></b>
+              <b class="en"><?= htmlspecialchars($r['name_en']) ?></b>
+              <span><?= $r['when'] ?></span>
+            </div>
+            <span class="review-stars"><?= str_repeat('★', $r['stars']) ?></span>
           </div>
-          <span class="review-stars" style="margin-right:auto"><?= str_repeat('★', $r['stars']) ?></span>
+          <p>
+            <span class="he"><?= $r['body_he'] ?></span>
+            <span class="en"><?= htmlspecialchars($r['body_en']) ?></span>
+          </p>
+          <div class="review-place">
+            <span class="he"><?= $r['place_he'] ?></span>
+            <span class="en"><?= htmlspecialchars($r['place_en']) ?></span>
+          </div>
         </div>
-        <p>
-          <span class="he"><?= $r['body_he'] ?></span>
-          <span class="en"><?= htmlspecialchars($r['body_en']) ?></span>
-        </p>
-        <div class="review-place">
-          <span class="he"><?= $r['place_he'] ?></span>
-          <span class="en"><?= htmlspecialchars($r['place_en']) ?></span>
-        </div>
+        <?php endforeach; endforeach; ?>
       </div>
-      <?php endforeach; ?>
     </div>
   </div>
 </section>
