@@ -24,9 +24,6 @@ RewriteRule ^package/([a-zA-Z0-9_-]+)$ package-detail.php?slug=$1 [L,QSA]
 # Route /article/slug → article.php
 RewriteRule ^article/([a-zA-Z0-9_-]+)$ article.php?id=$1 [L,QSA]
 
-# Route /blog → articles.php
-RewriteRule ^blog$ articles.php [L,QSA]
-
 # 4. Internally route clean URLs → .php files
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
