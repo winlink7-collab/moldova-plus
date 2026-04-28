@@ -138,12 +138,12 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
         <!-- Floating guests pill -->
         <div class="hero-guests-pill">
           <div class="av-row">
-            <span class="av"></span>
-            <span class="av" style="background:linear-gradient(135deg,#ffd400,#0046ae)"></span>
-            <span class="av" style="background:linear-gradient(135deg,#cc1126,#ffd400)"></span>
+            <span class="av av1"></span>
+            <span class="av av2"></span>
+            <span class="av av3"></span>
           </div>
           <div class="fl-text">
-            <b>+12,400</b>
+            <b><?= htmlspecialchars(mp_sr('stat_customers','15,000+')) ?></b>
             <span class="he">אורחים מרוצים</span>
             <span class="en">happy guests</span>
           </div>

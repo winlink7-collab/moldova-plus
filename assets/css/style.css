@@ -590,10 +590,12 @@ body.en .hero-pkg-rating { left: auto; right: 14px; }
   position: absolute;
   bottom: 10px; left: -10px;
   background: #fff;
-  padding: 12px 16px; border-radius: 14px;
+  padding: 10px 14px; border-radius: 14px;
   box-shadow: var(--sh-lg);
   display: flex; align-items: center; gap: 10px;
+  direction: ltr;
   animation: hero-float 4s ease-in-out infinite;
+  white-space: nowrap;
 }
 body.en .hero-guests-pill { left: auto; right: -10px; }
 .hero-review-pill {
@@ -609,16 +611,23 @@ body.en .hero-guests-pill { left: auto; right: -10px; }
 }
 body.en .hero-review-pill { left: auto; right: -16px; }
 .hero-review-stars { color: #f59e0b; font-size: 13px; }
-.av-row { display: flex; }
+.av-row { display: flex; direction: ltr; align-items: center; }
 .av {
-  width: 30px; height: 30px;
+  width: 32px; height: 32px;
   border-radius: 50%;
   border: 2.5px solid #fff;
-  margin-right: -10px;
-  background: linear-gradient(135deg, var(--flag-blue), var(--flag-yel) 50%, var(--flag-red));
+  margin-left: -10px;
+  flex-shrink: 0;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--flag-blue);
 }
-body.en .av { margin-right: 0; margin-left: -10px; }
-.fl-text b   { font-size: 13px; color: var(--ink); font-weight: 700; }
+.av:first-child { margin-left: 0; }
+.av1 { background-color: #0046ae; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='12' r='5' fill='rgba(255,255,255,.85)'/%3E%3Cellipse cx='16' cy='26' rx='9' ry='7' fill='rgba(255,255,255,.85)'/%3E%3C/svg%3E"); }
+.av2 { background-color: #f59e0b; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='12' r='5' fill='rgba(255,255,255,.85)'/%3E%3Cellipse cx='16' cy='26' rx='9' ry='7' fill='rgba(255,255,255,.85)'/%3E%3C/svg%3E"); }
+.av3 { background-color: #2e9b5e; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='12' r='5' fill='rgba(255,255,255,.85)'/%3E%3Cellipse cx='16' cy='26' rx='9' ry='7' fill='rgba(255,255,255,.85)'/%3E%3C/svg%3E"); }
+.fl-text { direction: rtl; }
+.fl-text b   { font-size: 13px; color: var(--ink); font-weight: 700; display: block; }
 .fl-text span { font-size: 11px; color: var(--ink-mute); display: block; }
 
 /* ── Search bar ──────────────────────────────────────── */
