@@ -24,7 +24,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && mp_csrf_verify()) {
         $gallery_raw = $_POST['gallery_images'] ?? '[]';
         $gallery_arr = json_decode($gallery_raw, true);
         if (!is_array($gallery_arr)) $gallery_arr = [];
+        $_page = in_array($_POST['page'] ?? '', ['vacation','bachelor']) ? $_POST['page'] : 'vacation';
+        // Keep existing overrides that are not being re-submitted (e.g. gallery)
+        $_existing = $overrides[$id] ?? [];
         $overrides[$id] = [
+            'page'           => $_page,
             'price'          => (int)($_POST['price'] ?? 0),
             'discount'       => (int)($_POST['discount'] ?? 0),
             'status'         => $_POST['status'] ?? 'now',
@@ -37,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && mp_csrf_verify()) {
             'people_he'      => trim($_POST['people_he'] ?? ''),
             'image_url'      => trim($_POST['image_url'] ?? ''),
             'gallery_images' => array_values(array_filter($gallery_arr)),
-            'includes_he'   => array_values(array_filter(array_map('trim', explode("\n", $_POST['includes_he'] ?? '')))),
+            'includes_he'    => array_values(array_filter(array_map('trim', explode("\n", $_POST['includes_he'] ?? '')))),
         ];
         if (mp_write_json('packages.json', $overrides)) {
             $saved = true;
@@ -48,6 +52,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && mp_csrf_verify()) {
 }
 
 $overrides = mp_read_json('packages.json');
+
+// Tab filter
+$tab = isset($_GET['tab']) && in_array($_GET['tab'], ['vacation','bachelor']) ? $_GET['tab'] : 'all';
+$tab_pkgs = $tab === 'all' ? $PACKAGES : array_values(array_filter($PACKAGES, fn($p) => ($overrides[$p['id']]['page'] ?? $p['page'] ?? 'vacation') === $tab));
 
 $type_labels = [
     'couples'=>'זוגות','bach'=>'רווקים','lux'=>'יוקרה',
@@ -74,7 +82,7 @@ $type_colors = [
     .pkg-edit-row.open { display:table-row; }
     .pkg-edit-form { padding:20px 24px; }
     .pkg-edit-form .form-group { margin:0; }
-    .pkg-edit-grid-1 { display:grid; grid-template-columns:repeat(4,1fr) auto; gap:12px; align-items:end; margin-bottom:12px; }
+    .pkg-edit-grid-1 { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; align-items:end; margin-bottom:12px; }
     .pkg-edit-grid-2 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:12px; }
     .pkg-edit-grid-3 { display:grid; grid-template-columns:1fr 1fr auto; gap:12px; align-items:end; }
     .pkg-image-row { display:flex; gap:6px; }
@@ -140,36 +148,52 @@ $type_colors = [
       <div class="alert error"><?= htmlspecialchars($error) ?></div>
       <?php endif; ?>
 
+      <!-- Category tabs -->
+      <div class="admin-tabs" style="display:flex;gap:6px;margin-bottom:16px">
+        <a href="packages.php" class="btn-admin <?= $tab==='all'?'primary':'ghost' ?> sm">
+          הכל <span class="badge <?= $tab==='all'?'':'gray' ?>" style="margin-right:4px"><?= count($PACKAGES) ?></span>
+        </a>
+        <a href="packages.php?tab=vacation" class="btn-admin <?= $tab==='vacation'?'primary':'ghost' ?> sm">
+          ✈️ חבילות נופש
+          <span class="badge <?= $tab==='vacation'?'':'gray' ?>" style="margin-right:4px"><?= count(array_filter($PACKAGES, fn($p) => ($overrides[$p['id']]['page'] ?? $p['page'] ?? 'vacation') === 'vacation')) ?></span>
+        </a>
+        <a href="packages.php?tab=bachelor" class="btn-admin <?= $tab==='bachelor'?'primary':'ghost' ?> sm">
+          🎉 מסיבות רווקים
+          <span class="badge <?= $tab==='bachelor'?'':'gray' ?>" style="margin-right:4px"><?= count(array_filter($PACKAGES, fn($p) => ($overrides[$p['id']]['page'] ?? $p['page'] ?? 'vacation') === 'bachelor')) ?></span>
+        </a>
+      </div>
+
       <div class="admin-card">
         <div class="card-head">
           <div>
-            <h2>כל החבילות</h2>
+            <h2><?= $tab==='vacation' ? 'חבילות נופש' : ($tab==='bachelor' ? 'מסיבות רווקים' : 'כל החבילות') ?></h2>
             <p>לחצו על "ערוך" לשינוי מחיר, הנחה, תוכן ותגית</p>
           </div>
-          <span class="badge blue"><?= count($PACKAGES) ?> חבילות</span>
+          <span class="badge blue"><?= count($tab_pkgs) ?> חבילות</span>
         </div>
         <table class="admin-table">
           <thead>
             <tr>
               <th>#</th>
               <th>שם החבילה</th>
+              <th>קטגוריה</th>
               <th>סוג</th>
               <th>מחיר (€)</th>
               <th>הנחה</th>
               <th>לילות</th>
-              <th>דירוג</th>
               <th>סטטוס</th>
               <th>תגית</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            <?php foreach ($PACKAGES as $p):
+            <?php foreach ($tab_pkgs as $p):
               $ov = $overrides[$p['id']] ?? [];
               $price    = $ov['price']    ?? $p['price'];
               $discount = $ov['discount'] ?? $p['discount'];
               $status   = $ov['status']   ?? $p['status'];
               $tag_he   = $ov['tag_he']   ?? $p['tag_he'];
+              $page_val = $ov['page']     ?? $p['page']  ?? 'vacation';
             ?>
             <tr id="row-<?= $p['id'] ?>">
               <td><b><?= $p['id'] ?></b></td>
@@ -177,11 +201,17 @@ $type_colors = [
                 <b><?= htmlspecialchars($p['title_he']) ?></b>
                 <div style="font-size:11px;color:var(--ink-mute);margin-top:2px"><?= htmlspecialchars($p['loc_he']) ?></div>
               </td>
+              <td>
+                <?php if ($page_val === 'bachelor'): ?>
+                  <span class="badge blue" title="מסיבות רווקים">🎉 רווקים</span>
+                <?php else: ?>
+                  <span class="badge green" title="חבילות נופש">✈️ נופש</span>
+                <?php endif; ?>
+              </td>
               <td><span class="badge <?= $type_colors[$p['type']] ?? 'gray' ?>"><?= $type_labels[$p['type']] ?? $p['type'] ?></span></td>
               <td><b style="color:var(--blue)">€<?= $price ?></b></td>
               <td><?= $discount > 0 ? '<span style="color:var(--red);font-weight:700">' . $discount . '%</span>' : '<span style="color:var(--ink-mute)">—</span>' ?></td>
               <td><?= $p['nights'] ?></td>
-              <td>★ <?= $p['rating'] ?></td>
               <td><span class="badge <?= $status==='now'?'green':'yel' ?>"><?= $status==='now'?'אישור מיידי':'יום עסקים' ?></span></td>
               <td><?= $tag_he ? '<span class="badge blue">' . htmlspecialchars($tag_he) . '</span>' : '<span style="color:var(--ink-mute);font-size:12px">—</span>' ?></td>
               <td>
@@ -194,6 +224,13 @@ $type_colors = [
                   <input type="hidden" name="csrf" value="<?= htmlspecialchars(mp_csrf()) ?>">
                   <input type="hidden" name="id" value="<?= $p['id'] ?>">
                   <div class="pkg-edit-grid-1">
+                    <div class="form-group">
+                      <label>קטגוריה</label>
+                      <select name="page">
+                        <option value="vacation" <?= $page_val==='vacation'?'selected':'' ?>>✈️ חבילות נופש</option>
+                        <option value="bachelor" <?= $page_val==='bachelor'?'selected':'' ?>>🎉 מסיבות רווקים</option>
+                      </select>
+                    </div>
                     <div class="form-group">
                       <label>מחיר (€)</label>
                       <input type="number" name="price" value="<?= $price ?>" min="1">
@@ -213,7 +250,6 @@ $type_colors = [
                       <label>תגית (עברית)</label>
                       <input type="text" name="tag_he" value="<?= htmlspecialchars($tag_he) ?>" placeholder="הכי פופולרי">
                     </div>
-                    <div></div>
                   </div>
                   <div class="pkg-edit-grid-2">
                     <div class="form-group">

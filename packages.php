@@ -5,13 +5,16 @@ require_once 'includes/data.php';
 [$lang, $t] = page_init('packages');
 $page = 'packages';
 
+// Only vacation packages on this page
+$vacation_pkgs = array_values(array_filter($PACKAGES, fn($p) => ($p['page'] ?? 'vacation') === 'vacation'));
+
 // Active type filter from URL
-$type = isset($_GET['type']) && in_array($_GET['type'], ['couples','bach','wine','lux','group','food','spa','adv'])
+$type = isset($_GET['type']) && in_array($_GET['type'], ['couples','wine','lux','food','spa'])
     ? $_GET['type'] : 'all';
 
 page_head(
     $lang==='he' ? 'חבילות נופש — Moldova Plus' : 'Travel Packages — Moldova Plus',
-    $lang==='he' ? 'כל החבילות שלנו במולדובה — מבוקרות, שקופות, באישור מיידי.' : 'All our Moldova packages — vetted, transparent, instant booking.',
+    $lang==='he' ? 'כל חבילות הנופש שלנו במולדובה — מבוקרות, שקופות, באישור מיידי.' : 'All our Moldova vacation packages — vetted, transparent, instant booking.',
     $lang
 );
 ?>
@@ -47,13 +50,10 @@ page_head(
       $filter_types = [
         'all'     => ['he'=>'הכל',      'en'=>'All'],
         'couples' => ['he'=>'זוגיות',   'en'=>'Couples'],
-        'bach'    => ['he'=>'רווקים',   'en'=>'Bachelor'],
         'wine'    => ['he'=>'יקבים',    'en'=>'Wineries'],
         'lux'     => ['he'=>'יוקרה',    'en'=>'Luxury'],
-        'group'   => ['he'=>'קבוצות',   'en'=>'Groups'],
         'food'    => ['he'=>'גסטרו',    'en'=>'Gastro'],
         'spa'     => ['he'=>'ספא',      'en'=>'Spa'],
-        'adv'     => ['he'=>'אדרנלין',  'en'=>'Adventure'],
       ];
       foreach ($filter_types as $fid => $fl): ?>
       <a href="packages.php?type=<?= $fid ?><?= $lang==='en'?'&lang=en':'' ?>" class="filter-pill <?= $type===$fid?'active':'' ?>">
@@ -77,8 +77,7 @@ page_head(
       </select>
 
       <?php
-      $filtered = $type === 'all' ? $PACKAGES : array_filter($PACKAGES, fn($p) => $p['type'] === $type);
-      $filtered = array_values($filtered);
+      $filtered = $type === 'all' ? $vacation_pkgs : array_values(array_filter($vacation_pkgs, fn($p) => $p['type'] === $type));
       ?>
       <span class="filter-results">
         <?= count($filtered) ?> <span class="he">תוצאות</span><span class="en">results</span>

@@ -11,8 +11,7 @@ page_head(
     $lang
 );
 
-$types   = ['bach','adv','group'];
-$results = array_values(array_filter($PACKAGES, fn($p) => in_array($p['type'], $types)));
+$results = array_values(array_filter($PACKAGES, fn($p) => ($p['page'] ?? '') === 'bachelor'));
 ?>
 <?php include 'includes/header.php'; ?>
 
@@ -72,16 +71,14 @@ $results = array_values(array_filter($PACKAGES, fn($p) => in_array($p['type'], $
         'adv'   => ['he'=>'אדרנלין','en'=>'Adrenaline'],
         'group' => ['he'=>'קבוצות','en'=>'Groups'],
       ];
-      $active_type = isset($_GET['type']) && array_key_exists($_GET['type'], $bt) ? $_GET['type'] : 'all';
+      $active_type = isset($_GET['type']) && array_key_exists($_GET['type'], $bt) && $_GET['type'] !== 'all' ? $_GET['type'] : 'all';
       foreach ($bt as $fid => $fl): ?>
       <a href="bachelor.php?type=<?= $fid ?><?= $lang==='en'?'&lang=en':'' ?>" class="filter-pill <?= $active_type===$fid?'active':'' ?>">
         <span class="he"><?= $fl['he'] ?></span>
         <span class="en"><?= htmlspecialchars($fl['en']) ?></span>
       </a>
       <?php endforeach; ?>
-      <?php if ($active_type !== 'all'): ?>
-        <?php $results = array_values(array_filter($results, fn($p) => $p['type'] === $active_type)); ?>
-      <?php endif; ?>
+      <?php if ($active_type !== 'all') $results = array_values(array_filter($results, fn($p) => $p['type'] === $active_type)); ?>
       <span class="filter-results"><?= count($results) ?> <span class="he">תוצאות</span><span class="en">results</span></span>
     </div>
 
