@@ -456,7 +456,7 @@ page_head($lang==='he' ? $title_he : $title_en, $lang==='he' ? $desc_he : $desc_
     </div>
     <div class="article-grid">
       <?php foreach ($ARTICLES as $i => $a): ?>
-      <a href="#" class="article reveal d<?= $i+1 ?>">
+      <a href="article.php?id=<?= $a['id'] ?><?= $lang==='en'?'&lang=en':'' ?>" class="article reveal d<?= $i+1 ?>">
         <div class="article-img"><?= scene_img($a['scene']) ?></div>
         <div class="article-body">
           <span class="article-tag">

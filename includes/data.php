@@ -164,24 +164,88 @@ $REVIEWS = file_exists($_reviews_file) ? (json_decode(file_get_contents($_review
 
 // ─── Articles ────────────────────────────────────────────────────────────────
 $ARTICLES = [
-  ['tag_he'=>'מדריך','tag_en'=>'Guide','scene'=>'gold',
+  [
+   'id'=>'moldova-2026',
+   'tag_he'=>'מדריך','tag_en'=>'Guide','scene'=>'gold',
    'title_he'=>'הסיבה שמולדובה הפכה ליעד החם של 2026',
    'title_en'=>'Why Moldova became the hottest destination of 2026',
    'desc_he'=>'יקבים תת-קרקעיים, מחירים נמוכים, טיסה של 3 שעות וחיי לילה משתוללים — מה הופך את קישינב למה שהיא היום.',
    'desc_en'=>'Underground wineries, low prices, a 3-hour flight and wild nightlife — what makes Chișinău what it is today.',
-   'date'=>'14.04.2026','read'=>'5'],
-  ['tag_he'=>'יקבים','tag_en'=>'Wineries','scene'=>'warm',
+   'date'=>'14.04.2026','read'=>'5',
+   'related_types'=>['couples','lux','spa'],
+   'body_he'=>'<p>קישינב, בירת מולדובה, כבר אינה סוד מוסתר. ב-2026 היא הפכה לאחת היעדים המדוברים ביותר בקרב ישראלים המחפשים חוויות מקוריות, מחירים שפויים ואווירה שלא תמצאו בשום מקום אחר.</p>
+<h3>מה גרם לפריחה?</h3>
+<p>שלושה גורמים עיקריים הביאו לגל התיירות: <strong>קרבה גיאוגרפית</strong> — טיסה ישירה של 3 שעות מתל אביב, <strong>מחירים מדהימים</strong> — ארוחת שף עולה פחות מ-30 דולר, ולילה במלון 5 כוכבים מתחיל ב-80 דולר, ו<strong>חוויות ייחודיות</strong> שלא ניתן לשחזר בקלות — ביקור ביקבים תת-קרקעיים שנחפרו בידי אדם לאורך עשרות שנים.</p>
+<h3>יקבים שמסחררים את הדעת</h3>
+<p>Mileștii Mici הוא היקב הגדול בעולם — עם יותר מ-200 ק"מ של מנהרות תת-קרקעיות שבהן מאוחסנים מיליוני בקבוקי יין. הסיור מתנהל ברכב בין המנהרות, עם תאורה עמומה ואווירה של אחר-עולם. Cricova, היריב הקרוב, מציע טעימות בסגנון יותר אירופאי — קלאסי, מעודן ומרשים לא פחות.</p>
+<h3>חיי לילה שיפתיעו אתכם</h3>
+<p>קישינב ידועה בקהילת הנייטקלאב שלה — מועדונים פתוחים עד שש בבוקר, מוזיקה אלקטרונית ברמה גבוהה, ובארים שלל סגנונות לאורך רחוב Stefan cel Mare. המחירים? רביעיית שוטים עולה פחות מ-8 שקלים. לא, לא טעינו.</p>
+<h3>אז מתי טסים?</h3>
+<p>חודשי מאי–ספטמבר הם הזמן הטוב ביותר — מזג אוויר נעים, פסטיבלי יין, ואנרגיה ברחובות. Moldova Plus מציעה חבילות מלאות הכוללות טיסה, מלון, סיורים ומדריך דובר עברית. כל מה שנשאר לכם הוא לארוז.</p>',
+   'body_en'=>'<p>Chișinău, the capital of Moldova, is no longer a hidden secret. In 2026 it has become one of the most talked-about destinations among Israelis seeking authentic experiences, reasonable prices and an atmosphere found nowhere else.</p>
+<h3>What caused the boom?</h3>
+<p>Three main factors drove the tourism wave: <strong>geographic proximity</strong> — a direct 3-hour flight from Tel Aviv, <strong>incredible prices</strong> — a chef-cooked dinner costs under $30, and a 5-star hotel starts from $80 per night, and <strong>unique experiences</strong> — visiting underground wineries carved by hand over decades.</p>
+<h3>Wineries that blow your mind</h3>
+<p>Mileștii Mici is the world\'s largest winery — with over 200 km of underground tunnels housing millions of wine bottles. The tour is conducted by car through the tunnels, with dim lighting and an otherworldly atmosphere. Cricova, its close rival, offers tastings in a more European style — classic, refined and equally impressive.</p>
+<h3>Nightlife that will surprise you</h3>
+<p>Chișinău is known for its nightclub scene — clubs open until 6 AM, high-quality electronic music, and bars of all styles along Stefan cel Mare street. The prices? Four shots cost less than $2. No, that\'s not a typo.</p>',
+  ],
+  [
+   'id'=>'wineries',
+   'tag_he'=>'יקבים','tag_en'=>'Wineries','scene'=>'warm',
    'title_he'=>'4 היקבים שחייבים לבקר בהם',
    'title_en'=>'4 wineries you must visit',
    'desc_he'=>'Mileștii Mici, Cricova, Purcari ו-Castel Mimi — הסיורים, הטעימות והדגשים.',
    'desc_en'=>'Mileștii Mici, Cricova, Purcari & Castel Mimi — tours, tastings and highlights.',
-   'date'=>'10.04.2026','read'=>'4'],
-  ['tag_he'=>'רווקים','tag_en'=>'Bachelor','scene'=>'dark',
+   'date'=>'10.04.2026','read'=>'4',
+   'related_types'=>['wine','couples','lux'],
+   'body_he'=>'<p>מולדובה היא מדינת היין הקטנה שמכה מעל משקלה. עם יותר מ-170,000 הקטאר של כרמים ואקלים מושלם, היא מייצרת כמה מיינות הבוטיק הטובים בעולם. להלן ארבעת היקבים שכל מי שמגיע למולדובה חייב לבקר בהם.</p>
+<h3>1. Mileștii Mici — היקב הגדול בעולם</h3>
+<p>רשום בגינס כיקב הגדול בעולם, Mileștii Mici מחזיק מעל 1.5 מיליון בקבוקי יין במנהרות תת-קרקעיות שאורכן עולה על 200 ק"מ. הסיור מתנהל ברכב — כן, ברכב, כי אחרת לא תגיעו לשום מקום. הטעימות נערכות בחדרים מחצובים בסלע, ומלוות בלחם תוצרת בית וגבינות מקומיות. מגיל 6 ישנן ענבים טריים לאורחים הצעירים.</p>
+<h3>2. Cricova — הקסם האירופאי</h3>
+<p>אם Mileștii Mici הוא הגיגנט, Cricova הוא המלך המסוגנן. הקמרות הגותיות, הרחובות הנקיים עם שמות של יינות, והאווירה המכובדת — כולם מצביעים על ניסיון אחר לגמרי. פוטין הזמין פה חבית שלמה, ונשיאים ממדינות רבות ביקרו פה. הוא שייך לרשימה של כל מדריך "must-see" אירופאי.</p>
+<h3>3. Castel Mimi — בוטיק עם נוף לתפארת</h3>
+<p>כ-50 דקות מקישינב, Castel Mimi הוא יקב טירה עם חצר אירופאית, מסעדת שף ו-glamping בתוך הכרם. הוא המושלם לזוגות — ארוחת ערב מרהיבה בין שורות הגפנים, בקבוק Feteasca Neagra ולילה בקוטג׳ מרוהט להפליא.</p>
+<h3>4. Purcari — מקום שמייצר יין מאז 1827</h3>
+<p>הישן מכולם ואחד המכובדים. Purcari מייצר יין מ-1827, ונחשב ל"יין הצארים" — רוסיה קנתה ממנו בכמויות לאורך המאה ה-19. היום הוא יוצא לייצוא בכ-40 מדינות, ואפשר לסייר ביקב, לשתות ולישון פה תחת הכוכבים.</p>',
+   'body_en'=>'<p>Moldova is the small wine country that punches above its weight. With over 170,000 hectares of vineyards and a perfect climate, it produces some of the world\'s best boutique wines. Here are the four wineries every visitor to Moldova must see.</p>
+<h3>1. Mileștii Mici — the world\'s largest winery</h3>
+<p>Listed in the Guinness Book as the world\'s largest winery, Mileștii Mici holds over 1.5 million wine bottles in underground tunnels stretching more than 200 km. The tour is conducted by car — yes, by car, otherwise you\'d never cover the ground. Tastings are held in rock-carved rooms, accompanied by homemade bread and local cheeses.</p>
+<h3>2. Cricova — European elegance</h3>
+<p>If Mileștii Mici is the giant, Cricova is the refined king. Gothic arches, clean streets named after wines, and a distinguished atmosphere — all pointing to a very different experience. Putin ordered a full barrel here, and presidents from many countries have visited. It belongs on every "must-see" European list.</p>
+<h3>3. Castel Mimi — boutique with stunning views</h3>
+<p>About 50 minutes from Chișinău, Castel Mimi is a castle winery with a European courtyard, chef\'s restaurant and glamping in the vineyard. Perfect for couples — a breathtaking dinner between vine rows, a bottle of Feteasca Neagra and a beautifully furnished cottage.</p>
+<h3>4. Purcari — making wine since 1827</h3>
+<p>The oldest and one of the most respected. Purcari has been making wine since 1827 and is known as the "Tsar\'s wine" — Russia bought it in large quantities throughout the 19th century. Today it exports to around 40 countries, and visitors can tour the winery, drink, and sleep under the stars.</p>',
+  ],
+  [
+   'id'=>'bachelor-chisinau',
+   'tag_he'=>'רווקים','tag_en'=>'Bachelor','scene'=>'dark',
    'title_he'=>'מסיבת רווקים בקישינב — המדריך המלא',
    'title_en'=>'Bachelor party in Chișinău — the complete guide',
    'desc_he'=>'הכל מהוילות והבארים ועד התחבורה — איך מארגנים מסיבת רווקים שלא ישכחו.',
    'desc_en'=>'From villas and bars to transport — how to organize a memorable bachelor party.',
-   'date'=>'07.04.2026','read'=>'6'],
+   'date'=>'07.04.2026','read'=>'6',
+   'related_types'=>['bach','adv','group'],
+   'body_he'=>'<p>קישינב הפכה לאחת הבירות המבוקשות ביותר לאירועי רווקים בישראל. המחירים הנמוכים, חיי הלילה האגדיים, הוילות הפרטיות וספקי שירות שכבר מכירים את הצרכים של הישראלים — הכל נמצא כאן. אם אתם מתכננים ואתם רוצים לעשות את זה נכון, זהו המדריך שלכם.</p>
+<h3>מתי לטוס?</h3>
+<p>חמישי–ראשון הוא הנוסחה הכי טובה — שלושה ימים ושתי לילות, ונוחתים בחזרה ב-א׳ בצהריים. ימי חמישי–שבת בקישינב הם הלילות הכי שווים בשבוע. אם יש תקציב וזמן — הוסיפו יום נוסף ביום ד׳ לביקור יקב.</p>
+<h3>וילה או מלון?</h3>
+<p>לקבוצות של 8 נפשות ומעלה — <strong>וילה פרטית</strong> תמיד עדיפה. Moldova Plus עובדת עם מספר וילות פרטיות בסביבת קישינב: בריכה, מטבח מאובזר, שף פרטי אופציונלי ואבטחה. מחיר ללילה לכל הוילה: $250–$450 בהתאם לגודל. לקבוצות קטנות יותר — Radisson Blu או Nobil הם הבחירות הטבעיות.</p>
+<h3>חיי לילה — איפה ואיך</h3>
+<p>ה-TOP 3 מועדוני הקישינב: <strong>Soho</strong> (המועדון הכי גדול, EDM ברמה בינלאומית), <strong>Casablanca</strong> (אלגנטי, dress-code, קהל מיקס), ו-<strong>La Gusto</strong> (אווירה מועדון ים-תיכוני, מוזיקה קצת שונה). Moldova Plus מסדר כניסה מובטחת + שולחן VIP בכל אחד מהם — ללא תורים, ללא הפתעות.</p>
+<h3>אטרקציות ביום</h3>
+<p>אל תבזבזו את היום בשינה — קישינב מציעה Carrera Karting (הקארטינג הגדול במזרח אירופה), shooting range, paintball מקצועי, ואפילו סיור רכיבה על סוסים בסביבה הכפרית. Moldova Plus תבנה לכם תוכנית מלאה שמתחילה בשעה 11:00 ומגיעה לשיא בחצות.</p>
+<h3>תחבורה ולוגיסטיקה</h3>
+<p>עם Moldova Plus קבלתם van מרווח עם נהג דובר עברית זמין 24/7. אין מה לדאוג לוגיסטית — אנחנו מסדרים את הכל מנחיתה ועד המראה. הדרך מהמלון למועדון, חזרה, ביקור ביקב — הכל על אחד.</p>',
+   'body_en'=>'<p>Chișinău has become one of the most sought-after bachelor party destinations among Israelis. Low prices, legendary nightlife, private villas and service providers already familiar with Israeli needs — it\'s all here. If you\'re planning one and want to do it right, this is your guide.</p>
+<h3>When to fly?</h3>
+<p>Thursday–Sunday is the best formula — three days, two nights, landing back Sunday afternoon. Thursday–Saturday nights in Chișinău are the best of the week. If you have budget and time, add an extra Wednesday for a winery visit.</p>
+<h3>Villa or hotel?</h3>
+<p>For groups of 8 or more, a <strong>private villa</strong> is always preferable. Moldova Plus works with several private villas near Chișinău: pool, equipped kitchen, optional private chef and security. Villa price per night: $250–$450 depending on size.</p>
+<h3>Nightlife — where and how</h3>
+<p>The top 3 Chișinău clubs: <strong>Soho</strong> (biggest club, international EDM), <strong>Casablanca</strong> (elegant, dress code, mixed crowd), and <strong>La Gusto</strong> (Mediterranean club vibe, different music). Moldova Plus arranges guaranteed entry + VIP table at any of them — no queues, no surprises.</p>',
+  ],
 ];
 
 // ─── Attractions ─────────────────────────────────────────────────────────────
