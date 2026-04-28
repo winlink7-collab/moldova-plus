@@ -1845,6 +1845,254 @@ body.en .wa-float { right: auto; left: 28px; }
 }
 .mob-cta-wa:active { animation: none; }
 
+/* ── Shurik Chatbot ──────────────────────────────────── */
+.shurik-wrap {
+  position: fixed;
+  bottom: 28px;
+  left: 28px;
+  z-index: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+body.en .shurik-wrap { left: auto; right: 28px; }
+
+/* Bubble trigger */
+.shurik-bubble {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--flag-blue);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 20px 12px 14px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 24px rgba(0,70,174,.35);
+  transition: transform .2s, box-shadow .2s;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+}
+body.en .shurik-bubble { padding: 12px 14px 12px 20px; }
+.shurik-bubble:hover { transform: scale(1.04); box-shadow: 0 8px 32px rgba(0,70,174,.45); }
+.shurik-bubble-avatar {
+  width: 36px; height: 36px;
+  background: rgba(255,255,255,.22);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+.shurik-bubble-label { white-space: nowrap; }
+.shurik-bubble-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 20px; height: 20px;
+  background: var(--flag-red);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 800;
+  color: #fff;
+  border: 2px solid #fff;
+  transition: transform .3s;
+}
+.shurik-bubble-badge.hide { transform: scale(0); }
+
+/* Chat box */
+.shurik-box {
+  width: 340px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 12px 48px rgba(0,0,0,.18), 0 2px 8px rgba(0,0,0,.08);
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: scale(.9) translateY(20px);
+  transform-origin: bottom left;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform .28s cubic-bezier(.34,1.3,.64,1), opacity .22s;
+  max-height: 520px;
+}
+body.en .shurik-box { transform-origin: bottom right; }
+.shurik-box.open { transform: scale(1) translateY(0); opacity: 1; pointer-events: all; }
+
+/* Header */
+.shurik-head {
+  background: var(--flag-blue);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.shurik-head-info { display: flex; align-items: center; gap: 10px; color: #fff; }
+.shurik-avatar {
+  width: 40px; height: 40px;
+  background: rgba(255,255,255,.2);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  font-weight: 900;
+  color: #fff;
+  border: 2px solid rgba(255,255,255,.4);
+  flex-shrink: 0;
+}
+.shurik-head-info b { display: block; font-size: 15px; color: #fff; line-height: 1.2; }
+.shurik-status { display: flex; align-items: center; gap: 5px; font-size: 12px; color: rgba(255,255,255,.8); }
+.shurik-dot {
+  width: 7px; height: 7px;
+  background: #4ade80;
+  border-radius: 50%;
+  animation: shurik-pulse 2s ease-in-out infinite;
+}
+@keyframes shurik-pulse { 0%,100% { opacity: 1; } 50% { opacity: .5; } }
+.shurik-close {
+  width: 34px; height: 34px;
+  display: grid; place-items: center;
+  background: rgba(255,255,255,.15);
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  transition: background .15s;
+  flex-shrink: 0;
+}
+.shurik-close:hover { background: rgba(255,255,255,.28); }
+
+/* Messages */
+.shurik-msgs {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scroll-behavior: smooth;
+  background: var(--bg-2);
+  min-height: 200px;
+  max-height: 280px;
+}
+.shurik-msg {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.55;
+  animation: msg-in .22s cubic-bezier(.34,1.2,.64,1) both;
+}
+@keyframes msg-in { from { opacity: 0; transform: translateY(8px) scale(.95); } to { opacity: 1; transform: none; } }
+.shurik-msg.bot {
+  background: #fff;
+  color: var(--ink);
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.07);
+  align-self: flex-end;
+}
+.shurik-msg.user {
+  background: var(--flag-blue);
+  color: #fff;
+  border-bottom-left-radius: 4px;
+  align-self: flex-start;
+}
+body.en .shurik-msg.bot { border-bottom-right-radius: 16px; border-bottom-left-radius: 4px; align-self: flex-start; }
+body.en .shurik-msg.user { border-bottom-left-radius: 16px; border-bottom-right-radius: 4px; align-self: flex-end; }
+.shurik-typing {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  padding: 12px 16px;
+  background: #fff;
+  border-radius: 16px;
+  border-bottom-right-radius: 4px;
+  width: fit-content;
+  align-self: flex-end;
+  box-shadow: 0 1px 3px rgba(0,0,0,.07);
+}
+.shurik-typing span {
+  width: 7px; height: 7px;
+  background: var(--ink-mute);
+  border-radius: 50%;
+  animation: typing-dot 1.2s ease-in-out infinite;
+}
+.shurik-typing span:nth-child(2) { animation-delay: .2s; }
+.shurik-typing span:nth-child(3) { animation-delay: .4s; }
+@keyframes typing-dot { 0%,80%,100% { transform: scale(.8); opacity: .5; } 40% { transform: scale(1.1); opacity: 1; } }
+
+/* Quick replies */
+.shurik-quick {
+  padding: 8px 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  background: var(--bg-2);
+  border-top: 1px solid var(--line-soft);
+  flex-shrink: 0;
+  min-height: 0;
+}
+.shurik-quick:empty { display: none; }
+.shurik-qbtn {
+  background: #fff;
+  border: 1.5px solid var(--flag-blue);
+  color: var(--flag-blue);
+  border-radius: 999px;
+  padding: 6px 13px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+  white-space: nowrap;
+}
+.shurik-qbtn:hover { background: var(--flag-blue); color: #fff; }
+
+/* Input row */
+.shurik-input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-top: 1px solid var(--line-soft);
+  background: #fff;
+  flex-shrink: 0;
+}
+.shurik-input {
+  flex: 1;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  padding: 9px 14px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--ink);
+  outline: none;
+  transition: border-color .18s;
+  min-width: 0;
+  direction: inherit;
+}
+.shurik-input:focus { border-color: var(--flag-blue); }
+.shurik-send {
+  width: 38px; height: 38px;
+  background: var(--flag-blue);
+  color: #fff;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: background .15s;
+}
+.shurik-send:hover { background: var(--flag-blue-2); }
+
+/* Hide on mobile */
+@media (max-width: 760px) { .shurik-wrap { display: none; } }
+
 /* ── Back to top ─────────────────────────────────────── */
 .back-top {
   position: fixed;

@@ -330,6 +330,183 @@
     });
   }
 
+  /* ── Shurik Chatbot ──────────────────────────────────── */
+  var shurikWrap   = document.getElementById('shurik-wrap');
+  if (shurikWrap) {
+    var shurikBox    = document.getElementById('shurik-box');
+    var shurikBubble = document.getElementById('shurik-bubble');
+    var shurikClose  = document.getElementById('shurik-close');
+    var shurikMsgs   = document.getElementById('shurik-msgs');
+    var shurikQuick  = document.getElementById('shurik-quick');
+    var shurikInput  = document.getElementById('shurik-input');
+    var shurikSend   = document.getElementById('shurik-send');
+    var shurikBadge  = document.getElementById('shurik-badge');
+    var chatLang     = document.documentElement.lang || 'he';
+    var isHe         = chatLang !== 'en';
+    var chatOpen     = false;
+    var waNum        = '972355501880';
+
+    // Bot knowledge base
+    var responses = [
+      {
+        keys: ['חבילה','חבילות','package','packages','טיול','נסיעה','trip'],
+        he: 'יש לנו חבילות לכל סוג נסיעה 🍷\n• <b>זוגיות</b> — ספא + יין\n• <b>רווקים</b> — מסיבות + וילות\n• <b>יוקרה</b> — מלונות 5 כוכבים\n• <b>יקבים</b> — סיורי יין מקצועיים\n\nרוצה לראות את כל החבילות?',
+        en: 'We have packages for every trip 🍷\n• <b>Couples</b> — spa + wine\n• <b>Bachelor</b> — parties + villas\n• <b>Luxury</b> — 5-star hotels\n• <b>Wine tours</b> — professional tastings\n\nWant to see all packages?',
+        quick: { he: ['כן, תראה לי','מחירים','רווקים','יין'], en: ['Show me','Prices','Bachelor','Wine'] }
+      },
+      {
+        keys: ['מחיר','מחירים','עלות','כמה','price','cost','how much'],
+        he: 'המחירים שלנו מתחילים מ-₪1,200 לאדם 💰\n\n• בסיסי: ₪1,200 – ₪1,800\n• מתקדם: ₪2,000 – ₪3,000\n• יוקרה: ₪3,500+\n\nכל החבילות כוללות: מלון, ארוחות בוקר, סיורים ולווי מקומי.',
+        en: 'Our prices start from ₪1,200 per person 💰\n\n• Basic: ₪1,200 – ₪1,800\n• Premium: ₪2,000 – ₪3,000\n• Luxury: ₪3,500+\n\nAll packages include: hotel, breakfasts, tours & local guide.',
+        quick: { he: ['הזמנה','דברו איתי','כל החבילות'], en: ['Book now','Talk to us','All packages'] }
+      },
+      {
+        keys: ['רווקים','bachelor','מסיבה','party','חברים','friends'],
+        he: 'מסיבות רווקים במולדובה 🎉 — הבחירה הכי חכמה!\n\n✅ וילות פרטיות עם בריכה\n✅ חיי לילה אגדיים בקישינב\n✅ מחירים פי 3 זולים מאירופה\n✅ סיפור שיספרו עליו שנים\n\nכמה אנשים בקבוצה?',
+        en: 'Bachelor parties in Moldova 🎉 — the smartest choice!\n\n✅ Private villas with pool\n✅ Legendary nightlife in Chisinau\n✅ 3× cheaper than Europe\n✅ A story they\'ll tell for years\n\nHow many people in the group?',
+        quick: { he: ['5-10 אנשים','10-20 אנשים','דברו איתי'], en: ['5-10 people','10-20 people','Talk to us'] }
+      },
+      {
+        keys: ['יין','יקב','wine','winery','קריקובה','מילשטי','cricova','milestii'],
+        he: 'יין מולדובי — הטוב בעולם 🍇\n\nסיורים ב-2 היקבים הגדולים בעולם:\n• <b>Mileștii Mici</b> — 200 ק"מ מנהרות תת-קרקעיות\n• <b>Cricova</b> — היקב של הסלבס\n\nכולל: טעימת יין, ארוחה וסיור ברכב.',
+        en: 'Moldovan wine — among the world\'s best 🍇\n\nTours to 2 of the world\'s largest wineries:\n• <b>Mileștii Mici</b> — 200km underground tunnels\n• <b>Cricova</b> — the celebrity winery\n\nIncludes: wine tasting, meal & vehicle tour.',
+        quick: { he: ['הזמנה','מחירים','כל החבילות'], en: ['Book now','Prices','All packages'] }
+      },
+      {
+        keys: ['ספא','spa','מסאז','massage','זוגי','couple','רומנטי','romantic'],
+        he: 'חבילות ספא רומנטיות 💆‍♀️\n\nמושלם לזוגות:\n✅ מלון בוטיק 4-5 כוכבים\n✅ יום ספא מלא + עיסוי זוגי\n✅ ארוחת ערב רומנטית\n✅ סיור ביקב עם זיווגי יין\n\nחבילות זוגיות מ-₪2,200 לזוג.',
+        en: 'Romantic Spa Packages 💆‍♀️\n\nPerfect for couples:\n✅ 4-5 star boutique hotel\n✅ Full spa day + couples massage\n✅ Romantic dinner\n✅ Winery tour with wine pairing\n\nCouples packages from ₪2,200 per couple.',
+        quick: { he: ['הזמנה','מחירים','דברו איתי'], en: ['Book now','Prices','Talk to us'] }
+      },
+      {
+        keys: ['הזמנה','להזמין','book','reserve','קניה','buy'],
+        he: 'מעולה! 🎯 הדרך הכי מהירה להזמין — שלח לנו הודעה בוואטסאפ ונחזור אליך תוך דקות.',
+        en: 'Great! 🎯 The fastest way to book — send us a WhatsApp message and we\'ll get back to you within minutes.',
+        quick: { he: ['פתח וואטסאפ 💬'], en: ['Open WhatsApp 💬'] }
+      },
+      {
+        keys: ['שלום','היי','hello','hi','hey','בוקר','ערב'],
+        he: 'שלום! 👋 שמח שפנית אלינו. איך אפשר לעזור?',
+        en: 'Hello! 👋 Happy you reached out. How can I help?',
+        quick: { he: ['חבילות','מחירים','רווקים','ספא'], en: ['Packages','Prices','Bachelor','Spa'] }
+      }
+    ];
+
+    var waQuickKeys = isHe ? ['פתח וואטסאפ 💬','דברו איתי'] : ['Open WhatsApp 💬','Talk to us'];
+
+    function addMsg(text, who, delay) {
+      delay = delay || 0;
+      setTimeout(function() {
+        var el = document.createElement('div');
+        el.className = 'shurik-msg ' + who;
+        el.innerHTML = text.replace(/\n/g,'<br>');
+        shurikMsgs.appendChild(el);
+        shurikMsgs.scrollTop = shurikMsgs.scrollHeight;
+      }, delay);
+    }
+
+    function showTyping(duration, cb) {
+      var t = document.createElement('div');
+      t.className = 'shurik-typing';
+      t.innerHTML = '<span></span><span></span><span></span>';
+      shurikMsgs.appendChild(t);
+      shurikMsgs.scrollTop = shurikMsgs.scrollHeight;
+      setTimeout(function() {
+        if (t.parentNode) t.parentNode.removeChild(t);
+        cb();
+      }, duration);
+    }
+
+    function setQuick(btns) {
+      shurikQuick.innerHTML = '';
+      if (!btns) return;
+      btns.forEach(function(label) {
+        var b = document.createElement('button');
+        b.className = 'shurik-qbtn';
+        b.textContent = label;
+        b.addEventListener('click', function() { handleInput(label); });
+        shurikQuick.appendChild(b);
+      });
+    }
+
+    function handleInput(text) {
+      if (!text.trim()) return;
+      addMsg(text, 'user');
+      shurikInput.value = '';
+      setQuick(null);
+
+      // Check if WA redirect
+      if (waQuickKeys.indexOf(text) !== -1) {
+        showTyping(700, function() {
+          addMsg(isHe ? 'בסדר! מעביר אותך לוואטסאפ... 💬' : 'On it! Redirecting to WhatsApp... 💬', 'bot');
+          setTimeout(function() {
+            var msg = isHe ? 'היי שוריק, שמחתי לדבר! אשמח לשמוע על חבילות' : 'Hi Shurik! I chatted with the bot and want to hear about packages';
+            window.open('https://wa.me/' + waNum + '?text=' + encodeURIComponent(msg), '_blank');
+          }, 1000);
+        });
+        return;
+      }
+
+      // Find matching response
+      var lc = text.toLowerCase();
+      var found = null;
+      for (var i = 0; i < responses.length; i++) {
+        for (var j = 0; j < responses[i].keys.length; j++) {
+          if (lc.indexOf(responses[i].keys[j]) !== -1) { found = responses[i]; break; }
+        }
+        if (found) break;
+      }
+
+      if (found) {
+        showTyping(900, function() {
+          addMsg(isHe ? found.he : found.en, 'bot');
+          setQuick(isHe ? found.quick.he : found.quick.en);
+        });
+      } else {
+        showTyping(700, function() {
+          addMsg(
+            isHe ? 'לא הבנתי לגמרי 😅 אבל אשמח לעזור! לחץ על אחת האפשרויות או שלח לנו ב-וואטסאפ.' : 'I didn\'t quite get that 😅 Happy to help though! Choose an option or contact us on WhatsApp.',
+            'bot'
+          );
+          setQuick(isHe ? ['חבילות','מחירים','פתח וואטסאפ 💬'] : ['Packages','Prices','Open WhatsApp 💬']);
+        });
+      }
+    }
+
+    function openChat() {
+      chatOpen = true;
+      shurikBox.classList.add('open');
+      shurikBadge.classList.add('hide');
+      if (shurikMsgs.children.length === 0) {
+        // Welcome message
+        showTyping(800, function() {
+          addMsg(
+            isHe ? 'שלום! שמי שוריק ממולדובה 🇲🇩<br>אני כאן לעזור לך לתכנן את הטיול המושלם!' : 'Hi! I\'m Shurik from Moldova 🇲🇩<br>I\'m here to help you plan the perfect trip!',
+            'bot'
+          );
+          setQuick(isHe ? ['חבילות','מחירים','רווקים','ספא','יין'] : ['Packages','Prices','Bachelor','Spa','Wine']);
+        });
+      }
+    }
+    function closeChat() {
+      chatOpen = false;
+      shurikBox.classList.remove('open');
+    }
+
+    shurikBubble.addEventListener('click', function() { chatOpen ? closeChat() : openChat(); });
+    shurikClose && shurikClose.addEventListener('click', closeChat);
+
+    shurikSend && shurikSend.addEventListener('click', function() { handleInput(shurikInput.value); });
+    shurikInput && shurikInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') handleInput(shurikInput.value);
+    });
+
+    // Show badge after 4s
+    setTimeout(function() {
+      if (!chatOpen) shurikBadge.classList.remove('hide');
+    }, 4000);
+  }
+
   /* ── Gallery Lightbox ────────────────────────────────── */
   var galLightbox = document.getElementById('gal-lightbox');
   if (galLightbox) {
