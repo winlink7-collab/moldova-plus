@@ -193,10 +193,10 @@ body.en .he { display: none !important; }
   justify-content: center;
 }
 .primary-nav a {
-  font-size: 14px;
+  font-size: 15.5px;
   font-weight: 600;
   color: var(--ink-soft);
-  padding: 10px 13px;
+  padding: 10px 14px;
   border-radius: var(--r);
   transition: all .18s;
   white-space: nowrap;
