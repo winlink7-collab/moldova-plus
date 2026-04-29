@@ -1,4 +1,21 @@
 <?php
+$_uri = trim(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH), '/');
+$_routes = [
+    'packages'    => 'packages.php',
+    'bachelor'    => 'bachelor.php',
+    'attractions' => 'attractions.php',
+    'hotels'      => 'hotels.php',
+    'blog'        => 'blog.php',
+];
+if (isset($_routes[$_uri])) { require __DIR__ . '/' . $_routes[$_uri]; exit; }
+if (preg_match('#^package/([a-zA-Z0-9_-]+)$#', $_uri, $_m)) {
+    $_GET['slug'] = $_m[1]; require __DIR__ . '/package-detail.php'; exit;
+}
+if (preg_match('#^article/([a-zA-Z0-9_-]+)$#', $_uri, $_m)) {
+    $_GET['id'] = $_m[1]; require __DIR__ . '/article.php'; exit;
+}
+unset($_uri, $_routes, $_m);
+
 require_once 'includes/functions.php';
 require_once 'includes/data.php';
 require_once 'includes/scenes.php';
