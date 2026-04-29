@@ -15,24 +15,6 @@ page_head(
 ?>
 <?php include 'includes/header.php'; ?>
 
-<section class="page-banner">
-  <div class="container">
-    <div class="crumbs">
-      <a href="/<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">בית</span><span class="en">Home</span></a> /
-      <span class="cur he">מלונות בקישינב</span>
-      <span class="cur en">Hotels in Chișinău</span>
-    </div>
-    <h1>
-      <span class="he">מלונות <span>בקישינב</span></span>
-      <span class="en">Hotels in <span>Chișinău</span></span>
-    </h1>
-    <p>
-      <span class="he">המלונות הטובים ביותר בקישינב — בוטיק, יוקרה ומשפחה. מחירים שקופים, אישור מיידי.</span>
-      <span class="en">Best hotels in Chișinău — boutique, luxury and family. Transparent prices, instant confirmation.</span>
-    </p>
-  </div>
-</section>
-
 <?php
 $hotels_default = [
   [
