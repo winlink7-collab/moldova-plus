@@ -167,11 +167,15 @@ $scenes = ['warm','dark','light','green','gold','blue','honey','city'];
               </div>
             </div>
             <div class="form-group" style="margin-bottom:12px">
-              <label>תמונה (URL) — השאר ריק לשימוש ב-scene</label>
-              <div style="display:flex;gap:8px">
-                <input type="text" name="image_url" id="hotel-img-url" value="<?= htmlspecialchars($edit['image_url'] ?? '') ?>" placeholder="https://..." style="flex:1">
+              <label>תמונה — העלה או הדבק URL</label>
+              <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                <input type="text" name="image_url" id="hotel-img-url" value="<?= htmlspecialchars($edit['image_url'] ?? '') ?>" placeholder="https://... או העלה תמונה ←" style="flex:1;min-width:200px">
+                <label class="btn-admin ghost sm" style="cursor:pointer;margin:0">
+                  📁 העלה תמונה
+                  <input type="file" id="hotel-img-file" accept="image/*" style="display:none">
+                </label>
                 <?php if ($upload_images): ?>
-                <select onchange="document.getElementById('hotel-img-url').value=this.value;this.selectedIndex=0" style="max-width:200px">
+                <select onchange="document.getElementById('hotel-img-url').value=this.value;document.getElementById('hotel-img-preview').src=this.value;document.getElementById('hotel-img-preview').style.display='block';this.selectedIndex=0" style="max-width:180px">
                   <option value="">בחר מהמדיה...</option>
                   <?php foreach ($upload_images as $img): ?>
                   <option value="<?= htmlspecialchars($img['url']) ?>"><?= htmlspecialchars($img['name']) ?></option>
@@ -179,7 +183,35 @@ $scenes = ['warm','dark','light','green','gold','blue','honey','city'];
                 </select>
                 <?php endif; ?>
               </div>
+              <div id="hotel-img-upload-status" style="font-size:12px;margin-top:4px;color:var(--blue)"></div>
+              <?php if (!empty($edit['image_url'])): ?>
+              <img id="hotel-img-preview" src="<?= htmlspecialchars($edit['image_url']) ?>" style="margin-top:8px;max-height:120px;border-radius:6px;object-fit:cover;display:block">
+              <?php else: ?>
+              <img id="hotel-img-preview" src="" style="margin-top:8px;max-height:120px;border-radius:6px;object-fit:cover;display:none">
+              <?php endif; ?>
             </div>
+            <script>
+            document.getElementById('hotel-img-file').addEventListener('change', function() {
+              var file = this.files[0]; if (!file) return;
+              var status = document.getElementById('hotel-img-upload-status');
+              status.textContent = 'מעלה...';
+              var fd = new FormData(); fd.append('image', file);
+              fetch('upload.php', {method:'POST', body:fd})
+                .then(function(r){return r.json();})
+                .then(function(d){
+                  if (d.abs) {
+                    document.getElementById('hotel-img-url').value = d.abs;
+                    var prev = document.getElementById('hotel-img-preview');
+                    prev.src = d.abs; prev.style.display = 'block';
+                    status.textContent = '✓ הועלה בהצלחה: ' + d.name;
+                    status.style.color = 'var(--green)';
+                  } else {
+                    status.textContent = 'שגיאה: ' + (d.error || 'לא ידוע');
+                    status.style.color = 'var(--red)';
+                  }
+                }).catch(function(){status.textContent='שגיאת רשת';status.style.color='var(--red)';});
+            });
+            </script>
             <div style="display:flex;gap:10px">
               <button type="submit" class="btn-admin primary">שמור</button>
               <a href="hotels.php" class="btn-admin ghost">ביטול</a>

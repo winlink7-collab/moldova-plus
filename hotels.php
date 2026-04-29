@@ -161,7 +161,11 @@ if (empty($hotels)) $hotels = $hotels_default;
       <?php foreach ($hotels as $h): ?>
       <div class="card" style="cursor:default">
         <div class="card-img"<?= le_img('hotels:' . $h['id'] . ':image_url') ?>>
+          <?php if (!empty($h['image_url'])): ?>
+          <img src="<?= htmlspecialchars($h['image_url']) ?>" alt="<?= htmlspecialchars($h['name_he']) ?>" style="width:100%;height:100%;object-fit:cover;display:block">
+          <?php else: ?>
           <?= scene_img($h['scene']) ?>
+          <?php endif; ?>
           <span class="card-rating">
             <span class="star">★</span> <?= $h['rating'] ?>
           </span>
