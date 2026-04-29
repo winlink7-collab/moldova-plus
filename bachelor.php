@@ -15,6 +15,16 @@ $results = array_values(array_filter($PACKAGES, fn($p) => ($p['page'] ?? '') ===
 ?>
 <?php include 'includes/header.php'; ?>
 
+<div class="container" style="padding-top:36px;padding-bottom:0">
+  <h1 style="font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:800;color:var(--ink);margin:0">
+    <span class="he">מסיבות רווקים בקישינב</span>
+    <span class="en">Bachelor Parties in Chișinău</span>
+  </h1>
+  <p style="color:var(--ink-soft);margin:6px 0 0;font-size:15px">
+    <span class="he">וילות, בארים, תחבורה וליווי מקומי — מסיבת רווקים שלא ישכחו.</span>
+    <span class="en">Villas, bars, transport and local fixers — bachelor parties to remember.</span>
+  </p>
+</div>
 
 <!-- Why Chisinau for bachelor -->
 <section class="section" style="padding-bottom:0">
