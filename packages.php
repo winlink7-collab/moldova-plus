@@ -20,26 +20,6 @@ page_head(
 ?>
 <?php include 'includes/header.php'; ?>
 
-<!-- Banner -->
-<section class="page-banner">
-  <div class="container">
-    <div class="crumbs">
-      <a href="/<?= $lang==='en'?'?lang=en':'' ?>">
-        <span class="he">בית</span><span class="en">Home</span>
-      </a> /
-      <span class="cur he">חבילות נופש</span>
-      <span class="cur en">Travel Packages</span>
-    </div>
-    <h1>
-      <span class="he">חבילות <span>נופש</span></span>
-      <span class="en">Travel <span>Packages</span></span>
-    </h1>
-    <p>
-      <span class="he">כל החבילות שלנו במולדובה — מבוקרות, שקופות, באישור מיידי.</span>
-      <span class="en">All our Moldova packages — vetted, transparent, instant booking.</span>
-    </p>
-  </div>
-</section>
 
 <!-- Packages -->
 <section class="page-pad">

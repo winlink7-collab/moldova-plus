@@ -18,22 +18,6 @@ $filtered = $cat_filter === 'all' ? $ATTRACTIONS : array_values(array_filter($AT
 ?>
 <?php include 'includes/header.php'; ?>
 
-<section class="page-banner">
-  <div class="container">
-    <div class="crumbs">
-      <a href="/<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">בית</span><span class="en">Home</span></a> /
-      <span class="cur he">אטרקציות</span><span class="cur en">Attractions</span>
-    </div>
-    <h1>
-      <span class="he">אטרקציות <span>במולדובה</span></span>
-      <span class="en">Attractions in <span>Moldova</span></span>
-    </h1>
-    <p>
-      <span class="he">יקבים, מנזרים, אדרנלין וחיי לילה — כל מה ששווה לבקר בו במולדובה.</span>
-      <span class="en">Wineries, monasteries, adrenaline and nightlife — everything worth visiting in Moldova.</span>
-    </p>
-  </div>
-</section>
 
 <section class="page-pad">
   <div class="container">

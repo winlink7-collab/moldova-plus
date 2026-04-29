@@ -15,26 +15,6 @@ $results = array_values(array_filter($PACKAGES, fn($p) => ($p['page'] ?? '') ===
 ?>
 <?php include 'includes/header.php'; ?>
 
-<section class="page-banner" style="background:linear-gradient(135deg,#0a0e22,#0c1430)">
-  <div class="container">
-    <div class="crumbs" style="color:rgba(255,255,255,.5)">
-      <a href="/<?= $lang==='en'?'?lang=en':'' ?>" style="color:rgba(255,255,255,.5)">
-        <span class="he">בית</span><span class="en">Home</span>
-      </a> /
-      <span class="cur" style="color:#ffd400">
-        <span class="he">מסיבות רווקים</span><span class="en">Bachelor Parties</span>
-      </span>
-    </div>
-    <h1 style="color:#fff">
-      <span class="he">מסיבות <span style="color:#ffd400">רווקים</span></span>
-      <span class="en">Bachelor <span style="color:#ffd400">Parties</span></span>
-    </h1>
-    <p style="color:rgba(255,255,255,.8)">
-      <span class="he">הוילות, הבארים, התחבורה והליווי המקומי — מסיבת רווקים שלא ישכחו.</span>
-      <span class="en">Villas, bars, transport and local fixers — bachelor parties to remember.</span>
-    </p>
-  </div>
-</section>
 
 <!-- Why Chisinau for bachelor -->
 <section class="section" style="padding-bottom:0">
