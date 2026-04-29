@@ -117,49 +117,50 @@ page_head(
     <div class="s-head reveal">
       <h2><span class="he">למה <span>בוחרים בנו</span></span><span class="en">Why <span>choose us</span></span></h2>
     </div>
+    <?php
+    $about_vals = [
+      ['cls'=>'reveal',    'svg'=>'<path d="M12 2l8 3v6c0 5-3.5 9.5-8 11-4.5-1.5-8-6-8-11V5l8-3z"/><path d="M9 12l2 2 4-4"/>',
+       'k'=>'about_val_1', 'title_he'=>'שקיפות מלאה',    'title_en'=>'Full transparency',
+       'desc_he'=>'אין עמלות נסתרות, אין הפתעות. המחיר שרואים הוא המחיר שמשלמים — כולל מסים ועמלות.',
+       'desc_en'=>"No hidden fees, no surprises. The price you see is the price you pay — taxes and commissions included."],
+      ['cls'=>'reveal d1', 'svg'=>'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+       'k'=>'about_val_2', 'title_he'=>'אישור מיידי',     'title_en'=>'Instant confirmation',
+       'desc_he'=>'רוב החבילות מאושרות תוך שניות. ללא המתנה, ללא בירוקרטיה — מזמינים ויוצאים.',
+       'desc_en'=>'Most packages are confirmed within seconds. No waiting, no bureaucracy — book and go.'],
+      ['cls'=>'reveal d2', 'svg'=>'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+       'k'=>'about_val_3', 'title_he'=>'ליווי מקומי אישי','title_en'=>'Personal local support',
+       'desc_he'=>'בכל חבילה יש ליווי מקומי דובר עברית. אתם לא נוסעים לבד — אנחנו כאן בכל שלב.',
+       'desc_en'=>"Every package includes Hebrew-speaking local support. You're never traveling alone — we're with you every step."],
+      ['cls'=>'reveal',    'svg'=>'<path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2"/><path d="M2 12h20"/><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/>',
+       'k'=>'about_val_4', 'title_he'=>'ניסיון אישי',     'title_en'=>'Personal experience',
+       'desc_he'=>'לא מוכרים מה שלא בדקנו. כל יעד, כל מלון, כל אטרקציה — ביקרנו בעצמנו לפני שהכנסנו לאתר.',
+       'desc_en'=>"We don't sell what we haven't tested. Every destination, hotel and attraction — we visited personally before listing."],
+      ['cls'=>'reveal d1', 'svg'=>'<rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>',
+       'k'=>'about_val_5', 'title_he'=>'מחיר הכי טוב',   'title_en'=>'Best price guaranteed',
+       'desc_he'=>'מצאתם אותה חבילה זולה יותר במקום אחר? נשווה את המחיר ונוסיף 5% הנחה.',
+       'desc_en'=>"Found the same package cheaper elsewhere? We'll match the price and add a 5% discount."],
+      ['cls'=>'reveal d2', 'svg'=>'<path d="M22 11.07V12a10 10 0 1 1-5.93-9.14"/><path d="M23 3L12 14l-3-3"/>',
+       'k'=>'about_val_6', 'title_he'=>'ביטול גמיש',      'title_en'=>'Flexible cancellation',
+       'desc_he'=>'ביטול חינם עד 14 יום לפני הנסיעה. אנחנו מבינים שחיים קורים — המדיניות שלנו היא לטובתכם.',
+       'desc_en'=>'Free cancellation up to 14 days before travel. We understand life happens — our policy is for your benefit.'],
+    ];
+    ?>
     <div class="values-grid">
-      <div class="value-card reveal">
+      <?php foreach ($about_vals as $v): ?>
+      <div class="value-card <?= $v['cls'] ?>">
         <div class="value-ic">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.5 9.5-8 11-4.5-1.5-8-6-8-11V5l8-3z"/><path d="M9 12l2 2 4-4"/></svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><?= $v['svg'] ?></svg>
         </div>
-        <h4><span class="he">שקיפות מלאה</span><span class="en">Full transparency</span></h4>
-        <p><span class="he">אין עמלות נסתרות, אין הפתעות. המחיר שרואים הוא המחיר שמשלמים — כולל מסים ועמלות.</span><span class="en">No hidden fees, no surprises. The price you see is the price you pay — taxes and commissions included.</span></p>
+        <h4>
+          <span class="he"<?= le('settings:'.$v['k'].'_title_he') ?>><?= mp_s($v['k'].'_title_he', $v['title_he']) ?></span>
+          <span class="en"<?= le('settings:'.$v['k'].'_title_en') ?>><?= mp_s($v['k'].'_title_en', $v['title_en']) ?></span>
+        </h4>
+        <p>
+          <span class="he"<?= le('settings:'.$v['k'].'_desc_he') ?>><?= mp_s($v['k'].'_desc_he', $v['desc_he']) ?></span>
+          <span class="en"<?= le('settings:'.$v['k'].'_desc_en') ?>><?= mp_s($v['k'].'_desc_en', $v['desc_en']) ?></span>
+        </p>
       </div>
-      <div class="value-card reveal d1">
-        <div class="value-ic">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-        </div>
-        <h4><span class="he">אישור מיידי</span><span class="en">Instant confirmation</span></h4>
-        <p><span class="he">רוב החבילות מאושרות תוך שניות. ללא המתנה, ללא בירוקרטיה — מזמינים ויוצאים.</span><span class="en">Most packages are confirmed within seconds. No waiting, no bureaucracy — book and go.</span></p>
-      </div>
-      <div class="value-card reveal d2">
-        <div class="value-ic">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </div>
-        <h4><span class="he">ליווי מקומי אישי</span><span class="en">Personal local support</span></h4>
-        <p><span class="he">בכל חבילה יש ליווי מקומי דובר עברית. אתם לא נוסעים לבד — אנחנו כאן בכל שלב.</span><span class="en">Every package includes Hebrew-speaking local support. You're never traveling alone — we're with you every step.</span></p>
-      </div>
-      <div class="value-card reveal">
-        <div class="value-ic">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2"/><path d="M2 12h20"/><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg>
-        </div>
-        <h4><span class="he">ניסיון אישי</span><span class="en">Personal experience</span></h4>
-        <p><span class="he">לא מוכרים מה שלא בדקנו. כל יעד, כל מלון, כל אטרקציה — ביקרנו בעצמנו לפני שהכנסנו לאתר.</span><span class="en">We don't sell what we haven't tested. Every destination, hotel and attraction — we visited personally before listing.</span></p>
-      </div>
-      <div class="value-card reveal d1">
-        <div class="value-ic">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-        </div>
-        <h4><span class="he">מחיר הכי טוב</span><span class="en">Best price guaranteed</span></h4>
-        <p><span class="he">מצאתם אותה חבילה זולה יותר במקום אחר? נשווה את המחיר ונוסיף 5% הנחה.</span><span class="en">Found the same package cheaper elsewhere? We'll match the price and add a 5% discount.</span></p>
-      </div>
-      <div class="value-card reveal d2">
-        <div class="value-ic">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.07V12a10 10 0 1 1-5.93-9.14"/><path d="M23 3L12 14l-3-3"/></svg>
-        </div>
-        <h4><span class="he">ביטול גמיש</span><span class="en">Flexible cancellation</span></h4>
-        <p><span class="he">ביטול חינם עד 14 יום לפני הנסיעה. אנחנו מבינים שחיים קורים — המדיניות שלנו היא לטובתכם.</span><span class="en">Free cancellation up to 14 days before travel. We understand life happens — our policy is for your benefit.</span></p>
-      </div>
+      <?php endforeach; ?>
     </div>
   </div>
 </section>
@@ -171,21 +172,25 @@ page_head(
       <h2><span class="he">איך זה <span>עובד</span></span><span class="en">How it <span>works</span></span></h2>
     </div>
     <div class="steps-grid reveal">
+      <?php
+      $steps = [
+        ['k'=>'about_step_1','title_he'=>'בוחרים חבילה','title_en'=>'Choose a package','desc_he'=>'עוברים על כל החבילות, מסננים לפי תאריך, תקציב וסוג חוויה.','desc_en'=>'Browse all packages, filter by date, budget and experience type.'],
+        ['k'=>'about_step_2','title_he'=>'שולחים הודעה','title_en'=>'Send a message','desc_he'=>'לוחצים על "הזמינו עכשיו", פותחים שיחה בוואטסאפ וסוגרים בשנייה.','desc_en'=>'Click "Book now", open a WhatsApp conversation and close in seconds.'],
+        ['k'=>'about_step_3','title_he'=>'יוצאים ליהנות','title_en'=>'Go enjoy','desc_he'=>'אנחנו מסדרים את כל הלוגיסטיקה — אתם רק מגיעים ונהנים.','desc_en'=>'We handle all the logistics — you just show up and enjoy.'],
+      ];
+      foreach ($steps as $i => $s): ?>
       <div class="step">
-        <div class="step-num">1</div>
-        <h4><span class="he">בוחרים חבילה</span><span class="en">Choose a package</span></h4>
-        <p><span class="he">עוברים על כל החבילות, מסננים לפי תאריך, תקציב וסוג חוויה.</span><span class="en">Browse all packages, filter by date, budget and experience type.</span></p>
+        <div class="step-num"><?= $i+1 ?></div>
+        <h4>
+          <span class="he"<?= le('settings:'.$s['k'].'_title_he') ?>><?= mp_s($s['k'].'_title_he',$s['title_he']) ?></span>
+          <span class="en"<?= le('settings:'.$s['k'].'_title_en') ?>><?= mp_s($s['k'].'_title_en',$s['title_en']) ?></span>
+        </h4>
+        <p>
+          <span class="he"<?= le('settings:'.$s['k'].'_desc_he') ?>><?= mp_s($s['k'].'_desc_he',$s['desc_he']) ?></span>
+          <span class="en"<?= le('settings:'.$s['k'].'_desc_en') ?>><?= mp_s($s['k'].'_desc_en',$s['desc_en']) ?></span>
+        </p>
       </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <h4><span class="he">שולחים הודעה</span><span class="en">Send a message</span></h4>
-        <p><span class="he">לוחצים על "הזמינו עכשיו", פותחים שיחה בוואטסאפ וסוגרים בשנייה.</span><span class="en">Click "Book now", open a WhatsApp conversation and close in seconds.</span></p>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <h4><span class="he">יוצאים ליהנות</span><span class="en">Go enjoy</span></h4>
-        <p><span class="he">אנחנו מסדרים את כל הלוגיסטיקה — אתם רק מגיעים ונהנים.</span><span class="en">We handle all the logistics — you just show up and enjoy.</span></p>
-      </div>
+      <?php endforeach; ?>
     </div>
   </div>
 </section>
@@ -197,8 +202,14 @@ page_head(
       <div class="promo-bg"></div>
       <div class="promo-orb" style="width:280px;height:280px;top:-80px;right:-60px"></div>
       <div style="position:relative;z-index:1">
-        <h3><span class="he">מוכנים לחוויה הבאה?</span><span class="en">Ready for the next experience?</span></h3>
-        <p><span class="he">הצטרפו ל-15,000 ישראלים שכבר גילו את מולדובה דרכנו.</span><span class="en">Join 15,000 Israelis who already discovered Moldova through us.</span></p>
+        <h3>
+          <span class="he"<?= le('settings:about_cta_title_he') ?>><?= mp_s('about_cta_title_he','מוכנים לחוויה הבאה?') ?></span>
+          <span class="en"<?= le('settings:about_cta_title_en') ?>><?= mp_s('about_cta_title_en','Ready for the next experience?') ?></span>
+        </h3>
+        <p>
+          <span class="he"<?= le('settings:about_cta_desc_he') ?>><?= mp_s('about_cta_desc_he','הצטרפו ל-15,000 ישראלים שכבר גילו את מולדובה דרכנו.') ?></span>
+          <span class="en"<?= le('settings:about_cta_desc_en') ?>><?= mp_s('about_cta_desc_en','Join 15,000 Israelis who already discovered Moldova through us.') ?></span>
+        </p>
       </div>
       <a href="packages<?= $lang==='en'?'?lang=en':'' ?>" class="btn btn-cta" style="position:relative;z-index:1">
         <span class="he">לכל החבילות ←</span><span class="en">All packages →</span>

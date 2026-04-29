@@ -18,12 +18,12 @@ $results = array_values(array_filter($PACKAGES, fn($p) => ($p['page'] ?? '') ===
 
 <div class="container" style="padding-top:36px;padding-bottom:0">
   <h1 style="font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:800;color:var(--ink);margin:0">
-    <span class="he"><?= mp_s('page_bachelor_title_he','מסיבות רווקים בקישינב') ?></span>
-    <span class="en"><?= mp_s('page_bachelor_title_en','Bachelor Parties in Chișinău') ?></span>
+    <span class="he"<?= le('settings:page_bachelor_title_he') ?>><?= mp_s('page_bachelor_title_he','מסיבות רווקים בקישינב') ?></span>
+    <span class="en"<?= le('settings:page_bachelor_title_en') ?>><?= mp_s('page_bachelor_title_en','Bachelor Parties in Chișinău') ?></span>
   </h1>
   <p style="color:var(--ink-soft);margin:6px 0 0;font-size:15px">
-    <span class="he"><?= mp_s('page_bachelor_desc_he','וילות, בארים, תחבורה וליווי מקומי — מסיבת רווקים שלא ישכחו.') ?></span>
-    <span class="en"><?= mp_s('page_bachelor_desc_en','Villas, bars, transport and local fixers — bachelor parties to remember.') ?></span>
+    <span class="he"<?= le('settings:page_bachelor_desc_he') ?>><?= mp_s('page_bachelor_desc_he','וילות, בארים, תחבורה וליווי מקומי — מסיבת רווקים שלא ישכחו.') ?></span>
+    <span class="en"<?= le('settings:page_bachelor_desc_en') ?>><?= mp_s('page_bachelor_desc_en','Villas, bars, transport and local fixers — bachelor parties to remember.') ?></span>
   </p>
 </div>
 
@@ -33,17 +33,17 @@ $results = array_values(array_filter($PACKAGES, fn($p) => ($p['page'] ?? '') ===
     <div class="perks-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:48px">
       <?php
       $perks = [
-        ['icon'=>'✈️','he'=>'טיסה ישירה 3 שעות','en'=>'3h direct flight'],
-        ['icon'=>'💰','he'=>'מחירים נמוכים פי 3','en'=>'3× cheaper than Europe'],
-        ['icon'=>'🎉','he'=>'חיי לילה אגדיים','en'=>'Legendary nightlife'],
-        ['icon'=>'👑','he'=>'וילות יוקרה בשפע','en'=>'Abundance of luxury villas'],
+        ['icon'=>'✈️','key'=>'bach_perk_1','he'=>'טיסה ישירה 3 שעות',   'en'=>'3h direct flight'],
+        ['icon'=>'💰','key'=>'bach_perk_2','he'=>'מחירים נמוכים פי 3',  'en'=>'3× cheaper than Europe'],
+        ['icon'=>'🎉','key'=>'bach_perk_3','he'=>'חיי לילה אגדיים',     'en'=>'Legendary nightlife'],
+        ['icon'=>'👑','key'=>'bach_perk_4','he'=>'וילות יוקרה בשפע',    'en'=>'Abundance of luxury villas'],
       ];
       foreach ($perks as $perk): ?>
       <div class="reveal" style="background:var(--bg-2);border-radius:14px;padding:24px;text-align:center;border:1px solid var(--line)">
         <div style="font-size:32px;margin-bottom:12px"><?= $perk['icon'] ?></div>
         <b style="font-size:15px;color:var(--ink)">
-          <span class="he"><?= $perk['he'] ?></span>
-          <span class="en"><?= htmlspecialchars($perk['en']) ?></span>
+          <span class="he"<?= le('settings:'.$perk['key'].'_he') ?>><?= mp_s($perk['key'].'_he', $perk['he']) ?></span>
+          <span class="en"<?= le('settings:'.$perk['key'].'_en') ?>><?= mp_s($perk['key'].'_en', $perk['en']) ?></span>
         </b>
       </div>
       <?php endforeach; ?>

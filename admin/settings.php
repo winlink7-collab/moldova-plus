@@ -37,6 +37,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['section'] ?? '') === 'stat
     mp_write_json('settings.json', $s) ? $msg = 'הסטטיסטיקות עודכנו!' : $error = 'שגיאה בשמירה.';
 }
 
+// --- SAVE BACHELOR PERKS ---
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['section'] ?? '') === 'bach_perks' && mp_csrf_verify()) {
+    $s = mp_read_json('settings.json');
+    for ($i = 1; $i <= 4; $i++) {
+        $s['bach_perk_'.$i.'_he'] = trim($_POST['bach_perk_'.$i.'_he'] ?? '');
+        $s['bach_perk_'.$i.'_en'] = trim($_POST['bach_perk_'.$i.'_en'] ?? '');
+    }
+    mp_write_json('settings.json', $s) ? $msg = 'יתרונות מסיבת רווקים עודכנו!' : $error = 'שגיאה בשמירה.';
+}
+
+// --- SAVE ABOUT VALUES/STEPS/CTA ---
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['section'] ?? '') === 'about_content' && mp_csrf_verify()) {
+    $s = mp_read_json('settings.json');
+    for ($i = 1; $i <= 6; $i++) {
+        $s['about_val_'.$i.'_title_he'] = trim($_POST['about_val_'.$i.'_title_he'] ?? '');
+        $s['about_val_'.$i.'_title_en'] = trim($_POST['about_val_'.$i.'_title_en'] ?? '');
+        $s['about_val_'.$i.'_desc_he']  = trim($_POST['about_val_'.$i.'_desc_he']  ?? '');
+        $s['about_val_'.$i.'_desc_en']  = trim($_POST['about_val_'.$i.'_desc_en']  ?? '');
+    }
+    for ($i = 1; $i <= 3; $i++) {
+        $s['about_step_'.$i.'_title_he'] = trim($_POST['about_step_'.$i.'_title_he'] ?? '');
+        $s['about_step_'.$i.'_title_en'] = trim($_POST['about_step_'.$i.'_title_en'] ?? '');
+        $s['about_step_'.$i.'_desc_he']  = trim($_POST['about_step_'.$i.'_desc_he']  ?? '');
+        $s['about_step_'.$i.'_desc_en']  = trim($_POST['about_step_'.$i.'_desc_en']  ?? '');
+    }
+    foreach (['about_cta_title_he','about_cta_title_en','about_cta_desc_he','about_cta_desc_en'] as $_k)
+        $s[$_k] = trim($_POST[$_k] ?? '');
+    mp_write_json('settings.json', $s) ? $msg = 'תוכן עמוד אודות עודכן!' : $error = 'שגיאה בשמירה.';
+}
+
 // --- SAVE PAGE TITLES ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['section'] ?? '') === 'page_titles' && mp_csrf_verify()) {
     $s = mp_read_json('settings.json');
@@ -186,6 +216,85 @@ $S = mp_read_json('settings.json');
               </div>
             </div>
             <button type="submit" class="btn-admin primary" style="margin-top:8px">שמור טקסט אודות</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Bachelor Perks -->
+      <div class="admin-card" style="margin-bottom:20px">
+        <div class="card-head"><div><h2>יתרונות — מסיבת רווקים</h2><p>4 כרטיסי היתרונות בראש דף מסיבות רווקים</p></div></div>
+        <div class="card-body" style="padding:20px">
+          <form method="POST">
+            <input type="hidden" name="csrf" value="<?= htmlspecialchars(mp_csrf()) ?>">
+            <input type="hidden" name="section" value="bach_perks">
+            <?php
+            $perk_defs = [1=>'טיסה ישירה 3 שעות',2=>'מחירים נמוכים פי 3',3=>'חיי לילה אגדיים',4=>'וילות יוקרה בשפע'];
+            $perk_en   = [1=>'3h direct flight',2=>'3× cheaper than Europe',3=>'Legendary nightlife',4=>'Abundance of luxury villas'];
+            for ($i=1;$i<=4;$i++): ?>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #f0f0f0">
+              <div class="form-group" style="margin:0">
+                <label>יתרון <?= $i ?> — עברית</label>
+                <input type="text" name="bach_perk_<?= $i ?>_he" value="<?= htmlspecialchars($S['bach_perk_'.$i.'_he'] ?? $perk_defs[$i]) ?>">
+              </div>
+              <div class="form-group" style="margin:0">
+                <label>Perk <?= $i ?> — English</label>
+                <input type="text" name="bach_perk_<?= $i ?>_en" value="<?= htmlspecialchars($S['bach_perk_'.$i.'_en'] ?? $perk_en[$i]) ?>" style="direction:ltr">
+              </div>
+            </div>
+            <?php endfor; ?>
+            <button type="submit" class="btn-admin primary" style="margin-top:4px">שמור יתרונות</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- About Values / Steps / CTA -->
+      <div class="admin-card" style="margin-bottom:20px">
+        <div class="card-head"><div><h2>תוכן עמוד אודות</h2><p>ערכים, שלבי הזמנה וCTA</p></div></div>
+        <div class="card-body" style="padding:20px">
+          <form method="POST">
+            <input type="hidden" name="csrf" value="<?= htmlspecialchars(mp_csrf()) ?>">
+            <input type="hidden" name="section" value="about_content">
+            <?php
+            $val_defs = [
+              1=>['title_he'=>'שקיפות מלאה','title_en'=>'Full transparency','desc_he'=>'אין עמלות נסתרות, אין הפתעות. המחיר שרואים הוא המחיר שמשלמים.','desc_en'=>'No hidden fees, no surprises. The price you see is the price you pay.'],
+              2=>['title_he'=>'אישור מיידי','title_en'=>'Instant confirmation','desc_he'=>'רוב החבילות מאושרות תוך שניות. ללא המתנה, ללא בירוקרטיה.','desc_en'=>'Most packages confirmed in seconds. No waiting, no bureaucracy.'],
+              3=>['title_he'=>'ליווי מקומי אישי','title_en'=>'Personal local support','desc_he'=>'בכל חבילה יש ליווי מקומי דובר עברית.','desc_en'=>'Every package includes Hebrew-speaking local support.'],
+              4=>['title_he'=>'ניסיון אישי','title_en'=>'Personal experience','desc_he'=>'לא מוכרים מה שלא בדקנו. כל יעד — ביקרנו בעצמנו.','desc_en'=>"We don't sell what we haven't tested. Every destination — personally visited."],
+              5=>['title_he'=>'מחיר הכי טוב','title_en'=>'Best price guaranteed','desc_he'=>'מצאתם זול יותר? נשווה ונוסיף 5% הנחה.','desc_en'=> "Found cheaper? We'll match and add 5% off."],
+              6=>['title_he'=>'ביטול גמיש','title_en'=>'Flexible cancellation','desc_he'=>'ביטול חינם עד 14 יום לפני הנסיעה.','desc_en'=>'Free cancellation up to 14 days before travel.'],
+            ];
+            ?>
+            <p style="font-weight:700;margin:0 0 12px;color:#374151">6 כרטיסי ערכים</p>
+            <?php for($i=1;$i<=6;$i++): $vd=$val_defs[$i]; ?>
+            <div style="border:1px solid #e5e7eb;border-radius:8px;padding:14px;margin-bottom:12px">
+              <div style="font-size:12px;font-weight:700;color:#6b7280;margin-bottom:8px">ערך <?= $i ?></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                <div class="form-group" style="margin:0"><label>כותרת עברית</label><input type="text" name="about_val_<?= $i ?>_title_he" value="<?= htmlspecialchars($S['about_val_'.$i.'_title_he'] ?? $vd['title_he']) ?>"></div>
+                <div class="form-group" style="margin:0"><label>Title English</label><input type="text" name="about_val_<?= $i ?>_title_en" value="<?= htmlspecialchars($S['about_val_'.$i.'_title_en'] ?? $vd['title_en']) ?>" style="direction:ltr"></div>
+                <div class="form-group" style="margin:0"><label>תיאור עברית</label><textarea name="about_val_<?= $i ?>_desc_he" rows="2"><?= htmlspecialchars($S['about_val_'.$i.'_desc_he'] ?? $vd['desc_he']) ?></textarea></div>
+                <div class="form-group" style="margin:0"><label>Description EN</label><textarea name="about_val_<?= $i ?>_desc_en" rows="2" style="direction:ltr"><?= htmlspecialchars($S['about_val_'.$i.'_desc_en'] ?? $vd['desc_en']) ?></textarea></div>
+              </div>
+            </div>
+            <?php endfor; ?>
+            <p style="font-weight:700;margin:16px 0 12px;color:#374151">3 שלבי הזמנה</p>
+            <?php
+            $step_defs=[1=>['title_he'=>'בוחרים חבילה','title_en'=>'Choose a package','desc_he'=>'עוברים על כל החבילות, מסננים לפי תאריך ותקציב.','desc_en'=>'Browse all packages, filter by date and budget.'],2=>['title_he'=>'שולחים הודעה','title_en'=>'Send a message','desc_he'=>'לוחצים "הזמינו עכשיו" ופותחים שיחת וואטסאפ.','desc_en'=>'Click "Book now" and open a WhatsApp chat.'],3=>['title_he'=>'יוצאים ליהנות','title_en'=>'Go enjoy','desc_he'=>'אנחנו מסדרים הכל — אתם רק מגיעים ונהנים.','desc_en'=>'We handle everything — you just show up and enjoy.']];
+            for($i=1;$i<=3;$i++): $sd=$step_defs[$i]; ?>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #f0f0f0">
+              <div class="form-group" style="margin:0"><label>שלב <?= $i ?> כותרת עברית</label><input type="text" name="about_step_<?= $i ?>_title_he" value="<?= htmlspecialchars($S['about_step_'.$i.'_title_he'] ?? $sd['title_he']) ?>"></div>
+              <div class="form-group" style="margin:0"><label>Step <?= $i ?> title EN</label><input type="text" name="about_step_<?= $i ?>_title_en" value="<?= htmlspecialchars($S['about_step_'.$i.'_title_en'] ?? $sd['title_en']) ?>" style="direction:ltr"></div>
+              <div class="form-group" style="margin:0"><label>תיאור עברית</label><input type="text" name="about_step_<?= $i ?>_desc_he" value="<?= htmlspecialchars($S['about_step_'.$i.'_desc_he'] ?? $sd['desc_he']) ?>"></div>
+              <div class="form-group" style="margin:0"><label>Description EN</label><input type="text" name="about_step_<?= $i ?>_desc_en" value="<?= htmlspecialchars($S['about_step_'.$i.'_desc_en'] ?? $sd['desc_en']) ?>" style="direction:ltr"></div>
+            </div>
+            <?php endfor; ?>
+            <p style="font-weight:700;margin:16px 0 12px;color:#374151">כפתור CTA תחתון</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div class="form-group" style="margin:0"><label>כותרת עברית</label><input type="text" name="about_cta_title_he" value="<?= htmlspecialchars($S['about_cta_title_he'] ?? 'מוכנים לחוויה הבאה?') ?>"></div>
+              <div class="form-group" style="margin:0"><label>Title English</label><input type="text" name="about_cta_title_en" value="<?= htmlspecialchars($S['about_cta_title_en'] ?? 'Ready for the next experience?') ?>" style="direction:ltr"></div>
+              <div class="form-group" style="margin:0"><label>תיאור עברית</label><input type="text" name="about_cta_desc_he" value="<?= htmlspecialchars($S['about_cta_desc_he'] ?? 'הצטרפו ל-15,000 ישראלים שכבר גילו את מולדובה דרכנו.') ?>"></div>
+              <div class="form-group" style="margin:0"><label>Description EN</label><input type="text" name="about_cta_desc_en" value="<?= htmlspecialchars($S['about_cta_desc_en'] ?? 'Join 15,000 Israelis who already discovered Moldova through us.') ?>" style="direction:ltr"></div>
+            </div>
+            <button type="submit" class="btn-admin primary" style="margin-top:14px">שמור תוכן אודות</button>
           </form>
         </div>
       </div>

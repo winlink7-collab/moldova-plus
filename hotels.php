@@ -125,12 +125,12 @@ if (empty($hotels)) $hotels = $hotels_default;
 
 <div class="container" style="padding-top:36px;padding-bottom:0">
   <h1 style="font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:800;color:var(--ink);margin:0">
-    <span class="he"><?= mp_s('page_hotels_title_he','מלונות בקישינב') ?></span>
-    <span class="en"><?= mp_s('page_hotels_title_en','Hotels in Chișinău') ?></span>
+    <span class="he"<?= le('settings:page_hotels_title_he') ?>><?= mp_s('page_hotels_title_he','מלונות בקישינב') ?></span>
+    <span class="en"<?= le('settings:page_hotels_title_en') ?>><?= mp_s('page_hotels_title_en','Hotels in Chișinău') ?></span>
   </h1>
   <p style="color:var(--ink-soft);margin:6px 0 0;font-size:15px">
-    <span class="he"><?= mp_s('page_hotels_desc_he','המלונות הטובים ביותר בקישינב — בוטיק, יוקרה ומשפחה. מחירים שקופים, אישור מיידי.') ?></span>
-    <span class="en"><?= mp_s('page_hotels_desc_en','Best hotels in Chișinău — boutique, luxury and family. Transparent prices, instant confirmation.') ?></span>
+    <span class="he"<?= le('settings:page_hotels_desc_he') ?>><?= mp_s('page_hotels_desc_he','המלונות הטובים ביותר בקישינב — בוטיק, יוקרה ומשפחה. מחירים שקופים, אישור מיידי.') ?></span>
+    <span class="en"<?= le('settings:page_hotels_desc_en') ?>><?= mp_s('page_hotels_desc_en','Best hotels in Chișinău — boutique, luxury and family. Transparent prices, instant confirmation.') ?></span>
   </p>
 </div>
 
