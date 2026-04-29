@@ -128,8 +128,17 @@ $hotels_default = [
 ];
 $_hotels_json = __DIR__ . '/data/hotels.json';
 $_hotels_from_json = file_exists($_hotels_json) ? (json_decode(file_get_contents($_hotels_json), true) ?? []) : [];
-$_hotels_active = array_values(array_filter($_hotels_from_json, fn($h) => ($h['status'] ?? 'פעיל') === 'פעיל'));
-$hotels = !empty($_hotels_active) ? $_hotels_active : $hotels_default;
+$_json_by_id = [];
+foreach ($_hotels_from_json as $_hj) {
+    if (isset($_hj['id'])) $_json_by_id[$_hj['id']] = $_hj;
+}
+$hotels = [];
+foreach ($hotels_default as $_hd) {
+    $_ov = $_json_by_id[$_hd['id']] ?? [];
+    if (isset($_ov['status']) && $_ov['status'] !== 'פעיל') continue;
+    $hotels[] = array_merge($_hd, $_ov);
+}
+if (empty($hotels)) $hotels = $hotels_default;
 ?>
 
 <section class="page-pad">
