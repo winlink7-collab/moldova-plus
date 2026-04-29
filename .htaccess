@@ -20,6 +20,10 @@ RewriteRule ^articles$ /blog [R=301,L]
 
 # Explicit routes — must be before generic rule
 RewriteRule ^blog$                              blog.php                      [END,QSA]
+RewriteRule ^packages$                          packages.php                  [END,QSA]
+RewriteRule ^bachelor$                          bachelor.php                  [END,QSA]
+RewriteRule ^attractions$                       attractions.php               [END,QSA]
+RewriteRule ^hotels$                            hotels.php                    [END,QSA]
 RewriteRule ^package/([a-zA-Z0-9_-]+)$         package-detail.php?slug=$1    [END,QSA]
 RewriteRule ^article/([a-zA-Z0-9_-]+)$         article.php?id=$1             [END,QSA]
 
