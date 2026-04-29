@@ -6,6 +6,11 @@ $_routes = [
     'attractions' => 'attractions.php',
     'hotels'      => 'hotels.php',
     'blog'        => 'blog.php',
+    'about'       => 'about.php',
+    'faq'         => 'faq.php',
+    'terms'       => 'terms.php',
+    'privacy'     => 'privacy.php',
+    'contact'     => 'contact.php',
 ];
 if (isset($_routes[$_uri])) { require __DIR__ . '/' . $_routes[$_uri]; exit; }
 if (preg_match('#^package/([a-zA-Z0-9_-]+)$#', $_uri, $_m)) {

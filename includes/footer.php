@@ -40,11 +40,11 @@ $_FS = mp_site_settings();
       <div>
         <h5><span class="he">חבילות</span><span class="en">Packages</span></h5>
         <ul>
-          <li><a href="packages<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">חבילות נופש</span><span class="en">Travel packages</span></a></li>
-          <li><a href="bachelor<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">מסיבות רווקים</span><span class="en">Bachelor parties</span></a></li>
-          <li><a href="packages<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">חבילות זוגיות</span><span class="en">Couples</span></a></li>
-          <li><a href="packages<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">יקבים</span><span class="en">Wine tours</span></a></li>
-          <li><a href="packages<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">יוקרה</span><span class="en">Luxury</span></a></li>
+          <li><a href="/packages<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">חבילות נופש</span><span class="en">Travel packages</span></a></li>
+          <li><a href="/bachelor<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">מסיבות רווקים</span><span class="en">Bachelor parties</span></a></li>
+          <li><a href="/packages<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">חבילות זוגיות</span><span class="en">Couples</span></a></li>
+          <li><a href="/packages<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">יקבים</span><span class="en">Wine tours</span></a></li>
+          <li><a href="/packages<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">יוקרה</span><span class="en">Luxury</span></a></li>
         </ul>
       </div>
 
@@ -52,11 +52,11 @@ $_FS = mp_site_settings();
       <div>
         <h5><span class="he">אטרקציות</span><span class="en">Attractions</span></h5>
         <ul>
-          <li><a href="attractions<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">יקבים</span><span class="en">Wineries</span></a></li>
-          <li><a href="attractions<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">תרבות</span><span class="en">Culture</span></a></li>
-          <li><a href="attractions<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">אדרנלין</span><span class="en">Adrenaline</span></a></li>
-          <li><a href="attractions<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">מסעדות</span><span class="en">Restaurants</span></a></li>
-          <li><a href="attractions<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">חיי לילה</span><span class="en">Nightlife</span></a></li>
+          <li><a href="/attractions<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">יקבים</span><span class="en">Wineries</span></a></li>
+          <li><a href="/attractions<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">תרבות</span><span class="en">Culture</span></a></li>
+          <li><a href="/attractions<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">אדרנלין</span><span class="en">Adrenaline</span></a></li>
+          <li><a href="/attractions<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">מסעדות</span><span class="en">Restaurants</span></a></li>
+          <li><a href="/attractions<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">חיי לילה</span><span class="en">Nightlife</span></a></li>
         </ul>
       </div>
 
@@ -64,12 +64,12 @@ $_FS = mp_site_settings();
       <div>
         <h5><span class="he">מידע</span><span class="en">Info</span></h5>
         <ul>
-          <li><a href="blog<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">בלוג תיירות</span><span class="en">Travel blog</span></a></li>
-          <li><a href="about<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">אודות</span><span class="en">About</span></a></li>
-          <li><a href="faq<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">שאלות נפוצות</span><span class="en">FAQ</span></a></li>
-          <li><a href="terms<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">תקנון</span><span class="en">Terms</span></a></li>
-          <li><a href="privacy<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">מדיניות פרטיות</span><span class="en">Privacy</span></a></li>
-          <li><a href="contact<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">צור קשר</span><span class="en">Contact</span></a></li>
+          <li><a href="/blog<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">בלוג תיירות</span><span class="en">Travel blog</span></a></li>
+          <li><a href="/about<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">אודות</span><span class="en">About</span></a></li>
+          <li><a href="/faq<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">שאלות נפוצות</span><span class="en">FAQ</span></a></li>
+          <li><a href="/terms<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">תקנון</span><span class="en">Terms</span></a></li>
+          <li><a href="/privacy<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">מדיניות פרטיות</span><span class="en">Privacy</span></a></li>
+          <li><a href="/contact<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">צור קשר</span><span class="en">Contact</span></a></li>
         </ul>
       </div>
 
