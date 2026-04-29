@@ -2,6 +2,7 @@
 require_once 'includes/functions.php';
 require_once 'includes/data.php';
 require_once 'includes/scenes.php';
+require_once 'includes/mp_settings.php';
 
 [$lang, $t] = page_init('attractions');
 $page = 'attractions';
@@ -20,12 +21,12 @@ $filtered = $cat_filter === 'all' ? $ATTRACTIONS : array_values(array_filter($AT
 
 <div class="container" style="padding-top:36px;padding-bottom:0">
   <h1 style="font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:800;color:var(--ink);margin:0">
-    <span class="he">אטרקציות במולדובה</span>
-    <span class="en">Attractions in Moldova</span>
+    <span class="he"><?= mp_s('page_attractions_title_he','אטרקציות במולדובה') ?></span>
+    <span class="en"><?= mp_s('page_attractions_title_en','Attractions in Moldova') ?></span>
   </h1>
   <p style="color:var(--ink-soft);margin:6px 0 0;font-size:15px">
-    <span class="he">יקבים, מנזרים, אדרנלין וחיי לילה — כל מה ששווה לבקר בו.</span>
-    <span class="en">Wineries, monasteries, adrenaline and nightlife — everything worth visiting.</span>
+    <span class="he"><?= mp_s('page_attractions_desc_he','יקבים, מנזרים, אדרנלין וחיי לילה — כל מה ששווה לבקר בו.') ?></span>
+    <span class="en"><?= mp_s('page_attractions_desc_en','Wineries, monasteries, adrenaline and nightlife — everything worth visiting.') ?></span>
   </p>
 </div>
 

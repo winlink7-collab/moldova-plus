@@ -37,6 +37,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['section'] ?? '') === 'stat
     mp_write_json('settings.json', $s) ? $msg = 'הסטטיסטיקות עודכנו!' : $error = 'שגיאה בשמירה.';
 }
 
+// --- SAVE PAGE TITLES ---
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['section'] ?? '') === 'page_titles' && mp_csrf_verify()) {
+    $s = mp_read_json('settings.json');
+    foreach (['packages','bachelor','attractions','hotels'] as $_pg) {
+        $s['page_'.$_pg.'_title_he'] = trim($_POST['page_'.$_pg.'_title_he'] ?? '');
+        $s['page_'.$_pg.'_title_en'] = trim($_POST['page_'.$_pg.'_title_en'] ?? '');
+        $s['page_'.$_pg.'_desc_he']  = trim($_POST['page_'.$_pg.'_desc_he']  ?? '');
+        $s['page_'.$_pg.'_desc_en']  = trim($_POST['page_'.$_pg.'_desc_en']  ?? '');
+    }
+    mp_write_json('settings.json', $s) ? $msg = 'כותרות הדפים עודכנו!' : $error = 'שגיאה בשמירה.';
+}
+
 // --- SAVE PASSWORD ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['section'] ?? '') === 'password' && mp_csrf_verify()) {
     $p1 = $_POST['pass1'] ?? '';
@@ -174,6 +186,48 @@ $S = mp_read_json('settings.json');
               </div>
             </div>
             <button type="submit" class="btn-admin primary" style="margin-top:8px">שמור טקסט אודות</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Page Titles -->
+      <div class="admin-card" style="margin-bottom:20px">
+        <div class="card-head"><div><h2>כותרות ותיאורי דפים</h2><p>הכותרת והמשפט שמופיעים בראש כל דף פנימי</p></div></div>
+        <div class="card-body" style="padding:20px">
+          <form method="POST">
+            <input type="hidden" name="csrf" value="<?= htmlspecialchars(mp_csrf()) ?>">
+            <input type="hidden" name="section" value="page_titles">
+            <?php
+            $page_defs = [
+              'packages'   => ['he'=>'חבילות נופש',           'en'=>'Vacation Packages',         'desc_he'=>'כל חבילות הנופש שלנו במולדובה — מבוקרות, שקופות, באישור מיידי.', 'desc_en'=>'All our Moldova vacation packages — vetted, transparent, instant booking.'],
+              'bachelor'   => ['he'=>'מסיבות רווקים בקישינב', 'en'=>'Bachelor Parties in Chișinău','desc_he'=>'וילות, בארים, תחבורה וליווי מקומי — מסיבת רווקים שלא ישכחו.',         'desc_en'=>'Villas, bars, transport and local fixers — bachelor parties to remember.'],
+              'attractions'=> ['he'=>'אטרקציות במולדובה',     'en'=>'Attractions in Moldova',    'desc_he'=>'יקבים, מנזרים, אדרנלין וחיי לילה — כל מה ששווה לבקר בו.',           'desc_en'=>'Wineries, monasteries, adrenaline and nightlife — everything worth visiting.'],
+              'hotels'     => ['he'=>'מלונות בקישינב',        'en'=>'Hotels in Chișinău',        'desc_he'=>'המלונות הטובים ביותר בקישינב — בוטיק, יוקרה ומשפחה.',               'desc_en'=>'Best hotels in Chișinău — boutique, luxury and family.'],
+            ];
+            foreach ($page_defs as $pid => $pd): ?>
+            <div style="border:1px solid #e5e7eb;border-radius:8px;padding:16px;margin-bottom:16px">
+              <div style="font-weight:700;margin-bottom:12px;color:#374151"><?= $pd['he'] ?></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div class="form-group">
+                  <label>כותרת — עברית</label>
+                  <input type="text" name="page_<?= $pid ?>_title_he" value="<?= htmlspecialchars($S['page_'.$pid.'_title_he'] ?? $pd['he']) ?>" placeholder="<?= htmlspecialchars($pd['he']) ?>">
+                </div>
+                <div class="form-group">
+                  <label>Title — English</label>
+                  <input type="text" name="page_<?= $pid ?>_title_en" value="<?= htmlspecialchars($S['page_'.$pid.'_title_en'] ?? $pd['en']) ?>" placeholder="<?= htmlspecialchars($pd['en']) ?>" style="direction:ltr">
+                </div>
+                <div class="form-group">
+                  <label>תיאור — עברית</label>
+                  <input type="text" name="page_<?= $pid ?>_desc_he" value="<?= htmlspecialchars($S['page_'.$pid.'_desc_he'] ?? $pd['desc_he']) ?>" placeholder="<?= htmlspecialchars($pd['desc_he']) ?>">
+                </div>
+                <div class="form-group">
+                  <label>Description — English</label>
+                  <input type="text" name="page_<?= $pid ?>_desc_en" value="<?= htmlspecialchars($S['page_'.$pid.'_desc_en'] ?? $pd['desc_en']) ?>" placeholder="<?= htmlspecialchars($pd['desc_en']) ?>" style="direction:ltr">
+                </div>
+              </div>
+            </div>
+            <?php endforeach; ?>
+            <button type="submit" class="btn-admin primary">שמור כותרות</button>
           </form>
         </div>
       </div>

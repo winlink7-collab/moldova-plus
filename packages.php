@@ -1,6 +1,7 @@
 <?php
 require_once 'includes/functions.php';
 require_once 'includes/data.php';
+require_once 'includes/mp_settings.php';
 
 [$lang, $t] = page_init('packages');
 $page = 'packages';
@@ -22,12 +23,12 @@ page_head(
 
 <div class="container" style="padding-top:36px;padding-bottom:0">
   <h1 style="font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:800;color:var(--ink);margin:0">
-    <span class="he">חבילות נופש</span>
-    <span class="en">Vacation Packages</span>
+    <span class="he"><?= mp_s('page_packages_title_he','חבילות נופש') ?></span>
+    <span class="en"><?= mp_s('page_packages_title_en','Vacation Packages') ?></span>
   </h1>
   <p style="color:var(--ink-soft);margin:6px 0 0;font-size:15px">
-    <span class="he">כל חבילות הנופש שלנו במולדובה — מבוקרות, שקופות, באישור מיידי.</span>
-    <span class="en">All our Moldova vacation packages — vetted, transparent, instant booking.</span>
+    <span class="he"><?= mp_s('page_packages_desc_he','כל חבילות הנופש שלנו במולדובה — מבוקרות, שקופות, באישור מיידי.') ?></span>
+    <span class="en"><?= mp_s('page_packages_desc_en','All our Moldova vacation packages — vetted, transparent, instant booking.') ?></span>
   </p>
 </div>
 
