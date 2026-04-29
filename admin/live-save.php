@@ -63,7 +63,7 @@ switch ($file) {
 
     case 'hotels':
     case 'attractions':
-        // format: "file:id:field" — find item by id in array
+        // format: "file:id:field" — find item by id in array, create if missing
         $id    = $parts[1] ?? '';
         $field = $parts[2] ?? '';
         if (!$id || !$field) { echo json_encode(['ok' => false, 'error' => 'no_id']); exit; }
@@ -76,7 +76,9 @@ switch ($file) {
             }
         }
         unset($item);
-        if (!$found) { echo json_encode(['ok' => false, 'error' => 'not_found']); exit; }
+        if (!$found) {
+            $data[] = ['id' => is_numeric($id) ? (int)$id : $id, $field => $value];
+        }
         break;
 
     case 'packages':

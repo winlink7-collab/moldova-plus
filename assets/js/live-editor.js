@@ -144,12 +144,20 @@
         .then(function (r) { return r.json(); })
         .then(function (d) {
           if (d.error) { showStatus('שגיאה: ' + d.error, 'error'); return; }
-          // Update DOM: find <img> inside, or the element itself
+          var absUrl = d.abs || d.url;
+          // Update DOM: find <img> inside, or create one replacing the SVG
           var img = (el.tagName === 'IMG') ? el : el.querySelector('img');
-          if (img) { img.src = d.url; img.srcset = ''; img.removeAttribute('srcset'); }
-          // Also try background
-          if (!img) el.style.backgroundImage = 'url(' + d.url + ')';
-          save(key, d.url, 'img');
+          if (!img) {
+            // Remove SVG scene, insert <img> as first child
+            var svg = el.querySelector('svg,div.scene-img');
+            if (svg) svg.remove();
+            img = document.createElement('img');
+            img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;position:absolute;top:0;left:0;';
+            el.style.position = 'relative';
+            el.insertBefore(img, el.firstChild);
+          }
+          img.src = absUrl; img.srcset = ''; img.removeAttribute('srcset');
+          save(key, absUrl, 'img');
         })
         .catch(function () { showStatus('שגיאה בהעלאה ✗', 'error'); });
     };
@@ -262,7 +270,7 @@
     });
     Promise.all(uploads).then(function (results) {
       prog.textContent = '';
-      results.forEach(function (d) { if (!d.error) galImages.push(d.url); });
+      results.forEach(function (d) { if (!d.error) galImages.push(d.abs || d.url); });
       renderGalGrid();
     }).catch(function () {
       prog.textContent = 'שגיאה בהעלאה ✗';
