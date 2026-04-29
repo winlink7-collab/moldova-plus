@@ -47,7 +47,7 @@ page_head(
         'spa'     => ['he'=>'ספא',      'en'=>'Spa'],
       ];
       foreach ($filter_types as $fid => $fl): ?>
-      <a href="packages?type=<?= $fid ?><?= $lang==='en'?'&lang=en':'' ?>" class="filter-pill <?= $type===$fid?'active':'' ?>">
+      <a href="/packages?type=<?= $fid ?><?= $lang==='en'?'&lang=en':'' ?>" class="filter-pill <?= $type===$fid?'active':'' ?>">
         <span class="he"><?= $fl['he'] ?></span>
         <span class="en"><?= htmlspecialchars($fl['en']) ?></span>
       </a>

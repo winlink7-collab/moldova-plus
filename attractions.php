@@ -43,7 +43,7 @@ $filtered = $cat_filter === 'all' ? $ATTRACTIONS : array_values(array_filter($AT
         'nightlife'  => ['he'=>'חיי לילה',  'en'=>'Nightlife'],
       ];
       foreach ($cats as $cid => $cl): ?>
-      <a href="attractions?cat=<?= $cid ?><?= $lang==='en'?'&lang=en':'' ?>" class="filter-pill <?= $cat_filter===$cid?'active':'' ?>">
+      <a href="/attractions?cat=<?= $cid ?><?= $lang==='en'?'&lang=en':'' ?>" class="filter-pill <?= $cat_filter===$cid?'active':'' ?>">
         <span class="he"><?= $cl['he'] ?></span>
         <span class="en"><?= htmlspecialchars($cl['en']) ?></span>
       </a>
