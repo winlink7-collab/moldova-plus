@@ -4,7 +4,8 @@ require_once 'includes/data.php';
 require_once 'includes/scenes.php';
 require_once 'includes/mp_settings.php';
 
-[$lang, $t] = page_init('articles');
+[$lang, $t] = page_init('blog');
+$page = 'blog';
 
 // Group articles by tag
 $by_topic = [];

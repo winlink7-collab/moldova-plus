@@ -42,9 +42,9 @@ $_FS = mp_site_settings();
         <ul>
           <li><a href="packages<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">חבילות נופש</span><span class="en">Travel packages</span></a></li>
           <li><a href="bachelor<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">מסיבות רווקים</span><span class="en">Bachelor parties</span></a></li>
-          <li><a href="packages<?= $lang==='en'?'?lang=en':'' ?>#couples"><span class="he">חבילות זוגיות</span><span class="en">Couples</span></a></li>
-          <li><a href="packages<?= $lang==='en'?'?lang=en':'' ?>#wine"><span class="he">יקבים</span><span class="en">Wine tours</span></a></li>
-          <li><a href="packages<?= $lang==='en'?'?lang=en':'' ?>#lux"><span class="he">יוקרה</span><span class="en">Luxury</span></a></li>
+          <li><a href="packages<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">חבילות זוגיות</span><span class="en">Couples</span></a></li>
+          <li><a href="packages<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">יקבים</span><span class="en">Wine tours</span></a></li>
+          <li><a href="packages<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">יוקרה</span><span class="en">Luxury</span></a></li>
         </ul>
       </div>
 
@@ -53,10 +53,10 @@ $_FS = mp_site_settings();
         <h5><span class="he">אטרקציות</span><span class="en">Attractions</span></h5>
         <ul>
           <li><a href="attractions<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">יקבים</span><span class="en">Wineries</span></a></li>
-          <li><a href="attractions<?= $lang==='en'?'?lang=en':'' ?>#culture"><span class="he">תרבות</span><span class="en">Culture</span></a></li>
-          <li><a href="attractions<?= $lang==='en'?'?lang=en':'' ?>#adrenaline"><span class="he">אדרנלין</span><span class="en">Adrenaline</span></a></li>
-          <li><a href="attractions<?= $lang==='en'?'?lang=en':'' ?>#food"><span class="he">מסעדות</span><span class="en">Restaurants</span></a></li>
-          <li><a href="attractions<?= $lang==='en'?'?lang=en':'' ?>#nightlife"><span class="he">חיי לילה</span><span class="en">Nightlife</span></a></li>
+          <li><a href="attractions<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">תרבות</span><span class="en">Culture</span></a></li>
+          <li><a href="attractions<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">אדרנלין</span><span class="en">Adrenaline</span></a></li>
+          <li><a href="attractions<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">מסעדות</span><span class="en">Restaurants</span></a></li>
+          <li><a href="attractions<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">חיי לילה</span><span class="en">Nightlife</span></a></li>
         </ul>
       </div>
 
