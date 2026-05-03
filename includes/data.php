@@ -160,12 +160,23 @@ if (file_exists($_pkg_file)) {
     foreach ($PACKAGES as &$_p) {
         $_ov = $_overrides[$_p['id']] ?? [];
         if (!empty($_ov)) {
-            foreach (['price','discount','status','tag_he','tag_en','title_he','loc_he','desc_he','nights','people_he','image_url','page'] as $_k) {
+            foreach (['price','discount','status','tag_he','tag_en','title_he','loc_he','desc_he','nights','people_he','image_url','page','includes_he','gallery_images'] as $_k) {
                 if (isset($_ov[$_k]) && $_ov[$_k] !== '') $_p[$_k] = $_ov[$_k];
             }
         }
     }
     unset($_p);
+}
+
+// Load new packages added from admin panel
+$_new_pkg_file = __DIR__ . '/../data/new_packages.json';
+if (file_exists($_new_pkg_file)) {
+    $_new_pkgs = json_decode(file_get_contents($_new_pkg_file), true) ?? [];
+    foreach ($_new_pkgs as $_np) {
+        if (!empty($_np['id']) && !empty($_np['title_he'])) {
+            $PACKAGES[] = $_np;
+        }
+    }
 }
 
 // ─── Regions ─────────────────────────────────────────────────────────────────

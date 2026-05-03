@@ -4,6 +4,7 @@ mp_admin_check();
 require_once __DIR__ . '/../includes/data.php';
 
 $saved = false;
+$saved_new = false;
 $error = '';
 
 // Load uploaded images for the media picker
@@ -18,35 +19,94 @@ if (is_dir($UPLOAD_DIR)) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && mp_csrf_verify()) {
-    $overrides = mp_read_json('packages.json');
-    $id = (int)($_POST['id'] ?? 0);
-    if ($id > 0) {
+    $action = $_POST['action'] ?? 'edit';
+
+    // --- ADD NEW PACKAGE ---
+    if ($action === 'new') {
+        $new_pkgs = mp_read_json('new_packages.json');
+        $max_id = 100;
+        foreach ($new_pkgs as $np) { if ((int)($np['id'] ?? 0) > $max_id) $max_id = (int)$np['id']; }
+        foreach ($PACKAGES as $p) { if ((int)$p['id'] > $max_id) $max_id = (int)$p['id']; }
+        $new_id = $max_id + 1;
+
         $gallery_raw = $_POST['gallery_images'] ?? '[]';
         $gallery_arr = json_decode($gallery_raw, true);
         if (!is_array($gallery_arr)) $gallery_arr = [];
         $_page = in_array($_POST['page'] ?? '', ['vacation','bachelor']) ? $_POST['page'] : 'vacation';
-        // Keep existing overrides that are not being re-submitted (e.g. gallery)
-        $_existing = $overrides[$id] ?? [];
-        $overrides[$id] = [
+        $_type = in_array($_POST['type'] ?? '', array_keys(['couples'=>1,'bach'=>1,'lux'=>1,'wine'=>1,'group'=>1,'food'=>1,'spa'=>1,'adv'=>1])) ? $_POST['type'] : 'couples';
+
+        $new_entry = [
+            'id'             => $new_id,
+            'slug'           => 'package-' . $new_id,
             'page'           => $_page,
+            'type'           => $_type,
             'price'          => (int)($_POST['price'] ?? 0),
             'discount'       => (int)($_POST['discount'] ?? 0),
+            'nights'         => (int)($_POST['nights'] ?? 0),
             'status'         => $_POST['status'] ?? 'now',
+            'scene'          => trim($_POST['scene'] ?? 'warm'),
             'tag_he'         => trim($_POST['tag_he'] ?? ''),
             'tag_en'         => trim($_POST['tag_en'] ?? ''),
             'title_he'       => trim($_POST['title_he'] ?? ''),
+            'title_en'       => trim($_POST['title_en'] ?? ''),
             'loc_he'         => trim($_POST['loc_he'] ?? ''),
+            'loc_en'         => trim($_POST['loc_en'] ?? ''),
             'desc_he'        => trim($_POST['desc_he'] ?? ''),
-            'nights'         => (int)($_POST['nights'] ?? 0),
-            'people_he'      => trim($_POST['people_he'] ?? ''),
+            'desc_en'        => trim($_POST['desc_en'] ?? ''),
+            'people_he'      => trim($_POST['people_he'] ?? '2 אורחים'),
+            'people_en'      => trim($_POST['people_en'] ?? '2 guests'),
             'image_url'      => trim($_POST['image_url'] ?? ''),
             'gallery_images' => array_values(array_filter($gallery_arr)),
             'includes_he'    => array_values(array_filter(array_map('trim', explode("\n", $_POST['includes_he'] ?? '')))),
+            'rating'         => trim($_POST['rating'] ?? '9.0'),
         ];
-        if (mp_write_json('packages.json', $overrides)) {
-            $saved = true;
+        $new_pkgs[] = $new_entry;
+        if (mp_write_json('new_packages.json', array_values($new_pkgs))) {
+            $saved_new = true;
+            // reload $PACKAGES
+            $PACKAGES[] = $new_entry;
         } else {
             $error = 'שגיאה בשמירה';
+        }
+
+    // --- DELETE NEW PACKAGE ---
+    } elseif ($action === 'delete_new') {
+        $del_id = (int)($_POST['id'] ?? 0);
+        $new_pkgs = mp_read_json('new_packages.json');
+        $new_pkgs = array_values(array_filter($new_pkgs, fn($p) => (int)($p['id'] ?? 0) !== $del_id));
+        mp_write_json('new_packages.json', $new_pkgs) ? $saved_new = true : $error = 'שגיאה במחיקה';
+        $PACKAGES = array_values(array_filter($PACKAGES, fn($p) => (int)$p['id'] !== $del_id));
+
+    // --- EDIT EXISTING PACKAGE ---
+    } else {
+        $overrides = mp_read_json('packages.json');
+        $id = (int)($_POST['id'] ?? 0);
+        if ($id > 0) {
+            $gallery_raw = $_POST['gallery_images'] ?? '[]';
+            $gallery_arr = json_decode($gallery_raw, true);
+            if (!is_array($gallery_arr)) $gallery_arr = [];
+            $_page = in_array($_POST['page'] ?? '', ['vacation','bachelor']) ? $_POST['page'] : 'vacation';
+            $overrides[$id] = [
+                'page'           => $_page,
+                'price'          => (int)($_POST['price'] ?? 0),
+                'discount'       => (int)($_POST['discount'] ?? 0),
+                'status'         => $_POST['status'] ?? 'now',
+                'tag_he'         => trim($_POST['tag_he'] ?? ''),
+                'tag_en'         => trim($_POST['tag_en'] ?? ''),
+                'title_he'       => trim($_POST['title_he'] ?? ''),
+                'loc_he'         => trim($_POST['loc_he'] ?? ''),
+                'desc_he'        => trim($_POST['desc_he'] ?? ''),
+                'nights'         => (int)($_POST['nights'] ?? 0),
+                'people_he'      => trim($_POST['people_he'] ?? ''),
+                'image_url'      => trim($_POST['image_url'] ?? ''),
+                'gallery_images' => array_values(array_filter($gallery_arr)),
+                'includes_he'    => array_values(array_filter(array_map('trim', explode("\n", $_POST['includes_he'] ?? '')))),
+            ];
+            if (mp_write_json('packages.json', $overrides)) {
+                $saved = true;
+            } else {
+                $error = 'שגיאה בשמירה';
+            }
         }
     }
 }
@@ -139,18 +199,145 @@ $type_colors = [
       <div style="display:flex;gap:8px">
         <a href="hotels.php" class="btn-admin ghost sm">🏨 מלונות</a>
         <a href="attractions.php" class="btn-admin ghost sm">📍 אטרקציות</a>
+        <button onclick="document.getElementById('new-pkg-form').style.display=document.getElementById('new-pkg-form').style.display==='none'?'block':'none'" class="btn-admin primary">+ הוסף חבילה חדשה</button>
       </div>
     </div>
     <div class="admin-content">
-      <?php if ($saved): ?>
+
+      <?php if ($saved || $saved_new): ?>
       <div class="alert success">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
-        החבילה עודכנה בהצלחה!
+        <?= $saved_new ? 'חבילה חדשה נוספה בהצלחה!' : 'החבילה עודכנה בהצלחה!' ?>
       </div>
       <?php endif; ?>
       <?php if ($error): ?>
       <div class="alert error"><?= htmlspecialchars($error) ?></div>
       <?php endif; ?>
+
+      <!-- New Package Form -->
+      <div id="new-pkg-form" style="display:<?= $saved_new ? 'none' : ($error ? 'block' : 'none') ?>">
+      <div class="admin-card" style="margin-bottom:20px;border:2px solid var(--blue)">
+        <div class="card-head" style="background:#eff6ff">
+          <h2 style="color:var(--blue)">+ הוסף חבילה חדשה</h2>
+          <button type="button" onclick="document.getElementById('new-pkg-form').style.display='none'" style="background:none;border:none;cursor:pointer;font-size:20px;color:var(--ink-mute)">×</button>
+        </div>
+        <div class="card-body" style="padding:20px">
+          <form method="POST">
+            <input type="hidden" name="csrf" value="<?= htmlspecialchars(mp_csrf()) ?>">
+            <input type="hidden" name="action" value="new">
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+              <div class="form-group">
+                <label>שם החבילה (עברית) *</label>
+                <input type="text" name="title_he" required placeholder="חבילת רומנטיקה במלון X">
+              </div>
+              <div class="form-group">
+                <label>Package name (English)</label>
+                <input type="text" name="title_en" placeholder="Romance package at Hotel X" style="direction:ltr">
+              </div>
+              <div class="form-group">
+                <label>מיקום (עברית)</label>
+                <input type="text" name="loc_he" placeholder="קישינב — מרכז העיר">
+              </div>
+              <div class="form-group">
+                <label>Location (English)</label>
+                <input type="text" name="loc_en" placeholder="Chișinău — City center" style="direction:ltr">
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:14px">
+              <div class="form-group">
+                <label>קטגוריה</label>
+                <select name="page">
+                  <option value="vacation">✈️ חבילות נופש</option>
+                  <option value="bachelor">🎉 מסיבות רווקים</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>סוג</label>
+                <select name="type">
+                  <option value="couples">זוגות</option>
+                  <option value="bach">רווקים</option>
+                  <option value="lux">יוקרה</option>
+                  <option value="wine">יקב</option>
+                  <option value="group">קבוצות</option>
+                  <option value="food">גסטרו</option>
+                  <option value="spa">ספא</option>
+                  <option value="adv">אדרנלין</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>מחיר (€) *</label>
+                <input type="number" name="price" min="1" required placeholder="890">
+              </div>
+              <div class="form-group">
+                <label>הנחה (%)</label>
+                <input type="number" name="discount" min="0" max="99" value="0">
+              </div>
+              <div class="form-group">
+                <label>לילות</label>
+                <input type="number" name="nights" min="1" value="3">
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px">
+              <div class="form-group">
+                <label>סטטוס</label>
+                <select name="status">
+                  <option value="now">אישור מיידי</option>
+                  <option value="day">יום עסקים</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Scene (רקע)</label>
+                <select name="scene">
+                  <?php foreach (['warm','dark','light','green','gold','blue','honey','city'] as $sc): ?>
+                  <option value="<?= $sc ?>"><?= $sc ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>תגית (עברית)</label>
+                <input type="text" name="tag_he" placeholder="חדש">
+              </div>
+              <div class="form-group">
+                <label>דירוג</label>
+                <input type="text" name="rating" value="9.0" placeholder="9.5">
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+              <div class="form-group">
+                <label>תיאור קצר (עברית)</label>
+                <textarea name="desc_he" rows="3" placeholder="תיאור החבילה..."></textarea>
+              </div>
+              <div class="form-group">
+                <label>Short description (English)</label>
+                <textarea name="desc_en" rows="3" style="direction:ltr" placeholder="Package description..."></textarea>
+              </div>
+              <div class="form-group">
+                <label>כולל (עברית, שורה לכל פריט)</label>
+                <textarea name="includes_he" rows="3" placeholder="לינה במלון&#10;ארוחת בוקר&#10;סיור ביקב"></textarea>
+              </div>
+              <div class="form-group">
+                <label>אנשים (עברית)</label>
+                <input type="text" name="people_he" value="2 אורחים" placeholder="2 אורחים">
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:14px">
+              <label>תמונה ראשית — URL</label>
+              <input type="text" name="image_url" placeholder="https://... או /assets/images/uploads/img.jpg">
+            </div>
+
+            <div style="display:flex;gap:10px">
+              <button type="submit" class="btn-admin primary">✓ הוסף חבילה</button>
+              <button type="button" onclick="document.getElementById('new-pkg-form').style.display='none'" class="btn-admin ghost">ביטול</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      </div>
 
       <!-- Category tabs -->
       <div class="admin-tabs" style="display:flex;gap:6px;margin-bottom:16px">
@@ -190,6 +377,9 @@ $type_colors = [
               <th></th>
             </tr>
           </thead>
+          <?php
+            $new_pkg_ids = array_column(mp_read_json('new_packages.json'), 'id');
+            ?>
           <tbody>
             <?php foreach ($tab_pkgs as $p):
               $ov = $overrides[$p['id']] ?? [];
@@ -198,6 +388,7 @@ $type_colors = [
               $status   = $ov['status']   ?? $p['status'];
               $tag_he   = $ov['tag_he']   ?? $p['tag_he'];
               $page_val = $ov['page']     ?? $p['page']  ?? 'vacation';
+              $is_new   = in_array($p['id'], $new_pkg_ids);
             ?>
             <tr id="row-<?= $p['id'] ?>">
               <td><b><?= $p['id'] ?></b></td>
@@ -219,7 +410,17 @@ $type_colors = [
               <td><span class="badge <?= $status==='now'?'green':'yel' ?>"><?= $status==='now'?'אישור מיידי':'יום עסקים' ?></span></td>
               <td><?= $tag_he ? '<span class="badge blue">' . htmlspecialchars($tag_he) . '</span>' : '<span style="color:var(--ink-mute);font-size:12px">—</span>' ?></td>
               <td>
-                <button class="btn-admin ghost sm" onclick="toggleEdit(<?= $p['id'] ?>)">ערוך</button>
+                <div style="display:flex;gap:6px">
+                  <button class="btn-admin ghost sm" onclick="toggleEdit(<?= $p['id'] ?>)">ערוך</button>
+                  <?php if ($is_new): ?>
+                  <form method="POST" style="display:inline" onsubmit="return confirm('למחוק חבילה זו?')">
+                    <input type="hidden" name="csrf" value="<?= htmlspecialchars(mp_csrf()) ?>">
+                    <input type="hidden" name="action" value="delete_new">
+                    <input type="hidden" name="id" value="<?= $p['id'] ?>">
+                    <button type="submit" class="btn-admin ghost sm" style="color:var(--red)">מחק</button>
+                  </form>
+                  <?php endif; ?>
+                </div>
               </td>
             </tr>
             <tr class="pkg-edit-row" id="edit-<?= $p['id'] ?>">
