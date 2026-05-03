@@ -136,6 +136,10 @@ $type_colors = [
         <h1>ניהול חבילות</h1>
         <p>עריכת מחיר, הנחה, תוכן ותגית לכל חבילה</p>
       </div>
+      <div style="display:flex;gap:8px">
+        <a href="hotels.php" class="btn-admin ghost sm">🏨 מלונות</a>
+        <a href="attractions.php" class="btn-admin ghost sm">📍 אטרקציות</a>
+      </div>
     </div>
     <div class="admin-content">
       <?php if ($saved): ?>

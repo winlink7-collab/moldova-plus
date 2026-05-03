@@ -60,7 +60,9 @@ $scenes = ['warm','dark','light','green','gold','blue','honey','city'];
   <main class="admin-main">
     <div class="admin-topbar">
       <div><h1>אטרקציות</h1><p>ניהול האטרקציות המוצגות בדף "אטרקציות" ובאתר</p></div>
-      <div style="display:flex;gap:10px">
+      <div style="display:flex;gap:8px">
+        <a href="packages.php" class="btn-admin ghost sm">✈️ חבילות</a>
+        <a href="hotels.php" class="btn-admin ghost sm">🏨 מלונות</a>
         <a href="../attractions.php" target="_blank" class="btn-admin ghost sm">צפה בדף</a>
         <a href="attractions.php?edit=new" class="btn-admin primary">+ הוסף אטרקציה</a>
       </div>
