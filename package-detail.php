@@ -135,10 +135,10 @@ page_head(
         $is_last = $i === 4;
       ?>
       <div class="gm<?= $i===0?' gm-hero':'' ?><?= $is_last?' gm-last':'' ?>">
-        <?php if ($gurl): ?>
+        <?php if ($use_custom_gallery && $gurl): ?>
         <img src="<?= htmlspecialchars($gurl) ?>" alt="" style="width:100%;height:100%;object-fit:cover">
         <?php else: ?>
-        <?= scene_img($use_custom_gallery ? ($scenes_gallery[$i]??'warm') : ($scenes_gallery[$i]??'warm')) ?>
+        <?= scene_img($scenes_gallery[$i]??'warm') ?>
         <?php endif; ?>
         <?php if ($is_last && $total_gal > 5): ?>
         <button class="gal-all-btn" type="button">
