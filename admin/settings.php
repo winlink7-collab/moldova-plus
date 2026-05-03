@@ -1,28 +1,24 @@
 <?php
+require_once __DIR__ . '/includes/auth.php';
+
 if (session_status() === PHP_SESSION_NONE) {
-    ini_set('session.use_strict_mode', '1');
     session_start();
 }
-require_once __DIR__ . '/includes/auth.php';
 mp_admin_check();
 require_once __DIR__ . '/../includes/data.php';
 
-// مهم جداً: حفظ متغيرات الجلسة
-$is_admin = !empty($_SESSION['mp_admin_ok']);
 $csrf_token = mp_csrf();
 
 $msg = '';
 $error = '';
 $S = mp_read_json('settings.json');
 
-// معالجة النماذج
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // تحقق من CSRF
     $posted_csrf = $_POST['csrf'] ?? '';
     $stored_csrf = $_SESSION['csrf'] ?? '';
 
     if (empty($posted_csrf) || $posted_csrf !== $stored_csrf) {
-        $error = 'خطأ أمني - حاول مرة أخرى';
+        $error = 'אישור בטיחות נכשל - נסה שוב';
     } else {
         $section = $_POST['section'] ?? '';
 
@@ -39,7 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $code = '<?php return ' . var_export($hash, true) . ';';
 
                 if (@file_put_contents(ADMIN_PASS_FILE, $code)) {
-                    // עדכן את ה-CSRF token אחרי שמירה בהצלחה
                     $_SESSION['csrf'] = bin2hex(random_bytes(16));
                     $msg = 'סיסמה עודכנה בהצלחה!';
                     $csrf_token = $_SESSION['csrf'];
@@ -80,6 +75,7 @@ $S = mp_read_json('settings.json');
 </head>
 <body>
 <div class="admin-layout">
+  <?php include __DIR__ . '/includes/sidebar.php'; ?>
   <main class="admin-main" style="width:100%; background:#fafafa">
     <div class="admin-topbar">
       <div>

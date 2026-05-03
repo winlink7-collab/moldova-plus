@@ -1,22 +1,16 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    ini_set('session.use_strict_mode', '1');
-    session_start();
-}
+if (session_status() === PHP_SESSION_NONE) session_start();
 require_once __DIR__ . '/includes/auth.php';
 
-$error  = '';
-$return = $_GET['return'] ?? $_POST['return'] ?? '';
-// Validate return URL — must start with / (same origin only)
-if ($return && !preg_match('#^/#', rawurldecode($return))) $return = '';
+$error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pass = $_POST['password'] ?? '';
     if (password_verify($pass, mp_get_pass())) {
-        $_SESSION['mp_admin_ok'] = true;
-        $_SESSION['csrf'] = bin2hex(random_bytes(16));
-        $dest = $return ? rawurldecode($return) : '/';
-        header('Location: ' . $dest);
+        $token = bin2hex(random_bytes(32));
+        $_SESSION['mp_admin_ok'] = $token;
+        setcookie('admin_token', $token, time() + (86400 * 30), '/admin/');
+        header('Location: index.php');
         exit;
     }
     $error = 'סיסמה שגויה. נסה שוב.';
@@ -49,22 +43,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
 
     <form method="POST" novalidate>
-      <?php if ($return): ?>
-      <input type="hidden" name="return" value="<?= htmlspecialchars($return) ?>">
-      <?php endif; ?>
       <div class="form-group">
         <label>סיסמת כניסה</label>
         <input type="password" name="password" placeholder="••••••••" autofocus autocomplete="current-password" required>
       </div>
-      <button type="submit" class="login-submit">
-        <?= $return ? 'כניסה וחזרה לאתר ←' : 'כניסה לדשבורד' ?>
-      </button>
+      <button type="submit" class="login-submit">כניסה לדשבורד</button>
     </form>
-    <?php if ($return): ?>
-    <p style="margin-top:16px;font-size:12px;color:var(--ink-mute);text-align:center">
-      אחרי הכניסה תחזרו לדף שממנו הגעתם
-    </p>
-    <?php endif; ?>
   </div>
 </div>
 </body>

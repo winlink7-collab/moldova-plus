@@ -1,14 +1,24 @@
 <?php
-// Admin password (bcrypt of "admin123") — change via Settings
 define('ADMIN_PASS_FILE', __DIR__ . '/../../data/admin_pass.php');
+define('ADMIN_TOKEN', 'admin_token');
+
+ini_set('session.cookie_lifetime', 86400 * 30);
+ini_set('session.gc_maxlifetime', 86400 * 30);
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 function mp_admin_check(): void {
     if (session_status() === PHP_SESSION_NONE) {
-        ini_set('session.use_strict_mode', '1');
         session_start();
     }
-    if (empty($_SESSION['mp_admin_ok'])) {
-        header('Location: ' . mp_admin_url('login.php'));
+
+    $has_cookie = !empty($_COOKIE[ADMIN_TOKEN]);
+    $has_session = !empty($_SESSION['mp_admin_ok']);
+
+    if (!$has_cookie && !$has_session) {
+        header('Location: login.php?return=' . urlencode($_SERVER['REQUEST_URI']));
         exit;
     }
 }
@@ -41,12 +51,13 @@ function mp_get_pass(): string {
         $p = include ADMIN_PASS_FILE;
         return is_string($p) ? $p : '';
     }
-    // Default: admin123
     return '$2y$10$.IAFajs8RnDSoGpRBiNJauxqsmjsk6iqD7TXYFTyKYO/jrYNA2fvq';
 }
 
 function mp_csrf(): string {
-    if (session_status() === PHP_SESSION_NONE) session_start();
+    if (session_status() === PHP_SESSION_NONE) {
+        @session_start();
+    }
     if (empty($_SESSION['csrf'])) {
         $_SESSION['csrf'] = bin2hex(random_bytes(16));
     }
@@ -54,5 +65,18 @@ function mp_csrf(): string {
 }
 
 function mp_csrf_verify(): bool {
-    return isset($_POST['csrf'], $_SESSION['csrf']) && hash_equals($_SESSION['csrf'], $_POST['csrf']);
+    if (empty($_POST['csrf'])) {
+        return false;
+    }
+    $token = $_POST['csrf'];
+    if (session_status() === PHP_SESSION_NONE) {
+        @session_start();
+    }
+
+    $stored = $_SESSION['csrf'] ?? '';
+    if (!empty($stored) && hash_equals($token, $stored)) {
+        return true;
+    }
+
+    return false;
 }
