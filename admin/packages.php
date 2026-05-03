@@ -326,8 +326,18 @@ $type_colors = [
             </div>
 
             <div class="form-group" style="margin-bottom:14px">
-              <label>תמונה ראשית — URL</label>
-              <input type="text" name="image_url" placeholder="https://... או /assets/images/uploads/img.jpg">
+              <label>תמונה ראשית</label>
+              <div class="pkg-image-row">
+                <img class="pkg-image-preview" id="prev-new" src="" style="display:none">
+                <input type="text" name="image_url" id="img-new" placeholder="https://... או העלה תמונה">
+                <button type="button" class="btn-admin ghost sm" style="white-space:nowrap"
+                  onclick="openMediaPicker('single','new')">📁 מהמדיה</button>
+                <label class="btn-admin ghost sm" style="white-space:nowrap;cursor:pointer">
+                  ⬆️ העלה
+                  <input type="file" accept="image/*" style="display:none"
+                    onchange="quickUpload(this,'img-new','prev-new')">
+                </label>
+              </div>
             </div>
 
             <div style="display:flex;gap:10px">
@@ -616,10 +626,12 @@ document.addEventListener('input', e => {
 });
 
 // ── Quick upload (inline file input) ────────────────────
+const _csrf = <?= json_encode(mp_csrf()) ?>;
 function quickUpload(fileInput, imgFieldId, previewId) {
   if (!fileInput.files.length) return;
   const fd = new FormData();
   fd.append('image', fileInput.files[0]);
+  fd.append('csrf', _csrf);
   fetch('upload.php', { method: 'POST', body: fd })
     .then(r => r.json())
     .then(data => {
@@ -725,6 +737,7 @@ function modalUpload(fileInput) {
   const uploads = files.map(file => {
     const fd = new FormData();
     fd.append('image', file);
+    fd.append('csrf', _csrf);
     return fetch('upload.php', { method: 'POST', body: fd }).then(r => r.json());
   });
 
