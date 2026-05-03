@@ -14,10 +14,7 @@ $error = '';
 $S = mp_read_json('settings.json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $posted_csrf = $_POST['csrf'] ?? '';
-    $stored_csrf = $_SESSION['csrf'] ?? '';
-
-    if (empty($posted_csrf) || $posted_csrf !== $stored_csrf) {
+    if (!mp_csrf_verify()) {
         $error = 'אישור בטיחות נכשל - נסה שוב';
     } else {
         $section = $_POST['section'] ?? '';
@@ -35,9 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $code = '<?php return ' . var_export($hash, true) . ';';
 
                 if (@file_put_contents(ADMIN_PASS_FILE, $code)) {
-                    $_SESSION['csrf'] = bin2hex(random_bytes(16));
                     $msg = 'סיסמה עודכנה בהצלחה!';
-                    $csrf_token = $_SESSION['csrf'];
                 } else {
                     $error = 'שגיאה בשמירת הסיסמה';
                 }
@@ -50,9 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $S['email'] = trim($_POST['email'] ?? '');
 
             if (@mp_write_json('settings.json', $S)) {
-                $_SESSION['csrf'] = bin2hex(random_bytes(16));
                 $msg = 'פרטי קשר עודכנו!';
-                $csrf_token = $_SESSION['csrf'];
             } else {
                 $error = 'שגיאה בשמירה';
             }

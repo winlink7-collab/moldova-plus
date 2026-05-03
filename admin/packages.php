@@ -9,13 +9,19 @@ $error = '';
 
 // Load uploaded images for the media picker
 $UPLOAD_DIR = __DIR__ . '/../assets/images/uploads/';
-$UPLOAD_URL = '../assets/images/uploads/';
+$UPLOAD_URL = '/assets/images/uploads/';
 $upload_images = [];
 if (is_dir($UPLOAD_DIR)) {
     foreach (glob($UPLOAD_DIR . '*.{jpg,jpeg,png,webp,gif}', GLOB_BRACE) as $path) {
         $upload_images[] = ['name' => basename($path), 'url' => $UPLOAD_URL . basename($path)];
     }
     usort($upload_images, fn($a,$b) => filemtime($UPLOAD_DIR.$b['name']) - filemtime($UPLOAD_DIR.$a['name']));
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !mp_csrf_verify()) {
+    $tab_r = isset($_POST['page']) && $_POST['page'] === 'bachelor' ? 'bachelor' : (isset($_GET['tab']) ? $_GET['tab'] : 'all');
+    header('Location: packages.php?tab=' . urlencode($tab_r) . '&err=' . urlencode('שגיאת אבטחה — נסה שוב'));
+    exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && mp_csrf_verify()) {
@@ -62,11 +68,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && mp_csrf_verify()) {
         ];
         $new_pkgs[] = $new_entry;
         if (mp_write_json('new_packages.json', array_values($new_pkgs))) {
-            $saved_new = true;
-            // reload $PACKAGES
-            $PACKAGES[] = $new_entry;
+            header('Location: packages.php?tab=' . urlencode($_page) . '&msg=' . urlencode('חבילה חדשה נוספה בהצלחה!')); exit;
         } else {
-            $error = 'שגיאה בשמירה';
+            $error = 'שגיאה בשמירה — בדוק הרשאות כתיבה לתיקיית data/';
         }
 
     // --- DELETE NEW PACKAGE ---
@@ -74,8 +78,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && mp_csrf_verify()) {
         $del_id = (int)($_POST['id'] ?? 0);
         $new_pkgs = mp_read_json('new_packages.json');
         $new_pkgs = array_values(array_filter($new_pkgs, fn($p) => (int)($p['id'] ?? 0) !== $del_id));
-        mp_write_json('new_packages.json', $new_pkgs) ? $saved_new = true : $error = 'שגיאה במחיקה';
-        $PACKAGES = array_values(array_filter($PACKAGES, fn($p) => (int)$p['id'] !== $del_id));
+        if (mp_write_json('new_packages.json', $new_pkgs)) {
+            header('Location: packages.php?msg=' . urlencode('החבילה נמחקה.')); exit;
+        }
+        $error = 'שגיאה במחיקה — בדוק הרשאות כתיבה לתיקיית data/';
 
     // --- EDIT EXISTING PACKAGE ---
     } else {
@@ -94,24 +100,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && mp_csrf_verify()) {
                 'tag_he'         => trim($_POST['tag_he'] ?? ''),
                 'tag_en'         => trim($_POST['tag_en'] ?? ''),
                 'title_he'       => trim($_POST['title_he'] ?? ''),
+                'title_en'       => trim($_POST['title_en'] ?? ''),
                 'loc_he'         => trim($_POST['loc_he'] ?? ''),
+                'loc_en'         => trim($_POST['loc_en'] ?? ''),
                 'desc_he'        => trim($_POST['desc_he'] ?? ''),
+                'desc_en'        => trim($_POST['desc_en'] ?? ''),
                 'nights'         => (int)($_POST['nights'] ?? 0),
                 'people_he'      => trim($_POST['people_he'] ?? ''),
+                'people_en'      => trim($_POST['people_en'] ?? ''),
+                'type'           => trim($_POST['type'] ?? ''),
+                'scene'          => trim($_POST['scene'] ?? ''),
+                'rating'         => trim($_POST['rating'] ?? ''),
                 'image_url'      => trim($_POST['image_url'] ?? ''),
                 'gallery_images' => array_values(array_filter($gallery_arr)),
                 'includes_he'    => array_values(array_filter(array_map('trim', explode("\n", $_POST['includes_he'] ?? '')))),
             ];
             if (mp_write_json('packages.json', $overrides)) {
-                $saved = true;
-            } else {
-                $error = 'שגיאה בשמירה';
+                header('Location: packages.php?msg=' . urlencode('החבילה עודכנה בהצלחה!')); exit;
             }
+            $error = 'שגיאה בשמירה — בדוק הרשאות כתיבה לתיקיית data/';
         }
     }
 }
 
 $overrides = mp_read_json('packages.json');
+$saved_msg = isset($_GET['msg']) ? htmlspecialchars($_GET['msg']) : '';
+if (empty($error) && isset($_GET['err'])) $error = htmlspecialchars($_GET['err']);
 
 // Tab filter
 $tab = isset($_GET['tab']) && in_array($_GET['tab'], ['vacation','bachelor']) ? $_GET['tab'] : 'all';
@@ -199,15 +213,17 @@ $type_colors = [
       <div style="display:flex;gap:8px">
         <a href="hotels.php" class="btn-admin ghost sm">🏨 מלונות</a>
         <a href="attractions.php" class="btn-admin ghost sm">📍 אטרקציות</a>
+        <a href="/packages" target="_blank" class="btn-admin ghost sm">👁 חבילות נופש</a>
+        <a href="/bachelor" target="_blank" class="btn-admin ghost sm">👁 מסיבות רווקים</a>
         <button onclick="document.getElementById('new-pkg-form').style.display=document.getElementById('new-pkg-form').style.display==='none'?'block':'none'" class="btn-admin primary">+ הוסף חבילה חדשה</button>
       </div>
     </div>
     <div class="admin-content">
 
-      <?php if ($saved || $saved_new): ?>
+      <?php if ($saved_msg): ?>
       <div class="alert success">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
-        <?= $saved_new ? 'חבילה חדשה נוספה בהצלחה!' : 'החבילה עודכנה בהצלחה!' ?>
+        <?= $saved_msg ?>
       </div>
       <?php endif; ?>
       <?php if ($error): ?>
@@ -249,8 +265,8 @@ $type_colors = [
               <div class="form-group">
                 <label>קטגוריה</label>
                 <select name="page">
-                  <option value="vacation">✈️ חבילות נופש</option>
-                  <option value="bachelor">🎉 מסיבות רווקים</option>
+                  <option value="vacation" <?= $tab !== 'bachelor' ? 'selected' : '' ?>>✈️ חבילות נופש</option>
+                  <option value="bachelor" <?= $tab === 'bachelor' ? 'selected' : '' ?>>🎉 מסיבות רווקים</option>
                 </select>
               </div>
               <div class="form-group">
@@ -465,6 +481,34 @@ $type_colors = [
                       <label>תגית (עברית)</label>
                       <input type="text" name="tag_he" value="<?= htmlspecialchars($tag_he) ?>" placeholder="הכי פופולרי">
                     </div>
+                    <div class="form-group">
+                      <label>Tag (English)</label>
+                      <input type="text" name="tag_en" value="<?= htmlspecialchars($ov['tag_en'] ?? $p['tag_en'] ?? '') ?>" placeholder="Best seller" style="direction:ltr">
+                    </div>
+                    <div class="form-group">
+                      <label>סוג</label>
+                      <select name="type">
+                        <?php foreach ($type_labels as $_tv => $_tl): ?>
+                        <option value="<?= $_tv ?>" <?= ($ov['type'] ?? $p['type'] ?? '') === $_tv ? 'selected' : '' ?>><?= $_tl ?></option>
+                        <?php endforeach; ?>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>Scene</label>
+                      <select name="scene">
+                        <?php foreach (['warm','dark','light','green','gold','blue','honey','city'] as $_sc): ?>
+                        <option value="<?= $_sc ?>" <?= ($ov['scene'] ?? $p['scene'] ?? '') === $_sc ? 'selected' : '' ?>><?= $_sc ?></option>
+                        <?php endforeach; ?>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>דירוג</label>
+                      <input type="text" name="rating" value="<?= htmlspecialchars($ov['rating'] ?? $p['rating'] ?? '9.0') ?>" placeholder="9.5">
+                    </div>
+                    <div class="form-group">
+                      <label>לילות</label>
+                      <input type="number" name="nights" min="1" value="<?= (int)($ov['nights'] ?? $p['nights'] ?? 3) ?>">
+                    </div>
                   </div>
                   <div class="pkg-edit-grid-2">
                     <div class="form-group">
@@ -472,18 +516,34 @@ $type_colors = [
                       <input type="text" name="title_he" value="<?= htmlspecialchars($ov['title_he'] ?? '') ?>" placeholder="<?= htmlspecialchars($p['title_he']) ?>">
                     </div>
                     <div class="form-group">
+                      <label>Package name (English)</label>
+                      <input type="text" name="title_en" value="<?= htmlspecialchars($ov['title_en'] ?? $p['title_en'] ?? '') ?>" placeholder="<?= htmlspecialchars($p['title_en'] ?? '') ?>" style="direction:ltr">
+                    </div>
+                    <div class="form-group">
                       <label>מיקום (עברית)</label>
                       <input type="text" name="loc_he" value="<?= htmlspecialchars($ov['loc_he'] ?? '') ?>" placeholder="<?= htmlspecialchars($p['loc_he']) ?>">
                     </div>
                     <div class="form-group">
+                      <label>Location (English)</label>
+                      <input type="text" name="loc_en" value="<?= htmlspecialchars($ov['loc_en'] ?? $p['loc_en'] ?? '') ?>" placeholder="<?= htmlspecialchars($p['loc_en'] ?? '') ?>" style="direction:ltr">
+                    </div>
+                    <div class="form-group">
                       <label>אורחים (עברית)</label>
                       <input type="text" name="people_he" value="<?= htmlspecialchars($ov['people_he'] ?? '') ?>" placeholder="<?= htmlspecialchars($p['people_he']) ?>">
+                    </div>
+                    <div class="form-group">
+                      <label>Guests (English)</label>
+                      <input type="text" name="people_en" value="<?= htmlspecialchars($ov['people_en'] ?? $p['people_en'] ?? '') ?>" placeholder="<?= htmlspecialchars($p['people_en'] ?? '2 guests') ?>" style="direction:ltr">
                     </div>
                   </div>
                   <div class="pkg-edit-grid-3">
                     <div class="form-group">
                       <label>תיאור (עברית)</label>
                       <textarea name="desc_he" rows="2" placeholder="<?= htmlspecialchars($p['desc_he']) ?>"><?= htmlspecialchars($ov['desc_he'] ?? '') ?></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label>Description (English)</label>
+                      <textarea name="desc_en" rows="2" style="direction:ltr" placeholder="<?= htmlspecialchars($p['desc_en'] ?? '') ?>"><?= htmlspecialchars($ov['desc_en'] ?? '') ?></textarea>
                     </div>
                     <div class="form-group">
                       <label>תמונה ראשית</label>
@@ -636,10 +696,11 @@ function quickUpload(fileInput, imgFieldId, previewId) {
     .then(r => r.json())
     .then(data => {
       if (data.error) { alert('שגיאה: ' + data.error); return; }
+      const url = data.abs || data.url;
       const field = document.getElementById(imgFieldId);
-      if (field) field.value = data.url;
+      if (field) field.value = url;
       updatePreview(imgFieldId, previewId);
-      addToModalGrid(data.url, data.name);
+      addToModalGrid(url, data.name);
     })
     .catch(() => alert('שגיאת העלאה'));
 }
@@ -744,13 +805,14 @@ function modalUpload(fileInput) {
   Promise.all(uploads).then(results => {
     prog.style.display = 'none';
     results.forEach(data => {
-      if (!data.error) addToModalGrid(data.url, data.name);
+      if (!data.error) addToModalGrid(data.abs || data.url, data.name);
     });
     // Auto-select newly uploaded in multi mode
     if (_mpMode === 'multi') {
       results.forEach(data => {
         if (!data.error) {
-          const el = document.querySelector('.mp-item[data-url="' + data.url + '"]');
+          const url = data.abs || data.url;
+          const el = document.querySelector('.mp-item[data-url="' + CSS.escape(url) + '"]');
           if (el) el.classList.add('selected');
         }
       });

@@ -59,16 +59,16 @@ page_head(
       </h2>
     </div>
     <a href="/article/<?= $featured['id'] ?><?= $lang!=='he'?'?lang='.$lang:'' ?>" class="blog-featured reveal">
-      <div class="blog-featured-img"><?= $_f_img ?></div>
+      <div class="blog-featured-img"<?= le_img('articles:'.$featured['id'].':image_url') ?>><?= $_f_img ?></div>
       <div class="blog-featured-body">
-        <span class="art-tag-pill"><?= htmlspecialchars($lang==='he' ? $featured['tag_he'] : $featured['tag_en']) ?></span>
+        <span class="art-tag-pill"<?= le('articles:'.$featured['id'].':tag_he') ?>><?= htmlspecialchars($lang==='he' ? $featured['tag_he'] : $featured['tag_en']) ?></span>
         <h2>
-          <span class="he"><?= htmlspecialchars($featured['title_he']) ?></span>
-          <span class="en"><?= htmlspecialchars($featured['title_en']) ?></span>
+          <span class="he"<?= le('articles:'.$featured['id'].':title_he') ?>><?= htmlspecialchars($featured['title_he']) ?></span>
+          <span class="en"<?= le('articles:'.$featured['id'].':title_en') ?>><?= htmlspecialchars($featured['title_en']) ?></span>
         </h2>
         <p>
-          <span class="he"><?= htmlspecialchars($featured['desc_he']) ?></span>
-          <span class="en"><?= htmlspecialchars($featured['desc_en']) ?></span>
+          <span class="he"<?= le('articles:'.$featured['id'].':desc_he') ?>><?= htmlspecialchars($featured['desc_he']) ?></span>
+          <span class="en"<?= le('articles:'.$featured['id'].':desc_en') ?>><?= htmlspecialchars($featured['desc_en']) ?></span>
         </p>
         <div class="blog-featured-meta">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -108,19 +108,19 @@ page_head(
           : scene_img($a['scene']);
       ?>
       <a href="/article/<?= $a['id'] ?><?= $lang!=='he'?'?lang='.$lang:'' ?>" class="article reveal d<?= $i+1 ?>">
-        <div class="article-img"><?= $_art_img ?></div>
+        <div class="article-img"<?= le_img('articles:'.$a['id'].':image_url') ?>><?= $_art_img ?></div>
         <div class="article-body">
           <span class="article-tag">
-            <span class="he"><?= htmlspecialchars($a['tag_he']) ?></span>
-            <span class="en"><?= htmlspecialchars($a['tag_en']) ?></span>
+            <span class="he"<?= le('articles:'.$a['id'].':tag_he') ?>><?= htmlspecialchars($a['tag_he']) ?></span>
+            <span class="en"<?= le('articles:'.$a['id'].':tag_en') ?>><?= htmlspecialchars($a['tag_en']) ?></span>
           </span>
           <h4>
-            <span class="he"><?= htmlspecialchars($a['title_he']) ?></span>
-            <span class="en"><?= htmlspecialchars($a['title_en']) ?></span>
+            <span class="he"<?= le('articles:'.$a['id'].':title_he') ?>><?= htmlspecialchars($a['title_he']) ?></span>
+            <span class="en"<?= le('articles:'.$a['id'].':title_en') ?>><?= htmlspecialchars($a['title_en']) ?></span>
           </h4>
           <p>
-            <span class="he"><?= htmlspecialchars($a['desc_he']) ?></span>
-            <span class="en"><?= htmlspecialchars($a['desc_en']) ?></span>
+            <span class="he"<?= le('articles:'.$a['id'].':desc_he') ?>><?= htmlspecialchars($a['desc_he']) ?></span>
+            <span class="en"<?= le('articles:'.$a['id'].':desc_en') ?>><?= htmlspecialchars($a['desc_en']) ?></span>
           </p>
           <div class="article-foot">
             <span><?= $a['read'] ?> <span class="he">דק׳ קריאה</span><span class="en">min read</span></span>

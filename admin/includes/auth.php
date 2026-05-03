@@ -55,28 +55,17 @@ function mp_get_pass(): string {
 }
 
 function mp_csrf(): string {
-    if (session_status() === PHP_SESSION_NONE) {
-        @session_start();
-    }
-    if (empty($_SESSION['csrf'])) {
-        $_SESSION['csrf'] = bin2hex(random_bytes(16));
-    }
-    return $_SESSION['csrf'];
+    $key    = $_COOKIE[ADMIN_TOKEN] ?? (session_id() ?: 'anon');
+    $secret = 'MoldovaPlus_CSRF_2026';
+    return substr(hash_hmac('sha256', $key . date('YmdH'), $secret), 0, 40);
 }
 
 function mp_csrf_verify(): bool {
-    if (empty($_POST['csrf'])) {
-        return false;
-    }
-    $token = $_POST['csrf'];
-    if (session_status() === PHP_SESSION_NONE) {
-        @session_start();
-    }
-
-    $stored = $_SESSION['csrf'] ?? '';
-    if (!empty($stored) && hash_equals($token, $stored)) {
-        return true;
-    }
-
-    return false;
+    if (empty($_POST['csrf'])) return false;
+    $key    = $_COOKIE[ADMIN_TOKEN] ?? (session_id() ?: 'anon');
+    $secret = 'MoldovaPlus_CSRF_2026';
+    // Valid for current hour and previous hour (handles page load/submit crossing the hour)
+    $t1 = substr(hash_hmac('sha256', $key . date('YmdH'), $secret), 0, 40);
+    $t2 = substr(hash_hmac('sha256', $key . date('YmdH', time() - 3600), $secret), 0, 40);
+    return hash_equals($t1, $_POST['csrf']) || hash_equals($t2, $_POST['csrf']);
 }

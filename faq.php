@@ -64,14 +64,18 @@ page_head(
     ?>
     <div class="faq-list">
 
-      <?php if ($_FAQS): foreach ($_FAQS as $_fi => $_fq): ?>
-      <div class="faq-item reveal <?= $_fi>0?'d'.min($_fi%3,2):'' ?>" data-cat="<?= htmlspecialchars($_fq['cat']) ?>">
+      <?php if ($_FAQS): foreach ($_FAQS as $_fi => $_fq): $_fid = (int)($_fq['id'] ?? 0); ?>
+      <div class="faq-item reveal <?= $_fi>0?'d'.min($_fi%3,2):'' ?>" data-cat="<?= htmlspecialchars($_fq['cat'] ?? 'general') ?>">
         <button class="faq-q">
-          <span class="he"><?= htmlspecialchars($_fq['q_he']) ?></span>
+          <span class="he"<?= le('faq:'.$_fid.':q_he') ?>><?= htmlspecialchars($_fq['q_he'] ?? '') ?></span>
+          <?php if (!empty($_fq['q_en'])): ?><span class="en"<?= le('faq:'.$_fid.':q_en') ?>><?= htmlspecialchars($_fq['q_en']) ?></span><?php endif; ?>
           <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
         </button>
         <div class="faq-a">
-          <p><?= nl2br(htmlspecialchars($_fq['a_he'])) ?></p>
+          <p>
+            <span class="he"<?= le('faq:'.$_fid.':a_he') ?>><?= nl2br(htmlspecialchars($_fq['a_he'] ?? '')) ?></span>
+            <?php if (!empty($_fq['a_en'])): ?><span class="en"<?= le('faq:'.$_fid.':a_en') ?>><?= nl2br(htmlspecialchars($_fq['a_en'])) ?></span><?php endif; ?>
+          </p>
         </div>
       </div>
       <?php endforeach; else: ?>

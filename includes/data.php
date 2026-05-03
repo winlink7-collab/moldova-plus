@@ -155,12 +155,12 @@ $PACKAGES = [
 
 // Merge full package overrides from packages.json
 $_pkg_file = __DIR__ . '/../data/packages.json';
-if (file_exists($_pkg_file)) {
-    $_overrides = json_decode(file_get_contents($_pkg_file), true) ?? [];
+$_overrides = file_exists($_pkg_file) ? (json_decode(file_get_contents($_pkg_file), true) ?? []) : [];
+if (!empty($_overrides)) {
     foreach ($PACKAGES as &$_p) {
         $_ov = $_overrides[$_p['id']] ?? [];
         if (!empty($_ov)) {
-            foreach (['price','discount','status','tag_he','tag_en','title_he','loc_he','desc_he','nights','people_he','image_url','page','includes_he','gallery_images'] as $_k) {
+            foreach (['price','discount','status','tag_he','tag_en','title_he','title_en','loc_he','loc_en','desc_he','desc_en','nights','people_he','people_en','image_url','page','type','rating','includes_he','gallery_images'] as $_k) {
                 if (isset($_ov[$_k]) && $_ov[$_k] !== '') $_p[$_k] = $_ov[$_k];
             }
         }
@@ -168,12 +168,18 @@ if (file_exists($_pkg_file)) {
     unset($_p);
 }
 
-// Load new packages added from admin panel
+// Load new packages added from admin panel (and apply any overrides on top)
 $_new_pkg_file = __DIR__ . '/../data/new_packages.json';
 if (file_exists($_new_pkg_file)) {
     $_new_pkgs = json_decode(file_get_contents($_new_pkg_file), true) ?? [];
     foreach ($_new_pkgs as $_np) {
         if (!empty($_np['id']) && !empty($_np['title_he'])) {
+            $_nov = $_overrides[$_np['id']] ?? [];
+            if (!empty($_nov)) {
+                foreach (['price','discount','status','tag_he','tag_en','title_he','title_en','loc_he','loc_en','desc_he','desc_en','nights','people_he','people_en','image_url','page','type','rating','includes_he','gallery_images'] as $_k) {
+                    if (isset($_nov[$_k]) && $_nov[$_k] !== '') $_np[$_k] = $_nov[$_k];
+                }
+            }
             $PACKAGES[] = $_np;
         }
     }
@@ -199,8 +205,19 @@ if (isset($_stf) && file_exists($_stf)) {
 }
 
 // ─── Reviews ─────────────────────────────────────────────────────────────────
-$_reviews_file = __DIR__ . '/../data/reviews.json';
-$REVIEWS = file_exists($_reviews_file) ? (json_decode(file_get_contents($_reviews_file), true) ?? []) : [];
+$_reviews_defaults = [
+  ['id'=>1,'name_he'=>'אבי כהן','place_he'=>'תל אביב','body_he'=>'חוויה בלתי נשכחת! הצוות של Moldova Plus דאג לכל פרט, מהמלון ועד הסיורים ביקבים. מחיר מעולה ביחס למה שקיבלנו. מומלץ בחום.','stars'=>5,'when'=>'03.2026','initials'=>'א','color'=>'#0046ae'],
+  ['id'=>2,'name_he'=>'מיכל לוי','place_he'=>'חיפה','body_he'=>'מסיבת רווקים שלא תשכח! הארגון היה מושלם, הווילה, השף הפרטי והמועדונים — הכל ברמה הכי גבוהה. תודה ענקית לכל הצוות.','stars'=>5,'when'=>'02.2026','initials'=>'מ','color'=>'#e53935'],
+  ['id'=>3,'name_he'=>'יוסי ברק','place_he'=>'ירושלים','body_he'=>'בואנו כזוג לחבילה רומנטית ויצאנו עם זיכרונות לכל החיים. קישינב הפתיעה אותנו לטובה — יוקרה במחיר שפוי. ממליץ לכל זוג.','stars'=>5,'when'=>'01.2026','initials'=>'י','color'=>'#2e7d32'],
+  ['id'=>4,'name_he'=>'שרה גולן','place_he'=>'רעננה','body_he'=>'הסיור ביקב Mileștii Mici היה חוויה של פעם בחיים. 200 ק"מ מנהרות עם בקבוקי יין — מדהים! כל הלוגיסטיקה עבדה חלק כשמן.','stars'=>5,'when'=>'04.2026','initials'=>'ש','color'=>'#6a1b9a'],
+];
+$_reviews_json_file = __DIR__ . '/../data/reviews.json';
+$_reviews_from_json = file_exists($_reviews_json_file) ? (json_decode(file_get_contents($_reviews_json_file), true) ?? []) : [];
+if (!empty($_reviews_from_json)) {
+    $REVIEWS = $_reviews_from_json;
+} else {
+    $REVIEWS = $_reviews_defaults;
+}
 
 // ─── Articles ────────────────────────────────────────────────────────────────
 $ARTICLES = [
@@ -288,14 +305,16 @@ $ARTICLES = [
   ],
 ];
 
-// Override ARTICLES from articles.json (selective merge by id)
+// Override ARTICLES from articles.json (full merge by id + append new)
 $_articles_json_path = __DIR__ . '/../data/articles.json';
 if (file_exists($_articles_json_path)) {
     $_articles_ov = json_decode(file_get_contents($_articles_json_path), true) ?? [];
+    $_default_article_ids = array_column($ARTICLES, 'id');
+    // Merge into existing defaults
     foreach ($ARTICLES as &$_a) {
         foreach ($_articles_ov as $_oa) {
             if (($_oa['id'] ?? '') === $_a['id']) {
-                foreach (['title_he','title_en','desc_he','desc_en','tag_he','tag_en','image_url'] as $_k) {
+                foreach (['title_he','title_en','desc_he','desc_en','tag_he','tag_en','image_url','body_he','body_en','date','read','related_types','scene'] as $_k) {
                     if (isset($_oa[$_k])) $_a[$_k] = $_oa[$_k];
                 }
                 break;
@@ -303,21 +322,27 @@ if (file_exists($_articles_json_path)) {
         }
     }
     unset($_a);
+    // Append JSON-only articles (new articles added from admin)
+    foreach ($_articles_ov as $_oa) {
+        if (!in_array($_oa['id'] ?? '', $_default_article_ids)) {
+            $ARTICLES[] = $_oa;
+        }
+    }
 }
 
 // ─── Attractions ─────────────────────────────────────────────────────────────
 $ATTRACTIONS = [
-  ['he'=>'יקב Mileștii Mici','en'=>'Mileștii Mici Winery','cat'=>'wine','scene'=>'gold','he2'=>'200 ק"מ של מנהרות תת-קרקעיות','en2'=>'200km of underground tunnels'],
-  ['he'=>'יקב Cricova',      'en'=>'Cricova Winery',       'cat'=>'wine','scene'=>'warm','he2'=>'מנהרות יין היסטוריות','en2'=>'Historic wine tunnels'],
-  ['he'=>'מנזר Capriana',    'en'=>'Capriana Monastery',   'cat'=>'culture','scene'=>'green','he2'=>'מנזר מהמאה ה-15','en2'=>'15th century monastery'],
-  ['he'=>'אורהיי וצי',       'en'=>'Orheiul Vechi',        'cat'=>'culture','scene'=>'light','he2'=>'מתחם ארכיאולוגי מרהיב','en2'=>'Stunning archaeological site'],
-  ['he'=>'Carrera Karting',  'en'=>'Carrera Karting',      'cat'=>'adrenaline','scene'=>'dark','he2'=>'הקארטינג הגדול במזרח אירופה','en2'=>'Largest karting in E. Europe'],
-  ['he'=>'Castel Mimi',      'en'=>'Castel Mimi',          'cat'=>'wine','scene'=>'blue','he2'=>'יקב טירה ב-50 דק׳ מקישינב','en2'=>'Castle winery, 50 min from city'],
-  ['he'=>'מסעדת Pegas',     'en'=>'Pegas Restaurant',     'cat'=>'food','scene'=>'warm','he2'=>'אגם פרטי + ספא דגים','en2'=>'Private lake + fish spa'],
-  ['he'=>'רובע La 33',       'en'=>'La 33 District',       'cat'=>'nightlife','scene'=>'dark','he2'=>'חיי הלילה הכי שווים בקישינב','en2'=>'Best nightlife in Chișinău'],
+  ['id'=>1,'he'=>'יקב Mileștii Mici','en'=>'Mileștii Mici Winery','cat'=>'wine','scene'=>'gold','he2'=>'200 ק"מ של מנהרות תת-קרקעיות','en2'=>'200km of underground tunnels'],
+  ['id'=>2,'he'=>'יקב Cricova',      'en'=>'Cricova Winery',       'cat'=>'wine','scene'=>'warm','he2'=>'מנהרות יין היסטוריות','en2'=>'Historic wine tunnels'],
+  ['id'=>3,'he'=>'מנזר Capriana',    'en'=>'Capriana Monastery',   'cat'=>'culture','scene'=>'green','he2'=>'מנזר מהמאה ה-15','en2'=>'15th century monastery'],
+  ['id'=>4,'he'=>'אורהיי וצי',       'en'=>'Orheiul Vechi',        'cat'=>'culture','scene'=>'light','he2'=>'מתחם ארכיאולוגי מרהיב','en2'=>'Stunning archaeological site'],
+  ['id'=>5,'he'=>'Carrera Karting',  'en'=>'Carrera Karting',      'cat'=>'adrenaline','scene'=>'dark','he2'=>'הקארטינג הגדול במזרח אירופה','en2'=>'Largest karting in E. Europe'],
+  ['id'=>6,'he'=>'Castel Mimi',      'en'=>'Castel Mimi',          'cat'=>'wine','scene'=>'blue','he2'=>'יקב טירה ב-50 דק׳ מקישינב','en2'=>'Castle winery, 50 min from city'],
+  ['id'=>7,'he'=>'מסעדת Pegas',     'en'=>'Pegas Restaurant',     'cat'=>'food','scene'=>'warm','he2'=>'אגם פרטי + ספא דגים','en2'=>'Private lake + fish spa'],
+  ['id'=>8,'he'=>'רובע La 33',       'en'=>'La 33 District',       'cat'=>'nightlife','scene'=>'dark','he2'=>'חיי הלילה הכי שווים בקישינב','en2'=>'Best nightlife in Chișinău'],
 ];
 
-// Override ATTRACTIONS from attractions.json if available
+// Replace ATTRACTIONS with attractions.json if it has data (admin is authoritative once first save is made)
 $_attr_json_path = __DIR__ . '/../data/attractions.json';
 if (file_exists($_attr_json_path)) {
     $_attr_from_json = json_decode(file_get_contents($_attr_json_path), true) ?? [];

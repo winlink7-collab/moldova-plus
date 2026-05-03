@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (password_verify($pass, mp_get_pass())) {
         $token = bin2hex(random_bytes(32));
         $_SESSION['mp_admin_ok'] = $token;
-        setcookie('admin_token', $token, time() + (86400 * 30), '/admin/');
+        setcookie('admin_token', $token, time() + (86400 * 30), '/');
         header('Location: index.php');
         exit;
     }

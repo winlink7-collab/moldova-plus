@@ -31,11 +31,8 @@ function le_footer(): void {
 <?php
         return;
     }
-    if (session_status() === PHP_SESSION_NONE) session_start();
-    if (empty($_SESSION['csrf'])) {
-        $_SESSION['csrf'] = bin2hex(random_bytes(16));
-    }
-    $csrf = $_SESSION['csrf'];
+    $key    = $_COOKIE['admin_token'] ?? (session_id() ?: 'anon');
+    $csrf   = substr(hash_hmac('sha256', $key . date('YmdH'), 'MoldovaPlus_CSRF_2026'), 0, 40);
 ?>
 <link rel="stylesheet" href="/assets/css/live-editor.css">
 <div id="le-bar">

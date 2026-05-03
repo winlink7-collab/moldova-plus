@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 unset($_SESSION['mp_admin_ok']);
 session_destroy();
 
-setcookie('admin_token', '', time() - 3600, '/admin/');
+setcookie('admin_token', '', time() - 3600, '/');
 
 $return = $_GET['return'] ?? '';
 // Validate: same-origin only (must start with /)
