@@ -5,6 +5,16 @@ mp_admin_check();
 $msg = ''; $error = '';
 $attractions = mp_read_json('attractions.json');
 
+$UPLOAD_DIR = __DIR__ . '/../assets/images/uploads/';
+$UPLOAD_URL = '../assets/images/uploads/';
+$upload_images = [];
+if (is_dir($UPLOAD_DIR)) {
+    foreach (glob($UPLOAD_DIR . '*.{jpg,jpeg,png,webp,gif}', GLOB_BRACE) as $path) {
+        $upload_images[] = ['name' => basename($path), 'url' => $UPLOAD_URL . basename($path)];
+    }
+    usort($upload_images, fn($a,$b) => filemtime($UPLOAD_DIR.$b['name']) - filemtime($UPLOAD_DIR.$a['name']));
+}
+
 // --- DELETE ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delete' && mp_csrf_verify()) {
     $id = (int)($_POST['id'] ?? 0);
@@ -17,13 +27,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delet
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'save' && mp_csrf_verify()) {
     $id = (int)($_POST['id'] ?? 0);
     $entry = [
-        'id'    => $id ?: (count($attractions) ? max(array_column($attractions,'id')) + 1 : 1),
-        'he'    => trim($_POST['he'] ?? ''),
-        'en'    => trim($_POST['en'] ?? ''),
-        'he2'   => trim($_POST['he2'] ?? ''),
-        'en2'   => trim($_POST['en2'] ?? ''),
-        'cat'   => trim($_POST['cat'] ?? 'wine'),
-        'scene' => trim($_POST['scene'] ?? 'warm'),
+        'id'        => $id ?: (count($attractions) ? max(array_column($attractions,'id')) + 1 : 1),
+        'he'        => trim($_POST['he'] ?? ''),
+        'en'        => trim($_POST['en'] ?? ''),
+        'he2'       => trim($_POST['he2'] ?? ''),
+        'en2'       => trim($_POST['en2'] ?? ''),
+        'cat'       => trim($_POST['cat'] ?? 'wine'),
+        'scene'     => trim($_POST['scene'] ?? 'warm'),
+        'image_url' => trim($_POST['image_url'] ?? ''),
     ];
     if ($id) {
         foreach ($attractions as &$a) { if ((int)$a['id'] === $id) { $a = $entry; break; } }
@@ -118,7 +129,61 @@ $scenes = ['warm','dark','light','green','gold','blue','honey','city'];
                 </select>
               </div>
             </div>
-            <div style="display:flex;gap:10px">
+            <div class="form-group" style="margin-top:14px">
+              <label>תמונה — העלה או הדבק URL</label>
+              <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                <input type="text" name="image_url" id="attr-img-url"
+                  value="<?= htmlspecialchars($edit['image_url'] ?? '') ?>"
+                  placeholder="https://... או העלה תמונה ←" style="flex:1;min-width:200px">
+                <label class="btn-admin ghost sm" style="cursor:pointer;margin:0">
+                  📁 העלה תמונה
+                  <input type="file" id="attr-img-file" accept="image/*" style="display:none">
+                </label>
+                <?php if ($upload_images): ?>
+                <select id="attr-media-select"
+                  onchange="document.getElementById('attr-img-url').value=this.value;document.getElementById('attr-img-preview').src=this.value;document.getElementById('attr-img-preview').style.display=this.value?'block':'none';this.selectedIndex=0"
+                  style="max-width:180px">
+                  <option value="">בחר מהמדיה...</option>
+                  <?php foreach ($upload_images as $img): ?>
+                  <option value="<?= htmlspecialchars($img['url']) ?>"><?= htmlspecialchars($img['name']) ?></option>
+                  <?php endforeach; ?>
+                </select>
+                <?php endif; ?>
+              </div>
+              <div id="attr-img-status" style="font-size:12px;margin-top:4px;color:var(--blue)"></div>
+              <img id="attr-img-preview"
+                src="<?= htmlspecialchars($edit['image_url'] ?? '') ?>"
+                style="margin-top:8px;max-height:120px;border-radius:6px;object-fit:cover;display:<?= !empty($edit['image_url']) ? 'block' : 'none' ?>">
+            </div>
+            <script>
+            var _attrCsrf = <?= json_encode(mp_csrf()) ?>;
+            document.getElementById('attr-img-file').addEventListener('change', function() {
+              var file = this.files[0]; if (!file) return;
+              var status = document.getElementById('attr-img-status');
+              status.textContent = 'מעלה...'; status.style.color = 'var(--blue)';
+              var fd = new FormData();
+              fd.append('image', file);
+              fd.append('csrf', _attrCsrf);
+              fetch('upload.php', {method:'POST', body:fd})
+                .then(function(r){return r.json();})
+                .then(function(d){
+                  if (d.url || d.abs) {
+                    var url = d.abs || d.url;
+                    document.getElementById('attr-img-url').value = url;
+                    var prev = document.getElementById('attr-img-preview');
+                    prev.src = url; prev.style.display = 'block';
+                    status.textContent = '✓ הועלה: ' + d.name;
+                    status.style.color = 'var(--green)';
+                    var sel = document.getElementById('attr-media-select');
+                    if (sel) { var opt = document.createElement('option'); opt.value = url; opt.textContent = d.name; sel.insertBefore(opt, sel.options[1]); }
+                  } else {
+                    status.textContent = 'שגיאה: ' + (d.error || 'לא ידוע');
+                    status.style.color = 'var(--red)';
+                  }
+                }).catch(function(){status.textContent='שגיאת רשת';status.style.color='var(--red)';});
+            });
+            </script>
+            <div style="display:flex;gap:10px;margin-top:14px">
               <button type="submit" class="btn-admin primary">שמור</button>
               <a href="attractions.php" class="btn-admin ghost">ביטול</a>
             </div>

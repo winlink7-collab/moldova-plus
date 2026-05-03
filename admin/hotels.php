@@ -232,7 +232,7 @@ $scenes = ['warm','dark','light','green','gold','blue','honey','city'];
                   <input type="file" id="hotel-img-file" accept="image/*" style="display:none">
                 </label>
                 <?php if ($upload_images): ?>
-                <select onchange="document.getElementById('hotel-img-url').value=this.value;document.getElementById('hotel-img-preview').src=this.value;document.getElementById('hotel-img-preview').style.display='block';this.selectedIndex=0" style="max-width:180px">
+                <select id="hotel-media-select" onchange="document.getElementById('hotel-img-url').value=this.value;document.getElementById('hotel-img-preview').src=this.value;document.getElementById('hotel-img-preview').style.display='block';this.selectedIndex=0" style="max-width:180px">
                   <option value="">בחר מהמדיה...</option>
                   <?php foreach ($upload_images as $img): ?>
                   <option value="<?= htmlspecialchars($img['url']) ?>"><?= htmlspecialchars($img['name']) ?></option>
@@ -248,20 +248,32 @@ $scenes = ['warm','dark','light','green','gold','blue','honey','city'];
               <?php endif; ?>
             </div>
             <script>
+            var _hotelCsrf = <?= json_encode(mp_csrf()) ?>;
             document.getElementById('hotel-img-file').addEventListener('change', function() {
               var file = this.files[0]; if (!file) return;
               var status = document.getElementById('hotel-img-upload-status');
               status.textContent = 'מעלה...';
-              var fd = new FormData(); fd.append('image', file);
+              status.style.color = 'var(--blue)';
+              var fd = new FormData();
+              fd.append('image', file);
+              fd.append('csrf', _hotelCsrf);
               fetch('upload.php', {method:'POST', body:fd})
                 .then(function(r){return r.json();})
                 .then(function(d){
-                  if (d.abs) {
-                    document.getElementById('hotel-img-url').value = d.abs;
+                  if (d.url || d.abs) {
+                    var url = d.abs || d.url;
+                    document.getElementById('hotel-img-url').value = url;
                     var prev = document.getElementById('hotel-img-preview');
-                    prev.src = d.abs; prev.style.display = 'block';
+                    prev.src = url; prev.style.display = 'block';
                     status.textContent = '✓ הועלה בהצלחה: ' + d.name;
                     status.style.color = 'var(--green)';
+                    // Add to media dropdown
+                    var sel = document.getElementById('hotel-media-select');
+                    if (sel) {
+                      var opt = document.createElement('option');
+                      opt.value = url; opt.textContent = d.name;
+                      sel.insertBefore(opt, sel.options[1]);
+                    }
                   } else {
                     status.textContent = 'שגיאה: ' + (d.error || 'לא ידוע');
                     status.style.color = 'var(--red)';
