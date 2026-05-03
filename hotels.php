@@ -139,7 +139,7 @@ if (empty($hotels)) $hotels = $hotels_default;
 
     <!-- Filter bar -->
     <div class="filter-bar" style="margin-bottom:28px">
-      <a href="hotels<?= $lang==='en'?'?lang=en':'' ?>" class="filter-pill active">
+      <a href="hotels<?= $lang!=='he'?'?lang='.$lang:'' ?>" class="filter-pill active">
         <span class="he">הכל</span><span class="en">All</span>
       </a>
       <a href="#" class="filter-pill">
@@ -160,30 +160,36 @@ if (empty($hotels)) $hotels = $hotels_default;
     <div class="card-grid">
       <?php foreach ($hotels as $h): ?>
       <div class="card" style="cursor:default">
+        <?php
+          $_htags_he = is_array($h['tags_he']) ? $h['tags_he'] : explode(',', $h['tags_he'] ?? '');
+          $_htags_en = is_array($h['tags_en']) ? $h['tags_en'] : explode(',', $h['tags_en'] ?? '');
+          $_htags_he = array_filter(array_map('trim', $_htags_he));
+          $_htags_en = array_filter(array_map('trim', $_htags_en));
+        ?>
         <div class="card-img"<?= le_img('hotels:' . $h['id'] . ':image_url') ?>>
           <?php if (!empty($h['image_url'])): ?>
           <img src="<?= htmlspecialchars($h['image_url']) ?>" alt="<?= htmlspecialchars($h['name_he']) ?>" style="width:100%;height:100%;object-fit:cover;display:block">
           <?php else: ?>
           <?= scene_img($h['scene']) ?>
           <?php endif; ?>
-          <span class="card-rating">
-            <span class="star">★</span> <?= $h['rating'] ?>
+          <span class="card-rating"<?= le('hotels:' . $h['id'] . ':rating') ?>>
+            <span class="star">★</span> <?= htmlspecialchars($h['rating']) ?>
           </span>
-          <span class="card-nights" style="right:auto;left:12px">
-            <?= str_repeat('★', $h['stars']) ?>
+          <span class="card-nights" style="right:auto;left:12px"<?= le('hotels:' . $h['id'] . ':stars') ?>>
+            <?= str_repeat('★', (int)$h['stars']) ?>
           </span>
         </div>
         <div class="card-body">
           <span class="card-loc"<?= le('hotels:' . $h['id'] . ':area_he') ?>>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-7 7-12a7 7 0 1 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
-            <?= $lang==='he' ? $h['area_he'] : htmlspecialchars($h['area_en']) ?>
+            <?= $lang==='he' ? htmlspecialchars($h['area_he']) : htmlspecialchars($h['area_en']) ?>
           </span>
           <h3 class="card-title"<?= le('hotels:' . $h['id'] . ':name_he') ?>><?= htmlspecialchars($h['name_he']) ?></h3>
           <p style="font-size:13px;color:var(--ink-soft);margin:4px 0 6px;line-height:1.5"<?= le('hotels:' . $h['id'] . ':desc_he') ?>>
-            <?= $lang==='he' ? $h['desc_he'] : htmlspecialchars($h['desc_en']) ?>
+            <?= $lang==='he' ? htmlspecialchars($h['desc_he']) : htmlspecialchars($h['desc_en']) ?>
           </p>
-          <div class="card-meta">
-            <?php $tags = $lang==='he' ? $h['tags_he'] : $h['tags_en']; ?>
+          <div class="card-meta"<?= LE_ADMIN ? ' data-le="hotels:' . $h['id'] . ':tags_he" data-le-type="tags" style="cursor:pointer"' : '' ?>>
+            <?php $tags = $lang==='he' ? $_htags_he : $_htags_en; ?>
             <?php foreach ($tags as $tag): ?>
               <span class="card-tag"><?= htmlspecialchars($tag) ?></span>
             <?php endforeach; ?>
@@ -191,7 +197,7 @@ if (empty($hotels)) $hotels = $hotels_default;
           <div class="card-foot">
             <div class="card-price">
               <small><?= $lang==='he'?'מחיר ללילה':'per night' ?></small>
-              <b<?= le('hotels:' . $h['id'] . ':price') ?>>$<?= $h['price'] ?><sub> /<?= $lang==='he'?'לילה':'night' ?></sub></b>
+              <b<?= le('hotels:' . $h['id'] . ':price') ?>>$<?= htmlspecialchars($h['price']) ?><sub> /<?= $lang==='he'?'לילה':'night' ?></sub></b>
             </div>
             <a href="https://wa.me/<?= mp_sr('whatsapp','972355501880') ?>?text=<?= urlencode($lang==='he' ? 'היי, אני מעוניין להזמין חדר ב-' . $h['name_he'] : 'Hi, I\'d like to book a room at ' . $h['name_en']) ?>"
                target="_blank" rel="noopener"

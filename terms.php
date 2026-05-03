@@ -18,7 +18,7 @@ page_head(
 <section class="page-banner">
   <div class="container">
     <div class="crumbs">
-      <a href="/<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">בית</span><span class="en">Home</span></a> /
+      <a href="/<?= $lang!=='he'?'?lang='.$lang:'' ?>"><span class="he">בית</span><span class="en">Home</span></a> /
       <span class="cur he">תקנון</span><span class="cur en">Terms</span>
     </div>
     <h1>

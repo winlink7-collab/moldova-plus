@@ -47,7 +47,7 @@ page_head(
         'spa'     => ['he'=>'ספא',      'en'=>'Spa'],
       ];
       foreach ($filter_types as $fid => $fl): ?>
-      <a href="/packages?type=<?= $fid ?><?= $lang==='en'?'&lang=en':'' ?>" class="filter-pill <?= $type===$fid?'active':'' ?>">
+      <a href="/packages?type=<?= $fid ?><?= $lang!=='he'?'&lang='.$lang:'' ?>" class="filter-pill <?= $type===$fid?'active':'' ?>">
         <span class="he"><?= $fl['he'] ?></span>
         <span class="en"><?= htmlspecialchars($fl['en']) ?></span>
       </a>
@@ -55,16 +55,10 @@ page_head(
 
       <!-- Sort -->
       <select class="filter-sort" id="sort-select" onchange="sortCards(this.value)">
-        <option value="pop"><span class="he">מיון: פופולריות</span><span>Sort: Popular</span></option>
-        <option value="priceL">
-          <?= $lang==='he'?'מחיר: נמוך לגבוה':'Price: low to high' ?>
-        </option>
-        <option value="priceH">
-          <?= $lang==='he'?'מחיר: גבוה לנמוך':'Price: high to low' ?>
-        </option>
-        <option value="rating">
-          <?= $lang==='he'?'דירוג':'Rating' ?>
-        </option>
+        <option value="pop">מיון: פופולריות</option>
+        <option value="priceL">מחיר: נמוך לגבוה</option>
+        <option value="priceH">מחיר: גבוה לנמוך</option>
+        <option value="rating">דירוג</option>
       </select>
 
       <?php

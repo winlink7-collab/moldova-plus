@@ -2,7 +2,7 @@
 require_once __DIR__ . '/live-editor.php';
 
 function get_lang(): string {
-    if (isset($_GET['lang']) && in_array($_GET['lang'], ['he','en'], true)) {
+    if (isset($_GET['lang']) && in_array($_GET['lang'], ['he','en','ru'], true)) {
         return $_GET['lang'];
     }
     return 'he';
@@ -50,7 +50,7 @@ function render_card(array $p, string $lang, string $t_nights, string $t_from, b
         : scene_img($p['scene'] ?? 'dark');
     $_card_url = !empty($p['slug']) ? '/package/' . $p['slug'] : '/package-detail?id=' . $p['id'];
     ob_start(); ?>
-    <a href="<?= $_card_url ?><?= $lang==='en'?(!empty($p['slug'])?'?lang=en':'&lang=en'):'' ?>" class="card">
+    <a href="<?= $_card_url ?><?= $lang!=='he'?(!empty($p['slug'])?'?lang='.$lang:'&lang='.$lang):'' ?>" class="card">
       <div class="card-img"<?= le_img('packages:' . $p['id'] . ':image_url') ?>>
         <?= $card_img ?>
         <span class="card-rating"><span class="star">★</span> <?= htmlspecialchars($p['rating']) ?></span>
@@ -118,7 +118,7 @@ function page_head(string $title, string $desc = '', string $lang = 'he', string
   <meta property="og:title"       content="<?= htmlspecialchars($title) ?>">
   <meta property="og:description" content="<?= htmlspecialchars($desc) ?>">
   <meta property="og:type"        content="website">
-  <meta property="og:locale"      content="<?= $lang==='he'?'he_IL':'en_US' ?>">
+  <meta property="og:locale"      content="<?= $lang==='he'?'he_IL':($lang==='ru'?'ru_RU':'en_US') ?>">
   <?php if ($canonical): ?><link rel="canonical" href="<?= htmlspecialchars($canonical) ?>"><?php endif; ?>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 20'><rect width='10' height='20' fill='%230046ae'/><rect x='10' width='10' height='20' fill='%23ffd400'/><rect x='20' width='10' height='20' fill='%23cc1126'/></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">

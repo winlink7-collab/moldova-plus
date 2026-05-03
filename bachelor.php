@@ -64,7 +64,7 @@ $results = array_values(array_filter($PACKAGES, fn($p) => ($p['page'] ?? '') ===
       ];
       $active_type = isset($_GET['type']) && array_key_exists($_GET['type'], $bt) && $_GET['type'] !== 'all' ? $_GET['type'] : 'all';
       foreach ($bt as $fid => $fl): ?>
-      <a href="/bachelor?type=<?= $fid ?><?= $lang==='en'?'&lang=en':'' ?>" class="filter-pill <?= $active_type===$fid?'active':'' ?>">
+      <a href="/bachelor?type=<?= $fid ?><?= $lang!=='he'?'&lang='.$lang:'' ?>" class="filter-pill <?= $active_type===$fid?'active':'' ?>">
         <span class="he"><?= $fl['he'] ?></span>
         <span class="en"><?= htmlspecialchars($fl['en']) ?></span>
       </a>

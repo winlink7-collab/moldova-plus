@@ -3,7 +3,10 @@
 define('ADMIN_PASS_FILE', __DIR__ . '/../../data/admin_pass.php');
 
 function mp_admin_check(): void {
-    if (session_status() === PHP_SESSION_NONE) session_start();
+    if (session_status() === PHP_SESSION_NONE) {
+        ini_set('session.use_strict_mode', '1');
+        session_start();
+    }
     if (empty($_SESSION['mp_admin_ok'])) {
         header('Location: ' . mp_admin_url('login.php'));
         exit;

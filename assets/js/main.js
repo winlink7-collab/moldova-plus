@@ -632,8 +632,11 @@
     var lbNext    = document.getElementById('gal-lb-next');
     var lbClose   = document.getElementById('gal-lb-close');
 
-    // Collect all gallery images
+    // Collect all gallery images (mosaic + strip)
     document.querySelectorAll('#detail-gal .gm img').forEach(function(img) {
+      galImgs.push(img.src);
+    });
+    document.querySelectorAll('#detail-gal-strip .gal-strip-item img').forEach(function(img) {
       galImgs.push(img.src);
     });
 
@@ -670,9 +673,14 @@
       document.body.style.overflow = '';
     }
 
-    // Open on image click
+    // Open on image click (mosaic)
     document.querySelectorAll('#detail-gal .gm').forEach(function(gm, i) {
       gm.addEventListener('click', function() { openLightbox(i); });
+    });
+    // Open on image click (strip extras)
+    var mosaicCount = document.querySelectorAll('#detail-gal .gm').length;
+    document.querySelectorAll('#detail-gal-strip .gal-strip-item').forEach(function(item, i) {
+      item.addEventListener('click', function() { openLightbox(mosaicCount + i); });
     });
 
     // "All photos" button

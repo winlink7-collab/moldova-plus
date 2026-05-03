@@ -33,7 +33,7 @@ page_head(
 <div class="page-banner">
   <div class="container">
     <div class="crumbs">
-      <a href="/<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">בית</span><span class="en">Home</span></a> /
+      <a href="/<?= $lang!=='he'?'?lang='.$lang:'' ?>"><span class="he">בית</span><span class="en">Home</span></a> /
       <span class="cur"><span class="he">בלוג תיירות</span><span class="en">Travel Blog</span></span>
     </div>
     <h1><span class="he">בלוג <span>תיירות</span></span><span class="en">Travel <span>Blog</span></span></h1>
@@ -58,7 +58,7 @@ page_head(
         <span class="en">Latest <span>post</span></span>
       </h2>
     </div>
-    <a href="/article/<?= $featured['id'] ?><?= $lang==='en'?'?lang=en':'' ?>" class="blog-featured reveal">
+    <a href="/article/<?= $featured['id'] ?><?= $lang!=='he'?'?lang='.$lang:'' ?>" class="blog-featured reveal">
       <div class="blog-featured-img"><?= $_f_img ?></div>
       <div class="blog-featured-body">
         <span class="art-tag-pill"><?= htmlspecialchars($lang==='he' ? $featured['tag_he'] : $featured['tag_en']) ?></span>
@@ -107,7 +107,7 @@ page_head(
           ? '<div class="scene-img"><img src="'.htmlspecialchars($a['image_url']).'" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"></div>'
           : scene_img($a['scene']);
       ?>
-      <a href="/article/<?= $a['id'] ?><?= $lang==='en'?'?lang=en':'' ?>" class="article reveal d<?= $i+1 ?>">
+      <a href="/article/<?= $a['id'] ?><?= $lang!=='he'?'?lang='.$lang:'' ?>" class="article reveal d<?= $i+1 ?>">
         <div class="article-img"><?= $_art_img ?></div>
         <div class="article-body">
           <span class="article-tag">

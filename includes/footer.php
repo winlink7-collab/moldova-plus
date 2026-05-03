@@ -3,6 +3,10 @@
 // Expects: $lang, $t
 require_once __DIR__ . '/mp_settings.php';
 $_FS = mp_site_settings();
+$_flq = $lang !== 'he' ? '?lang=' . $lang : '';
+$_fwa_msg = urlencode($lang === 'ru'
+    ? 'Привет, хочу вступить в клуб Moldova Plus'
+    : ($lang === 'en' ? 'Hi, I want to join the Moldova Plus loyalty club' : 'היי, אני רוצה להצטרף למועדון הלקוחות של Moldova Plus'));
 ?>
 <footer class="site-footer">
   <div class="container">
@@ -22,6 +26,7 @@ $_FS = mp_site_settings();
         <p>
           <span class="he"<?= le('settings:footer_about_he') ?>><?= mp_s('footer_about_he') ?></span>
           <span class="en"><?= mp_s('footer_about_en') ?></span>
+          <span class="ru"><?= mp_s('footer_about_en') ?></span>
         </p>
         <div class="foot-social">
           <a href="https://wa.me/<?= mp_sr('whatsapp','972355501880') ?>" target="_blank" rel="noopener" title="WhatsApp" aria-label="WhatsApp">
@@ -38,52 +43,54 @@ $_FS = mp_site_settings();
 
       <!-- Packages -->
       <div>
-        <h5><span class="he">חבילות</span><span class="en">Packages</span></h5>
+        <h5><span class="he">חבילות</span><span class="en">Packages</span><span class="ru">Туры</span></h5>
         <ul>
-          <li><a href="/packages<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">חבילות נופש</span><span class="en">Travel packages</span></a></li>
-          <li><a href="/bachelor<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">מסיבות רווקים</span><span class="en">Bachelor parties</span></a></li>
-          <li><a href="/packages<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">חבילות זוגיות</span><span class="en">Couples</span></a></li>
-          <li><a href="/packages<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">יקבים</span><span class="en">Wine tours</span></a></li>
-          <li><a href="/packages<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">יוקרה</span><span class="en">Luxury</span></a></li>
+          <li><a href="/packages<?= $_flq ?>"><span class="he">חבילות נופש</span><span class="en">Travel packages</span><span class="ru">Туры</span></a></li>
+          <li><a href="/bachelor<?= $_flq ?>"><span class="he">מסיבות רווקים</span><span class="en">Bachelor parties</span><span class="ru">Мальчишники</span></a></li>
+          <li><a href="/packages<?= $_flq ?>"><span class="he">חבילות זוגיות</span><span class="en">Couples</span><span class="ru">Для пар</span></a></li>
+          <li><a href="/packages<?= $_flq ?>"><span class="he">יקבים</span><span class="en">Wine tours</span><span class="ru">Вина</span></a></li>
+          <li><a href="/packages<?= $_flq ?>"><span class="he">יוקרה</span><span class="en">Luxury</span><span class="ru">Люкс</span></a></li>
         </ul>
       </div>
 
       <!-- Attractions -->
       <div>
-        <h5><span class="he">אטרקציות</span><span class="en">Attractions</span></h5>
+        <h5><span class="he">אטרקציות</span><span class="en">Attractions</span><span class="ru">Достопримечательности</span></h5>
         <ul>
-          <li><a href="/attractions<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">יקבים</span><span class="en">Wineries</span></a></li>
-          <li><a href="/attractions<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">תרבות</span><span class="en">Culture</span></a></li>
-          <li><a href="/attractions<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">אדרנלין</span><span class="en">Adrenaline</span></a></li>
-          <li><a href="/attractions<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">מסעדות</span><span class="en">Restaurants</span></a></li>
-          <li><a href="/attractions<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">חיי לילה</span><span class="en">Nightlife</span></a></li>
+          <li><a href="/attractions<?= $_flq ?>"><span class="he">יקבים</span><span class="en">Wineries</span><span class="ru">Винодельни</span></a></li>
+          <li><a href="/attractions<?= $_flq ?>"><span class="he">תרבות</span><span class="en">Culture</span><span class="ru">Культура</span></a></li>
+          <li><a href="/attractions<?= $_flq ?>"><span class="he">אדרנלין</span><span class="en">Adrenaline</span><span class="ru">Адреналин</span></a></li>
+          <li><a href="/attractions<?= $_flq ?>"><span class="he">מסעדות</span><span class="en">Restaurants</span><span class="ru">Рестораны</span></a></li>
+          <li><a href="/attractions<?= $_flq ?>"><span class="he">חיי לילה</span><span class="en">Nightlife</span><span class="ru">Ночная жизнь</span></a></li>
         </ul>
       </div>
 
       <!-- Info -->
       <div>
-        <h5><span class="he">מידע</span><span class="en">Info</span></h5>
+        <h5><span class="he">מידע</span><span class="en">Info</span><span class="ru">Инфо</span></h5>
         <ul>
-          <li><a href="/blog<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">בלוג תיירות</span><span class="en">Travel blog</span></a></li>
-          <li><a href="/about<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">אודות</span><span class="en">About</span></a></li>
-          <li><a href="/faq<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">שאלות נפוצות</span><span class="en">FAQ</span></a></li>
-          <li><a href="/terms<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">תקנון</span><span class="en">Terms</span></a></li>
-          <li><a href="/privacy<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">מדיניות פרטיות</span><span class="en">Privacy</span></a></li>
-          <li><a href="/contact<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">צור קשר</span><span class="en">Contact</span></a></li>
+          <li><a href="/blog<?= $_flq ?>"><span class="he">בלוג תיירות</span><span class="en">Travel blog</span><span class="ru">Блог</span></a></li>
+          <li><a href="/about<?= $_flq ?>"><span class="he">אודות</span><span class="en">About</span><span class="ru">О нас</span></a></li>
+          <li><a href="/faq<?= $_flq ?>"><span class="he">שאלות נפוצות</span><span class="en">FAQ</span><span class="ru">FAQ</span></a></li>
+          <li><a href="/terms<?= $_flq ?>"><span class="he">תקנון</span><span class="en">Terms</span><span class="ru">Условия</span></a></li>
+          <li><a href="/privacy<?= $_flq ?>"><span class="he">מדיניות פרטיות</span><span class="en">Privacy</span><span class="ru">Политика</span></a></li>
+          <li><a href="/contact<?= $_flq ?>"><span class="he">צור קשר</span><span class="en">Contact</span><span class="ru">Контакты</span></a></li>
         </ul>
       </div>
 
       <!-- Newsletter -->
       <div class="foot-newsletter">
-        <h5><span class="he">הצטרפו למועדון</span><span class="en">Join the club</span></h5>
+        <h5><span class="he">הצטרפו למועדון</span><span class="en">Join the club</span><span class="ru">Вступить в клуб</span></h5>
         <p>
           <span class="he">הטבות, מבצעים וגישה מוקדמת לחבילות חדשות.</span>
           <span class="en">Perks, deals and early access to new packages.</span>
+          <span class="ru">Скидки и ранний доступ к новым турам.</span>
         </p>
-        <a href="https://wa.me/<?= mp_sr('whatsapp','972355501880') ?>?text=<?= urlencode($lang==='he' ? 'היי, אני רוצה להצטרף למועדון הלקוחות של Moldova Plus' : 'Hi, I want to join the Moldova Plus loyalty club') ?>" target="_blank" rel="noopener" class="btn btn-primary" style="width:100%;justify-content:center;gap:8px;margin-top:4px">
+        <a href="https://wa.me/<?= mp_sr('whatsapp','972355501880') ?>?text=<?= $_fwa_msg ?>" target="_blank" rel="noopener" class="btn btn-primary" style="width:100%;justify-content:center;gap:8px;margin-top:4px">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.554 4.124 1.525 5.858L.057 23.5l5.797-1.516A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.663-.49-5.207-1.348l-.374-.218-3.44.9.924-3.35-.239-.386A9.955 9.955 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
           <span class="he">הצטרפו בוואטסאפ</span>
           <span class="en">Join on WhatsApp</span>
+          <span class="ru">Вступить в WhatsApp</span>
         </a>
       </div>
     </div>
@@ -93,11 +100,11 @@ $_FS = mp_site_settings();
       <div class="foot-trust">
         <span>
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.5 9.5-8 11-4.5-1.5-8-6-8-11V5l8-3z"/><path d="M9 12l2 2 4-4"/></svg>
-          <span class="he">תשלום מאובטח</span><span class="en">Secure payment</span>
+          <span class="he">תשלום מאובטח</span><span class="en">Secure payment</span><span class="ru">Безопасная оплата</span>
         </span>
         <span>
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
-          <span class="he">אמינות מעל הכל</span><span class="en">Trusted since 2018</span>
+          <span class="he">אמינות מעל הכל</span><span class="en">Trusted since 2018</span><span class="ru">Надёжно с 2018</span>
         </span>
       </div>
     </div>
@@ -106,8 +113,6 @@ $_FS = mp_site_settings();
 
 <!-- Desktop: Shurik Chatbot -->
 <div class="shurik-wrap" id="shurik-wrap">
-
-  <!-- Chat window -->
   <div class="shurik-box" id="shurik-box" aria-live="polite">
     <div class="shurik-head">
       <div class="shurik-head-info">
@@ -116,7 +121,7 @@ $_FS = mp_site_settings();
           <b>שוריק</b>
           <span class="shurik-status">
             <span class="shurik-dot"></span>
-            <span class="he">מחובר</span><span class="en">Online</span>
+            <span class="he">מחובר</span><span class="en">Online</span><span class="ru">Онлайн</span>
           </span>
         </div>
       </div>
@@ -127,18 +132,17 @@ $_FS = mp_site_settings();
     <div class="shurik-msgs" id="shurik-msgs"></div>
     <div class="shurik-quick" id="shurik-quick"></div>
     <div class="shurik-input-row">
-      <input type="text" class="shurik-input" id="shurik-input" placeholder="<?= $lang==='he'?'כתבו הודעה...':'Type a message...' ?>" autocomplete="off">
+      <input type="text" class="shurik-input" id="shurik-input" placeholder="<?= $lang==='ru'?'Написать сообщение...':($lang==='en'?'Type a message...':'כתבו הודעה...') ?>" autocomplete="off">
       <button class="shurik-send" id="shurik-send">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
       </button>
     </div>
   </div>
-
-  <!-- Trigger bubble -->
   <button class="shurik-bubble" id="shurik-bubble" aria-label="פתח צ'אט">
     <span class="shurik-bubble-avatar">ש</span>
     <span class="shurik-bubble-label he">שלחו הודעה</span>
     <span class="shurik-bubble-label en">Chat with us</span>
+    <span class="shurik-bubble-label ru">Написать нам</span>
     <span class="shurik-bubble-badge" id="shurik-badge">1</span>
   </button>
 </div>
@@ -147,11 +151,11 @@ $_FS = mp_site_settings();
 <div class="mob-cta-bar">
   <a href="tel:<?= mp_sr('phone','035550188') ?>" class="mob-cta-btn mob-cta-phone">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.25h3a2 2 0 0 1 2 1.72c.127.96.36 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l.94-.94a2 2 0 0 1 2.11-.45c.907.34 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-    <span class="he">התקשרו</span><span class="en">Call us</span>
+    <span class="he">התקשרו</span><span class="en">Call us</span><span class="ru">Позвонить</span>
   </a>
   <a href="https://wa.me/<?= mp_sr('whatsapp','972355501880') ?>" target="_blank" rel="noopener" class="mob-cta-btn mob-cta-wa">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.554 4.124 1.525 5.858L.057 23.5l5.797-1.516A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.663-.49-5.207-1.348l-.374-.218-3.44.9.924-3.35-.239-.386A9.955 9.955 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-    <span class="he">וואטסאפ</span><span class="en">WhatsApp</span>
+    <span class="he">וואטסאפ</span><span class="en">WhatsApp</span><span class="ru">WhatsApp</span>
   </a>
 </div>
 

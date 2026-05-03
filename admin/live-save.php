@@ -38,6 +38,8 @@ if ($type === 'text') {
     $arr = json_decode($value, true);
     if (!is_array($arr)) $arr = [];
     $value = array_values(array_filter($arr, fn($v) => is_string($v) && $v !== ''));
+} elseif ($type === 'tags') {
+    $value = array_values(array_filter(array_map('trim', explode(',', $value))));
 }
 
 // Parse key: "file:field" or "file:id:field"

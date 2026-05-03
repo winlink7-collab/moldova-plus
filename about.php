@@ -24,7 +24,7 @@ page_head(
 <section class="page-banner">
   <div class="container">
     <div class="crumbs">
-      <a href="/<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">בית</span><span class="en">Home</span></a> /
+      <a href="/<?= $lang!=='he'?'?lang='.$lang:'' ?>"><span class="he">בית</span><span class="en">Home</span></a> /
       <span class="cur he">אודות</span><span class="cur en">About</span>
     </div>
     <h1>
@@ -96,10 +96,10 @@ page_head(
         </p>
         <?php endforeach; ?>
         <div style="display:flex;gap:12px;flex-wrap:wrap">
-          <a href="packages<?= $lang==='en'?'?lang=en':'' ?>" class="btn btn-primary">
+          <a href="packages<?= $lang!=='he'?'?lang='.$lang:'' ?>" class="btn btn-primary">
             <span class="he">גלו את החבילות שלנו</span><span class="en">Browse our packages</span>
           </a>
-          <a href="contact<?= $lang==='en'?'?lang=en':'' ?>" class="btn btn-ghost">
+          <a href="contact<?= $lang!=='he'?'?lang='.$lang:'' ?>" class="btn btn-ghost">
             <span class="he">דברו איתנו</span><span class="en">Contact us</span>
           </a>
         </div>
@@ -211,7 +211,7 @@ page_head(
           <span class="en"<?= le('settings:about_cta_desc_en') ?>><?= mp_s('about_cta_desc_en','Join 15,000 Israelis who already discovered Moldova through us.') ?></span>
         </p>
       </div>
-      <a href="packages<?= $lang==='en'?'?lang=en':'' ?>" class="btn btn-cta" style="position:relative;z-index:1">
+      <a href="packages<?= $lang!=='he'?'?lang='.$lang:'' ?>" class="btn btn-cta" style="position:relative;z-index:1">
         <span class="he">לכל החבילות ←</span><span class="en">All packages →</span>
       </a>
     </div>

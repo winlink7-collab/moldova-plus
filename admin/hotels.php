@@ -12,23 +12,61 @@ if (is_dir($UPLOAD_DIR)) {
 }
 
 $msg = ''; $error = '';
-$hotels = mp_read_json('hotels.json');
+
+// Default hotels (same as hotels.php)
+$hotels_default = [
+  ['id'=>1,'name_he'=>'Nobil Luxury Boutique Hotel','name_en'=>'Nobil Luxury Boutique Hotel','stars'=>5,'rating'=>'9.6','area_he'=>'מרכז העיר','area_en'=>'City Center','price'=>89,'desc_he'=>'מלון בוטיק יוקרתי במרכז קישינב. עיצוב מודרני, ספא, מסעדת שף ושירות אישי ברמה הגבוהה ביותר.','desc_en'=>'Luxury boutique hotel in the heart of Chișinău. Modern design, spa, chef restaurant and top-tier personal service.','tags_he'=>['ספא','מסעדה','בריכה'],'tags_en'=>['Spa','Restaurant','Pool'],'scene'=>'blue','status'=>'פעיל'],
+  ['id'=>2,'name_he'=>'Hotel Leogrand & Convention Centre','name_en'=>'Hotel Leogrand & Convention Centre','stars'=>5,'rating'=>'9.2','area_he'=>'רובע עסקים','area_en'=>'Business District','price'=>75,'desc_he'=>'המלון הגדול בקישינב. מרכז כנסים, בריכת שחייה, ספא מלא ומסעדה פרנקו-מולדבית מפורסמת.','desc_en'=>"Chișinău's largest hotel. Conference centre, swimming pool, full spa and a renowned Franco-Moldovan restaurant.",'tags_he'=>['כנסים','ספא','בריכה'],'tags_en'=>['Conferences','Spa','Pool'],'scene'=>'dark','status'=>'פעיל'],
+  ['id'=>3,'name_he'=>'Radisson Blu Leogrand Hotel','name_en'=>'Radisson Blu Leogrand Hotel','stars'=>5,'rating'=>'9.4','area_he'=>"בולבר סטפן צ'ל מארה",'area_en'=>'Stefan cel Mare Blvd','price'=>110,'desc_he'=>'רשת Radisson Blu בלב קישינב. חדרים מרווחים, מרכז כושר, בר וגישה מהירה לאטרקציות המרכזיות.','desc_en'=>'Radisson Blu brand in the heart of Chișinău. Spacious rooms, fitness center, bar and quick access to top attractions.','tags_he'=>['כושר','בר','Wi-Fi חינם'],'tags_en'=>['Fitness','Bar','Free Wi-Fi'],'scene'=>'light','status'=>'פעיל'],
+  ['id'=>4,'name_he'=>'Hotel Jolly Alon','name_en'=>'Hotel Jolly Alon','stars'=>4,'rating'=>'8.8','area_he'=>'מרכז העיר','area_en'=>'City Center','price'=>55,'desc_he'=>'מלון ארבעה כוכבים נוח ונגיש. מיקום מצוין, חדרים מודרניים וארוחת בוקר בופה עשירה.','desc_en'=>'Comfortable and accessible 4-star hotel. Great location, modern rooms and a rich breakfast buffet.','tags_he'=>['ארוחת בוקר','חניה','Wi-Fi'],'tags_en'=>['Breakfast','Parking','Wi-Fi'],'scene'=>'warm','status'=>'פעיל'],
+  ['id'=>5,'name_he'=>'Hotel Griff','name_en'=>'Hotel Griff','stars'=>4,'rating'=>'8.5','area_he'=>'פארק הציבורי','area_en'=>'Central Park area','price'=>48,'desc_he'=>'מלון ארבעה כוכבים בנוף ירוק. סמוך לפארק הציבורי של קישינב. מחיר מצוין לעומת איכות גבוהה.','desc_en'=>"4-star hotel with green views, close to Chișinău's main public park. Excellent value for money.",'tags_he'=>['נוף לפארק','רסטורנט','Wi-Fi'],'tags_en'=>['Park view','Restaurant','Wi-Fi'],'scene'=>'green','status'=>'פעיל'],
+  ['id'=>6,'name_he'=>'Hotel Dacia','name_en'=>'Hotel Dacia','stars'=>3,'rating'=>'8.1','area_he'=>'רובע ישן','area_en'=>'Old Quarter','price'=>32,'desc_he'=>'מלון שלושה כוכבים בעל אופי, ברובע ההיסטורי של קישינב. האווירה המקומית האמיתית במחיר נגיש.','desc_en'=>'Characterful 3-star hotel in the historic quarter of Chișinău. Authentic local atmosphere at a budget-friendly price.','tags_he'=>['מיקום היסטורי','Wi-Fi','בר'],'tags_en'=>['Historic location','Wi-Fi','Bar'],'scene'=>'city','status'=>'פעיל'],
+];
+
+// Build merged hotels list: defaults + JSON overrides + JSON-only entries
+$_hotels_raw = mp_read_json('hotels.json');
+$_json_by_id = [];
+foreach ($_hotels_raw as $_hj) {
+    if (isset($_hj['id'])) $_json_by_id[(int)$_hj['id']] = $_hj;
+}
+$hotels = [];
+$_default_ids = array_column($hotels_default, 'id');
+foreach ($hotels_default as $_hd) {
+    $hotels[] = isset($_json_by_id[$_hd['id']]) ? array_merge($_hd, $_json_by_id[$_hd['id']]) : $_hd;
+}
+// Add JSON-only entries (new hotels added from admin)
+foreach ($_json_by_id as $_id => $_hj) {
+    if (!in_array($_id, $_default_ids)) $hotels[] = $_hj;
+}
 
 // --- DELETE ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delete' && mp_csrf_verify()) {
-    $id = (int)($_POST['id'] ?? 0);
-    $hotels = array_values(array_filter($hotels, fn($h) => (int)$h['id'] !== $id));
-    mp_write_json('hotels.json', $hotels) ? $msg = 'המלון נמחק.' : $error = 'שגיאה במחיקה.';
-    $hotels = mp_read_json('hotels.json');
+    $del_id = (int)($_POST['id'] ?? 0);
+    $_raw = mp_read_json('hotels.json');
+    $_raw = array_values(array_filter($_raw, fn($h) => (int)($h['id'] ?? 0) !== $del_id));
+    mp_write_json('hotels.json', $_raw) ? $msg = 'המלון נמחק.' : $error = 'שגיאה במחיקה.';
+    // rebuild merged list
+    $_hotels_raw = mp_read_json('hotels.json');
+    $_json_by_id = [];
+    foreach ($_hotels_raw as $_hj) { if (isset($_hj['id'])) $_json_by_id[(int)$_hj['id']] = $_hj; }
+    $hotels = [];
+    foreach ($hotels_default as $_hd) {
+        if ($del_id === (int)$_hd['id']) continue; // deleted default — skip only if not in json
+        $hotels[] = isset($_json_by_id[$_hd['id']]) ? array_merge($_hd, $_json_by_id[$_hd['id']]) : $_hd;
+    }
+    foreach ($_json_by_id as $_id => $_hj) {
+        if (!in_array($_id, $_default_ids)) $hotels[] = $_hj;
+    }
 }
 
 // --- SAVE ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'save' && mp_csrf_verify()) {
-    $id = (int)($_POST['id'] ?? 0);
+    $save_id = (int)($_POST['id'] ?? 0);
     $tags_he = array_values(array_filter(array_map('trim', explode(',', $_POST['tags_he'] ?? ''))));
     $tags_en = array_values(array_filter(array_map('trim', explode(',', $_POST['tags_en'] ?? ''))));
+    $_raw = mp_read_json('hotels.json');
     $entry = [
-        'id'        => $id ?: (count($hotels) ? max(array_column($hotels,'id')) + 1 : 1),
+        'id'        => $save_id ?: (count($hotels) ? max(array_column($hotels,'id')) + 1 : 7),
         'name_he'   => trim($_POST['name_he'] ?? ''),
         'name_en'   => trim($_POST['name_en'] ?? ''),
         'stars'     => max(1, min(5, (int)($_POST['stars'] ?? 4))),
@@ -44,21 +82,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'save'
         'image_url' => trim($_POST['image_url'] ?? ''),
         'status'    => trim($_POST['status'] ?? 'פעיל'),
     ];
-    if ($id) {
-        foreach ($hotels as &$h) { if ((int)$h['id'] === $id) { $h = $entry; break; } }
+    if ($save_id) {
+        $found = false;
+        foreach ($_raw as &$h) { if ((int)($h['id'] ?? 0) === $save_id) { $h = $entry; $found = true; break; } }
         unset($h);
+        if (!$found) $_raw[] = $entry;
     } else {
-        $hotels[] = $entry;
+        $_raw[] = $entry;
     }
-    mp_write_json('hotels.json', array_values($hotels)) ? $msg = 'נשמר בהצלחה!' : $error = 'שגיאה בשמירה.';
-    $hotels = mp_read_json('hotels.json');
+    mp_write_json('hotels.json', array_values($_raw)) ? $msg = 'נשמר בהצלחה!' : $error = 'שגיאה בשמירה.';
+    // rebuild merged list
+    $_hotels_raw = mp_read_json('hotels.json');
+    $_json_by_id = [];
+    foreach ($_hotels_raw as $_hj) { if (isset($_hj['id'])) $_json_by_id[(int)$_hj['id']] = $_hj; }
+    $hotels = [];
+    foreach ($hotels_default as $_hd) {
+        $hotels[] = isset($_json_by_id[$_hd['id']]) ? array_merge($_hd, $_json_by_id[$_hd['id']]) : $_hd;
+    }
+    foreach ($_json_by_id as $_id => $_hj) {
+        if (!in_array($_id, $_default_ids)) $hotels[] = $_hj;
+    }
 }
 
-$edit_id = (int)($_GET['edit'] ?? 0);
+$edit_id = isset($_GET['edit']) && $_GET['edit'] !== 'new' ? (int)$_GET['edit'] : 0;
 $edit = null;
-if ($edit_id) {
-    foreach ($hotels as $h) { if ((int)$h['id'] === $edit_id) { $edit = $h; break; } }
-    if (!$edit && isset($_GET['edit']) && $_GET['edit'] === 'new') $edit = [];
+if (isset($_GET['edit'])) {
+    if ($_GET['edit'] === 'new') {
+        $edit = [];
+    } else {
+        foreach ($hotels as $h) { if ((int)($h['id'] ?? 0) === $edit_id) { $edit = $h; break; } }
+    }
 }
 $scenes = ['warm','dark','light','green','gold','blue','honey','city'];
 ?>
@@ -159,11 +212,13 @@ $scenes = ['warm','dark','light','green','gold','blue','honey','city'];
               </div>
               <div class="form-group">
                 <label>תגיות (עברית, מופרדות בפסיק)</label>
-                <input type="text" name="tags_he" value="<?= htmlspecialchars(implode(', ', $edit['tags_he'] ?? [])) ?>" placeholder="ספא, מסעדה, בריכה">
+                <?php $_th = $edit['tags_he'] ?? []; if (is_string($_th)) $_th = explode(',', $_th); ?>
+                <input type="text" name="tags_he" value="<?= htmlspecialchars(implode(', ', array_filter(array_map('trim', $_th)))) ?>" placeholder="ספא, מסעדה, בריכה">
               </div>
               <div class="form-group">
                 <label>Tags (English, comma-separated)</label>
-                <input type="text" name="tags_en" value="<?= htmlspecialchars(implode(', ', $edit['tags_en'] ?? [])) ?>" placeholder="Spa, Restaurant, Pool" style="direction:ltr">
+                <?php $_te = $edit['tags_en'] ?? []; if (is_string($_te)) $_te = explode(',', $_te); ?>
+                <input type="text" name="tags_en" value="<?= htmlspecialchars(implode(', ', array_filter(array_map('trim', $_te)))) ?>" placeholder="Spa, Restaurant, Pool" style="direction:ltr">
               </div>
             </div>
             <div class="form-group" style="margin-bottom:12px">

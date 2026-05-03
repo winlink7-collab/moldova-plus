@@ -12,6 +12,19 @@ $_addr_he = mp_sr('address_he',  'רחוב הברזל 3, תל אביב–יפו,
 $_addr_en = mp_sr('address_en',  '3 HaBarzel St, Tel Aviv–Yafo, Floor 4');
 $_h_sun   = mp_sr('hours_sun_thu', '09:00 – 20:00');
 $_h_fri   = mp_sr('hours_fri',   '09:00 – 14:00');
+
+$_ct_banner_title_he = mp_sr('contact_banner_title_he', 'דברו איתנו');
+$_ct_banner_title_en = mp_sr('contact_banner_title_en', 'Get in Touch');
+$_ct_banner_desc_he  = mp_sr('contact_banner_desc_he',  'אנחנו כאן לכל שאלה — לפני, במהלך ואחרי הטיול.');
+$_ct_banner_desc_en  = mp_sr('contact_banner_desc_en',  "We're here for every question — before, during and after your trip.");
+$_ct_wa_desc_he      = mp_sr('contact_wa_desc_he',  'הדרך המהירה ביותר');
+$_ct_wa_desc_en      = mp_sr('contact_wa_desc_en',  'Fastest way to reach us');
+$_ct_247_he          = mp_sr('contact_247_he',       'וואטסאפ זמין 24/7 לדחוף');
+$_ct_247_en          = mp_sr('contact_247_en',       'WhatsApp available 24/7 for urgent matters');
+$_ct_form_title_he   = mp_sr('contact_form_title_he', 'שלחו לנו הודעה');
+$_ct_form_title_en   = mp_sr('contact_form_title_en', 'Send us a message');
+$_ct_form_desc_he    = mp_sr('contact_form_desc_he',  'נחזור אליכם בוואטסאפ תוך דקות');
+$_ct_form_desc_en    = mp_sr('contact_form_desc_en',  "We'll reply on WhatsApp within minutes");
 $page = 'contact';
 
 page_head(
@@ -26,16 +39,16 @@ page_head(
 <section class="page-banner">
   <div class="container">
     <div class="crumbs">
-      <a href="/<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">בית</span><span class="en">Home</span></a> /
+      <a href="/<?= $lang!=='he'?'?lang='.$lang:'' ?>"><span class="he">בית</span><span class="en">Home</span></a> /
       <span class="cur he">צור קשר</span><span class="cur en">Contact</span>
     </div>
     <h1>
-      <span class="he">דברו <span>איתנו</span></span>
-      <span class="en">Get in <span>Touch</span></span>
+      <span class="he"<?= le('settings:contact_banner_title_he') ?>><?= htmlspecialchars($_ct_banner_title_he) ?></span>
+      <span class="en"<?= le('settings:contact_banner_title_en') ?>><?= htmlspecialchars($_ct_banner_title_en) ?></span>
     </h1>
     <p>
-      <span class="he">אנחנו כאן לכל שאלה — לפני, במהלך ואחרי הטיול.</span>
-      <span class="en">We're here for every question — before, during and after your trip.</span>
+      <span class="he"<?= le('settings:contact_banner_desc_he') ?>><?= htmlspecialchars($_ct_banner_desc_he) ?></span>
+      <span class="en"<?= le('settings:contact_banner_desc_en') ?>><?= htmlspecialchars($_ct_banner_desc_en) ?></span>
     </p>
   </div>
 </section>
@@ -54,11 +67,11 @@ page_head(
           </div>
           <div>
             <b><span class="he">וואטסאפ</span><span class="en">WhatsApp</span></b>
-            <span><span class="he">הדרך המהירה ביותר — +<?= htmlspecialchars($_wa) ?></span><span class="en">Fastest way to reach us — +<?= htmlspecialchars($_wa) ?></span></span>
+            <span><span class="he"<?= le('settings:contact_wa_desc_he') ?>><?= htmlspecialchars($_ct_wa_desc_he) ?> — +<?= htmlspecialchars($_wa) ?></span><span class="en"<?= le('settings:contact_wa_desc_en') ?>><?= htmlspecialchars($_ct_wa_desc_en) ?> — +<?= htmlspecialchars($_wa) ?></span></span>
           </div>
         </a>
 
-        <a href="tel:+<?= htmlspecialchars($_phone) ?>" class="ci-card reveal d1">
+        <a href="tel:+<?= htmlspecialchars($_phone) ?>" class="ci-card reveal d1"<?= le('settings:phone') ?>>
           <div class="ci-ic" style="background:var(--flag-blue-pale);color:var(--flag-blue)">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7l.8 4a2 2 0 0 1-.6 1.9L7.6 11.4a16 16 0 0 0 6 6l1.8-1.7a2 2 0 0 1 1.9-.6l4 .8a2 2 0 0 1 1.7 2z"/></svg>
           </div>
@@ -108,7 +121,7 @@ page_head(
           </div>
           <div class="hours-row" style="font-size:12px;color:var(--flag-blue);font-weight:600;border-bottom:0;gap:6px;padding-top:10px">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.5 9.5-8 11-4.5-1.5-8-6-8-11V5l8-3z"/></svg>
-            <span><span class="he">וואטסאפ זמין 24/7 לדחוף</span><span class="en">WhatsApp available 24/7 for urgent matters</span></span>
+            <span><span class="he"<?= le('settings:contact_247_he') ?>><?= htmlspecialchars($_ct_247_he) ?></span><span class="en"<?= le('settings:contact_247_en') ?>><?= htmlspecialchars($_ct_247_en) ?></span></span>
           </div>
         </div>
 
@@ -117,12 +130,12 @@ page_head(
       <!-- Contact form -->
       <div class="contact-form-card reveal">
         <h3>
-          <span class="he">שלחו לנו הודעה</span>
-          <span class="en">Send us a message</span>
+          <span class="he"<?= le('settings:contact_form_title_he') ?>><?= htmlspecialchars($_ct_form_title_he) ?></span>
+          <span class="en"<?= le('settings:contact_form_title_en') ?>><?= htmlspecialchars($_ct_form_title_en) ?></span>
         </h3>
         <p style="color:var(--ink-soft);font-size:14px;margin:-12px 0 24px">
-          <span class="he">נחזור אליכם בוואטסאפ תוך דקות</span>
-          <span class="en">We'll reply on WhatsApp within minutes</span>
+          <span class="he"<?= le('settings:contact_form_desc_he') ?>><?= htmlspecialchars($_ct_form_desc_he) ?></span>
+          <span class="en"<?= le('settings:contact_form_desc_en') ?>><?= htmlspecialchars($_ct_form_desc_en) ?></span>
         </p>
         <form id="contact-form" novalidate>
           <div class="cf-row-2">

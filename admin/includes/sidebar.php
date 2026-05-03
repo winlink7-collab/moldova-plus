@@ -2,7 +2,8 @@
 $current_page = basename($_SERVER['PHP_SELF']);
 function nav_item(string $href, string $icon_svg, string $label, string $current): string {
     $active = (basename($href) === $current || ($current === 'index.php' && $href === 'index.php')) ? ' active' : '';
-    return '<a href="' . $href . '" class="nav-item' . $active . '">' . $icon_svg . '<span>' . $label . '</span></a>';
+    $full_href = (strpos($href, '/') === 0) ? $href : '/admin/' . $href;
+    return '<a href="' . $full_href . '" class="nav-item' . $active . '">' . $icon_svg . '<span>' . $label . '</span></a>';
 }
 ?>
 <aside class="admin-sidebar">
@@ -34,11 +35,11 @@ function nav_item(string $href, string $icon_svg, string $label, string $current
   </nav>
 
   <div class="sidebar-footer">
-    <a href="../index.php" target="_blank" class="sidebar-view-site">
+    <a href="/" target="_blank" class="sidebar-view-site">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
       צפו באתר
     </a>
-    <a href="logout.php" class="sidebar-logout">
+    <a href="/admin/logout.php" class="sidebar-logout">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
       יציאה
     </a>

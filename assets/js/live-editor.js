@@ -42,9 +42,17 @@
       .replace(/_/g, ' ');
     document.getElementById('le-pop-label').textContent = '✏ ' + label;
 
-    // Value: prefer data-le-init (for complex/hidden text), else visible text
+    // Value: tags type → join span texts; init attr → use that; else visible text
     var ta = document.getElementById('le-pop-ta');
-    ta.value = el.dataset.leInit !== undefined ? el.dataset.leInit : el.innerText.trim();
+    if (el.dataset.leType === 'tags') {
+      var tagSpans = el.querySelectorAll('.card-tag');
+      var tagTexts = [];
+      tagSpans.forEach(function (s) { tagTexts.push(s.textContent.trim()); });
+      ta.value = tagTexts.join(', ');
+      document.getElementById('le-pop-label').textContent = '✏ תגיות (מופרדות בפסיק)';
+    } else {
+      ta.value = el.dataset.leInit !== undefined ? el.dataset.leInit : el.innerText.trim();
+    }
     ta.rows  = Math.min(8, Math.max(2, (ta.value.match(/\n/g) || []).length + 2));
 
     popup.style.display = 'block';
@@ -83,15 +91,26 @@
     var ta  = document.getElementById('le-pop-ta');
     var val = ta.value.trim();
 
-    // Update visible text (unless data-le-init element — those are trigger buttons)
-    if (activeEl.dataset.leInit !== undefined) {
-      activeEl.dataset.leInit = val; // keep in sync
+    if (activeEl.dataset.leType === 'tags') {
+      // Rebuild visible tag spans from comma-separated input
+      var tags = val.split(',').map(function (t) { return t.trim(); }).filter(Boolean);
+      activeEl.innerHTML = '';
+      tags.forEach(function (t) {
+        var sp = document.createElement('span');
+        sp.className = 'card-tag';
+        sp.textContent = t;
+        activeEl.appendChild(sp);
+      });
+      save(activeKey, val, 'tags');
+    } else if (activeEl.dataset.leInit !== undefined) {
+      activeEl.dataset.leInit = val;
+      save(activeKey, val, 'text');
     } else {
       var orig = activeEl.innerText.trim();
       if (val !== orig) activeEl.innerText = val;
+      save(activeKey, val, 'text');
     }
 
-    save(activeKey, val, 'text');
     closePopup();
   }
 

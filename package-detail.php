@@ -19,7 +19,7 @@ if (!$p) $p = $PACKAGES[0];
 
 // 301-redirect legacy ?id= URLs to clean slug URL
 if (!$slug && !empty($p['slug'])) {
-    $dest = '/package/' . $p['slug'] . ($lang === 'en' ? '?lang=en' : '');
+    $dest = '/package/' . $p['slug'] . ($lang !== 'he' ? '?lang=' . $lang : '');
     header('Location: ' . $dest, true, 301);
     exit;
 }
@@ -45,7 +45,7 @@ $_gal_custom = $_pov['gallery_images'] ?? [];
 $scenes_gallery = [$p['scene'] ?? 'warm', 'gold', 'green', 'dark', 'honey', 'light'];
 $use_custom_gallery = count($_gal_custom) > 0;
 
-$_canonical = !empty($p['slug']) ? '/package/' . $p['slug'] . ($lang==='en'?'?lang=en':'') : '';
+$_canonical = !empty($p['slug']) ? '/package/' . $p['slug'] . ($lang!=='he'?'?lang='.$lang:'') : '';
 page_head(
     ($lang==='he' ? $title : htmlspecialchars($title)) . ' — Moldova Plus',
     ($lang==='he' ? $desc  : htmlspecialchars($desc)),
@@ -60,9 +60,36 @@ page_head(
 
     <!-- Breadcrumb -->
     <div class="crumbs" style="margin-bottom:16px">
-      <a href="/<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">בית</span><span class="en">Home</span></a> /
-      <a href="packages<?= $lang==='en'?'?lang=en':'' ?>"><span class="he">חבילות</span><span class="en">Packages</span></a> /
+      <a href="/<?= $lang!=='he'?'?lang='.$lang:'' ?>"><span class="he">בית</span><span class="en">Home</span></a> /
+      <a href="packages<?= $lang!=='he'?'?lang='.$lang:'' ?>"><span class="he">חבילות</span><span class="en">Packages</span></a> /
       <span class="cur"><?= htmlspecialchars($title) ?></span>
+    </div>
+
+    <!-- Mobile-only title (shown above gallery on small screens) -->
+    <div class="detail-mobile-title">
+      <span class="card-loc" style="margin-bottom:8px">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-7 7-12a7 7 0 1 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        <?= htmlspecialchars($loc) ?>
+      </span>
+      <h1 style="font-size:clamp(20px,5.5vw,28px);margin:0 0 10px"><?= htmlspecialchars($title) ?></h1>
+      <div class="detail-meta">
+        <span class="badge">★ <?= $p['rating'] ?></span>
+        <span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 13a9 9 0 1 1-10-10 7 7 0 0 0 10 10z"/></svg>
+          <?= $p['nights'] ?> <?= htmlspecialchars($t['nights']) ?>
+        </span>
+        <span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15 20a5 5 0 0 1 6.5-4.7"/></svg>
+          <?= htmlspecialchars(raw($p,'people',$lang)) ?>
+        </span>
+        <span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
+          <span class="he">אישור מיידי</span><span class="en">Instant booking</span>
+        </span>
+        <?php if (raw($p,'tag',$lang)): ?>
+        <span style="background:var(--rose);color:#fff;padding:5px 11px;border-radius:7px;font-weight:700"><?= htmlspecialchars(raw($p,'tag',$lang)) ?></span>
+        <?php endif; ?>
+      </div>
     </div>
 
     <!-- Lightbox -->
@@ -85,57 +112,66 @@ page_head(
       <div class="gal-lb-thumbs" id="gal-lb-thumbs"></div>
     </div>
 
-    <!-- Gallery: 6 images -->
+    <!-- Gallery: mosaic (5 tiles) + optional extra strip -->
+    <?php
+      // Build mosaic array: 5 tiles (first is hero, 2-5 are small)
+      if ($use_custom_gallery) {
+          $gal_mosaic = array_slice($_gal_custom, 0, 5);
+          while (count($gal_mosaic) < 5) $gal_mosaic[] = null;
+          $gal_extra  = array_slice($_gal_custom, 5);
+          $total_gal  = count($_gal_custom);
+      } else {
+          $gal_mosaic = $scenes_gallery; // 6 scenes used as placeholders
+          $gal_extra  = [];
+          $total_gal  = 6;
+      }
+    ?>
     <div class="detail-gal" id="detail-gal"<?= LE_ADMIN ? ' data-le-gallery="packages:' . $p['id'] . ':gallery_images" data-gal-current="' . htmlspecialchars(json_encode($_gal_custom, JSON_UNESCAPED_UNICODE), ENT_QUOTES) . '"' : '' ?>>
-      <?php if ($use_custom_gallery):
-        $gal_show = array_slice($_gal_custom, 0, 6);
-        while (count($gal_show) < 6) {
-          $gal_show[] = null; // fill with scenes below
-        }
-        foreach ($gal_show as $i => $gurl):
-          $is_last = $i === 5;
+      <?php foreach (array_slice($gal_mosaic, 0, 5) as $i => $gurl):
+        $is_last = $i === 4;
       ?>
-      <div class="gm<?= $is_last?' gm-last':'' ?>">
+      <div class="gm<?= $i===0?' gm-hero':'' ?><?= $is_last?' gm-last':'' ?>">
         <?php if ($gurl): ?>
         <img src="<?= htmlspecialchars($gurl) ?>" alt="" style="width:100%;height:100%;object-fit:cover">
         <?php else: ?>
-        <?= scene_img($scenes_gallery[$i] ?? 'warm') ?>
+        <?= scene_img($use_custom_gallery ? ($scenes_gallery[$i]??'warm') : ($scenes_gallery[$i]??'warm')) ?>
         <?php endif; ?>
-        <?php if ($is_last): ?>
+        <?php if ($is_last && $total_gal > 5): ?>
+        <button class="gal-all-btn" type="button">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          <span class="he">כל התמונות (<?= $total_gal ?>)</span><span class="en">All photos (<?= $total_gal ?>)</span>
+        </button>
+        <?php elseif ($is_last): ?>
         <button class="gal-all-btn" type="button">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
           <span class="he">כל התמונות</span><span class="en">All photos</span>
         </button>
         <?php endif; ?>
       </div>
-      <?php endforeach;
-      else:
-        foreach ($scenes_gallery as $i => $sc): ?>
-      <div class="gm<?= $i===5?' gm-last':'' ?>">
-        <?= scene_img($sc) ?>
-        <?php if ($i===5): ?>
-        <button class="gal-all-btn" type="button">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-          <span class="he">כל התמונות</span><span class="en">All photos</span>
-        </button>
-        <?php endif; ?>
-      </div>
-      <?php endforeach;
-      endif; ?>
+      <?php endforeach; ?>
     </div>
+    <?php if (!empty($gal_extra)): ?>
+    <div class="detail-gal-strip" id="detail-gal-strip">
+      <?php foreach ($gal_extra as $i => $gurl): ?>
+      <div class="gal-strip-item" data-idx="<?= $i + 5 ?>">
+        <img src="<?= htmlspecialchars($gurl) ?>" alt="" style="width:100%;height:100%;object-fit:cover">
+      </div>
+      <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
 
     <!-- Content grid -->
     <div class="detail-grid">
 
       <!-- Main content -->
       <div class="detail-main">
-        <span class="card-loc"<?= le('packages:' . $p['id'] . ':loc_he') ?> style="margin-bottom:10px">
+        <span class="card-loc detail-desktop-loc"<?= le('packages:' . $p['id'] . ':loc_he') ?> style="margin-bottom:10px">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-7 7-12a7 7 0 1 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
           <?= htmlspecialchars($loc) ?>
         </span>
-        <h1<?= le('packages:' . $p['id'] . ':title_he') ?>><?= htmlspecialchars($title) ?></h1>
+        <h1 class="detail-desktop-h1"<?= le('packages:' . $p['id'] . ':title_he') ?>><?= htmlspecialchars($title) ?></h1>
 
-        <div class="detail-meta">
+        <div class="detail-meta detail-desktop-meta">
           <span class="badge">★ <?= $p['rating'] ?></span>
           <span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 13a9 9 0 1 1-10-10 7 7 0 0 0 10 10z"/></svg>
