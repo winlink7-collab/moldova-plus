@@ -344,8 +344,8 @@ $type_colors = [
 
       <div class="admin-card" style="margin-top:16px">
         <div class="card-body" style="display:flex;align-items:center;gap:12px;padding:16px 20px">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <span style="font-size:13px;color:var(--ink-soft)">שינויים כאן (מחיר/הנחה/סטטוס/תגית/תוכן/תמונה) נשמרים ב-<code>data/packages.json</code> ויחולו באתר אחרי Pull ב-Cloudways.</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+          <span style="font-size:13px;color:var(--ink-soft)">שינויים נשמרים <b>מיידית</b> לשרת ומתעדכנים באתר ללא צורך ב-Pull. ⚠️ <b>אל תעשה git pull</b> אחרי עריכה — זה יחליף את השינויים שלך.</span>
         </div>
       </div>
     </div>
