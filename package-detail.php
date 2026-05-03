@@ -15,7 +15,11 @@ if ($slug) {
 } elseif ($id) {
     foreach ($PACKAGES as $pkg) { if ($pkg['id'] === $id) { $p = $pkg; break; } }
 }
-if (!$p) $p = $PACKAGES[0];
+if (!$p) {
+    http_response_code(302);
+    header('Location: /packages');
+    exit;
+}
 
 // 301-redirect legacy ?id= URLs to clean slug URL
 if (!$slug && !empty($p['slug'])) {
