@@ -342,9 +342,25 @@ $ATTRACTIONS = [
   ['id'=>8,'he'=>'רובע La 33',       'en'=>'La 33 District',       'cat'=>'nightlife','scene'=>'dark','he2'=>'חיי הלילה הכי שווים בקישינב','en2'=>'Best nightlife in Chișinău'],
 ];
 
-// Replace ATTRACTIONS with attractions.json if it has data (admin is authoritative once first save is made)
+// Merge ATTRACTIONS with attractions.json overrides by ID (same logic as admin/attractions.php)
 $_attr_json_path = __DIR__ . '/../data/attractions.json';
 if (file_exists($_attr_json_path)) {
     $_attr_from_json = json_decode(file_get_contents($_attr_json_path), true) ?? [];
-    if (!empty($_attr_from_json)) $ATTRACTIONS = $_attr_from_json;
+    if (!empty($_attr_from_json)) {
+        $_attr_json_by_id = [];
+        foreach ($_attr_from_json as $_aj) {
+            if (isset($_aj['id'])) $_attr_json_by_id[(int)$_aj['id']] = $_aj;
+        }
+        $_default_attr_ids = array_column($ATTRACTIONS, 'id');
+        foreach ($ATTRACTIONS as &$_da) {
+            if (isset($_attr_json_by_id[(int)$_da['id']])) {
+                $_da = array_merge($_da, $_attr_json_by_id[(int)$_da['id']]);
+            }
+        }
+        unset($_da);
+        // Append JSON-only new attractions (added from admin, not in defaults)
+        foreach ($_attr_json_by_id as $_ajid => $_aj) {
+            if (!in_array($_ajid, $_default_attr_ids)) $ATTRACTIONS[] = $_aj;
+        }
+    }
 }
