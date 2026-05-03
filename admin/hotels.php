@@ -81,6 +81,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'save'
         'scene'     => trim($_POST['scene'] ?? 'warm'),
         'image_url' => trim($_POST['image_url'] ?? ''),
         'status'    => trim($_POST['status'] ?? 'פעיל'),
+        'whatsapp'     => preg_replace('/\D/', '', $_POST['whatsapp'] ?? ''),
+        'whatsapp_url' => trim($_POST['whatsapp_url'] ?? ''),
     ];
     if ($save_id) {
         $found = false;
@@ -160,6 +162,18 @@ $scenes = ['warm','dark','light','green','gold','blue','honey','city'];
               <div class="form-group">
                 <label>Hotel name (English)</label>
                 <input type="text" name="name_en" value="<?= htmlspecialchars($edit['name_en'] ?? $edit['name'] ?? '') ?>" placeholder="Nobil Luxury Boutique" style="direction:ltr">
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:12px">
+              <div class="form-group">
+                <label>📱 מספר וואטסאפ להזמנה (עם קידומת, ללא +)</label>
+                <input type="text" name="whatsapp" value="<?= htmlspecialchars($edit['whatsapp'] ?? '') ?>" placeholder="972501234567" style="direction:ltr">
+                <small style="color:var(--ink-mute);font-size:11px">ריק = ישתמש במספר הכללי של האתר</small>
+              </div>
+              <div class="form-group">
+                <label>כתובת URL ישירה לוואטסאפ (לינק מותאם אישית)</label>
+                <input type="text" name="whatsapp_url" value="<?= htmlspecialchars($edit['whatsapp_url'] ?? '') ?>" placeholder="https://wa.me/972501234567?text=..." style="direction:ltr">
+                <small style="color:var(--ink-mute);font-size:11px">אופציונלי — עוקף את המספר הרגיל לחלוטין</small>
               </div>
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:16px;margin-bottom:12px">

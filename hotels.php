@@ -199,7 +199,18 @@ if (empty($hotels)) $hotels = $hotels_default;
               <small><?= $lang==='he'?'מחיר ללילה':'per night' ?></small>
               <b<?= le('hotels:' . $h['id'] . ':price') ?>>$<?= htmlspecialchars($h['price']) ?><sub> /<?= $lang==='he'?'לילה':'night' ?></sub></b>
             </div>
-            <a href="https://wa.me/<?= mp_sr('whatsapp','972355501880') ?>?text=<?= urlencode($lang==='he' ? 'היי, אני מעוניין להזמין חדר ב-' . $h['name_he'] : 'Hi, I\'d like to book a room at ' . $h['name_en']) ?>"
+            <?php
+              if (!empty($h['whatsapp_url'])) {
+                $wa_href = htmlspecialchars($h['whatsapp_url']);
+              } elseif (!empty($h['whatsapp'])) {
+                $wa_msg = $lang==='he' ? 'היי, אני מעוניין להזמין חדר ב-' . $h['name_he'] : 'Hi, I\'d like to book a room at ' . $h['name_en'];
+                $wa_href = 'https://wa.me/' . htmlspecialchars($h['whatsapp']) . '?text=' . urlencode($wa_msg);
+              } else {
+                $wa_msg = $lang==='he' ? 'היי, אני מעוניין להזמין חדר ב-' . $h['name_he'] : 'Hi, I\'d like to book a room at ' . $h['name_en'];
+                $wa_href = 'https://wa.me/' . mp_sr('whatsapp','972355501880') . '?text=' . urlencode($wa_msg);
+              }
+            ?>
+            <a href="<?= $wa_href ?>"
                target="_blank" rel="noopener"
                class="btn btn-primary" style="padding:10px 18px;font-size:13px;text-decoration:none">
               <span class="he">הזמן</span><span class="en">Book</span>
